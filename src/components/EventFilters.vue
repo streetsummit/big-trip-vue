@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  name: "EventFilters",
+  name: 'EventFilters',
 };
 </script>
 

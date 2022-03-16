@@ -3,7 +3,7 @@
     <time
       class="event__date"
       :datetime="this.$dayjs(point.date_from).format('YYYY-MM-DD')"
-      >{{ this.$dayjs(point.date_from).format("MMM DD") }}
+      >{{ this.$dayjs(point.date_from).format('MMM DD') }}
     </time>
     <div class="event__type">
       <img
@@ -20,13 +20,13 @@
         <time
           class="event__start-time"
           :datetime="this.$dayjs(point.date_from).format('YYYY-MM-DDTHH:mm')"
-          >{{ this.$dayjs(point.date_from).format("HH:mm") }}
+          >{{ this.$dayjs(point.date_from).format('HH:mm') }}
         </time>
         &mdash;
         <time
           class="event__end-time"
           :datetime="this.$dayjs(point.date_to).format('YYYY-MM-DDTHH:mm')"
-          >{{ this.$dayjs(point.date_to).format("HH:mm") }}
+          >{{ this.$dayjs(point.date_to).format('HH:mm') }}
         </time>
       </p>
       <p class="event__duration">{{ eventDuration }}</p>
@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import OffersList from "@/components/point-parts/OffersList.vue";
+import OffersList from '@/components/point-parts/OffersList.vue';
 export default {
-  name: "PointComponent",
+  name: 'PointComponent',
   components: {
     OffersList,
   },
@@ -76,7 +76,7 @@ export default {
   },
   data() {
     return {
-      favoriteClass: "event__favorite-btn--active",
+      favoriteClass: 'event__favorite-btn--active',
     };
   },
   computed: {
@@ -92,7 +92,7 @@ export default {
       const MIN_IN_HOUR = 60;
 
       const getDuration = (end, start) =>
-        this.$dayjs(end).diff(this.$dayjs(start), "m");
+        this.$dayjs(end).diff(this.$dayjs(start), 'm');
 
       const formatDuration = (duration) => {
         const days = Math.floor(duration / MIN_IN_DAY);
@@ -100,15 +100,15 @@ export default {
         const minutes = duration - days * MIN_IN_DAY - hours * MIN_IN_HOUR;
 
         if (days) {
-          return `${days.toString().padStart(2, "0")}D ${hours
+          return `${days.toString().padStart(2, '0')}D ${hours
             .toString()
-            .padStart(2, "0")}H ${minutes.toString().padStart(2, "0")}M`;
+            .padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
         } else if (hours) {
-          return `${hours.toString().padStart(2, "0")}H ${minutes
+          return `${hours.toString().padStart(2, '0')}H ${minutes
             .toString()
-            .padStart(2, "0")}M`;
+            .padStart(2, '0')}M`;
         }
-        return `${minutes.toString().padStart(2, "0")}M`;
+        return `${minutes.toString().padStart(2, '0')}M`;
       };
 
       const createEventDurationTemplate = (start, end) => {
@@ -202,7 +202,7 @@ export default {
   cursor: pointer;
 }
 .event__rollup-btn::after {
-  content: "";
+  content: '';
   position: absolute;
   top: calc(50% - 5px);
   left: 50%;

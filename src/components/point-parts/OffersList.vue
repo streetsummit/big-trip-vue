@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: "OffersList",
+  name: 'OffersList',
   props: {
     offers: {
       type: Array,

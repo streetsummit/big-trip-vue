@@ -96,7 +96,7 @@
 <script>
 // import OffersList from '@/components/point-parts/OffersList.vue'
 export default {
-  name: "PointEdit",
+  name: 'PointEdit',
   // components: {
 
   // },
@@ -108,7 +108,7 @@ export default {
   },
   data() {
     return {
-      favoriteClass: "event__favorite-btn--active",
+      favoriteClass: 'event__favorite-btn--active',
     };
   },
   computed: {
@@ -124,7 +124,7 @@ export default {
       const MIN_IN_HOUR = 60;
 
       const getDuration = (end, start) =>
-        this.$dayjs(end).diff(this.$dayjs(start), "m");
+        this.$dayjs(end).diff(this.$dayjs(start), 'm');
 
       const formatDuration = (duration) => {
         const days = Math.floor(duration / MIN_IN_DAY);
@@ -132,15 +132,15 @@ export default {
         const minutes = duration - days * MIN_IN_DAY - hours * MIN_IN_HOUR;
 
         if (days) {
-          return `${days.toString().padStart(2, "0")}D ${hours
+          return `${days.toString().padStart(2, '0')}D ${hours
             .toString()
-            .padStart(2, "0")}H ${minutes.toString().padStart(2, "0")}M`;
+            .padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
         } else if (hours) {
-          return `${hours.toString().padStart(2, "0")}H ${minutes
+          return `${hours.toString().padStart(2, '0')}H ${minutes
             .toString()
-            .padStart(2, "0")}M`;
+            .padStart(2, '0')}M`;
         }
-        return `${minutes.toString().padStart(2, "0")}M`;
+        return `${minutes.toString().padStart(2, '0')}M`;
       };
 
       const createEventDurationTemplate = (start, end) => {
@@ -245,7 +245,7 @@ export default {
   transition: color 0.2s;
 }
 .event__type-label::before {
-  content: "";
+  content: '';
   position: absolute;
   top: calc(50% - 3px);
   left: 32px;
@@ -257,34 +257,34 @@ export default {
   transform: translateY(-50%);
 }
 .event__type-label--taxi::before {
-  background-image: url("../assets/img/icons/taxi.png");
+  background-image: url('../assets/img/icons/taxi.png');
 }
 .event__type-label--bus::before {
-  background-image: url("../assets/img/icons/bus.png");
+  background-image: url('../assets/img/icons/bus.png');
 }
 .event__type-label--train::before {
-  background-image: url("../assets/img/icons/train.png");
+  background-image: url('../assets/img/icons/train.png');
 }
 .event__type-label--ship::before {
-  background-image: url("../assets/img/icons/ship.png");
+  background-image: url('../assets/img/icons/ship.png');
 }
 .event__type-label--transport::before {
-  background-image: url("../assets/img/icons/transport.png");
+  background-image: url('../assets/img/icons/transport.png');
 }
 .event__type-label--drive::before {
-  background-image: url("../assets/img/icons/drive.png");
+  background-image: url('../assets/img/icons/drive.png');
 }
 .event__type-label--flight::before {
-  background-image: url("../assets/img/icons/flight.png");
+  background-image: url('../assets/img/icons/flight.png');
 }
 .event__type-label--check-in::before {
-  background-image: url("../assets/img/icons/check-in.png");
+  background-image: url('../assets/img/icons/check-in.png');
 }
 .event__type-label--sightseeing::before {
-  background-image: url("../assets/img/icons/sightseeing.png");
+  background-image: url('../assets/img/icons/sightseeing.png');
 }
 .event__type-label--restaurant::before {
-  background-image: url("../assets/img/icons/restaurant.png");
+  background-image: url('../assets/img/icons/restaurant.png');
 }
 .event__type-label:hover {
   color: #ffd054;
@@ -299,7 +299,7 @@ export default {
   background-color: #ffd054;
 }
 .event__type-input:checked + .event__type-label::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 11px;
@@ -323,7 +323,7 @@ export default {
   cursor: pointer;
 }
 .event__rollup-btn::after {
-  content: "";
+  content: '';
   position: absolute;
   top: calc(50% - 5px);
   left: 50%;
@@ -423,7 +423,7 @@ export default {
   position: relative;
 }
 .event--blocked .event__details::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;

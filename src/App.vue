@@ -47,13 +47,13 @@
 </template>
 
 <script>
-import MainMenu from "@/components/MainMenu.vue";
-import TripInfo from "@/components/TripInfo.vue";
-import EventFilters from "@/components/EventFilters.vue";
-import EventSort from "@/components/EventSort.vue";
+import MainMenu from '@/components/MainMenu.vue';
+import TripInfo from '@/components/TripInfo.vue';
+import EventFilters from '@/components/EventFilters.vue';
+import EventSort from '@/components/EventSort.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     MainMenu,
     TripInfo,
@@ -108,7 +108,7 @@ export default {
   padding-top: 23px;
   color: #ffffff;
   background-color: #078ff0;
-  background-image: url("assets/img/header-bg.png");
+  background-image: url('assets/img/header-bg.png');
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -116,7 +116,7 @@ export default {
   (min-resolution: 144dpi),
   (min-resolution: 1.5dppx) {
   .page-header {
-    background-image: url("assets/img/header-bg@2x.png");
+    background-image: url('assets/img/header-bg@2x.png');
   }
 }
 
@@ -130,7 +130,7 @@ export default {
   margin: 0 auto;
 }
 .page-body__container::after {
-  content: "";
+  content: '';
   position: absolute;
   z-index: -1;
   top: 0;
@@ -177,7 +177,7 @@ main {
   min-width: 170px;
 }
 .trip-main__event-add-btn::before {
-  content: "\002B\000A0";
+  content: '\002B\000A0';
 }
 .trip-main__event-add-btn--hidden {
   display: none;

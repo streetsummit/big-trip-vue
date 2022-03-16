@@ -62,7 +62,7 @@
 
 <script>
 export default {
-  name: "EventSort",
+  name: 'EventSort',
 };
 </script>
 
@@ -123,7 +123,7 @@ export default {
   border-color: #000000;
 }
 .trip-sort__input:checked + .trip-sort__btn::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 8px;
