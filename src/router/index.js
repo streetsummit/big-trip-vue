@@ -1,16 +1,16 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Table from "../views/TableView.vue";
-import Stats from "../views/StatsView.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import Table from '../views/TableView.vue';
+import Stats from '../views/StatsView.vue';
 
 const routes = [
   {
-    path: "/",
-    name: "TableView",
+    path: '/',
+    name: 'TableView',
     component: Table,
   },
   {
-    path: "/stats",
-    name: "StatsView",
+    path: '/stats',
+    name: 'StatsView',
     component: Stats,
   },
 ];
