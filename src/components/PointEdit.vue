@@ -8,7 +8,7 @@
             class="event__type-icon"
             width="17"
             height="17"
-            src="img/icons/${type}.png"
+            :src="eventIcon"
             alt="Event type icon"
           />
         </label>
@@ -21,7 +21,11 @@
         <div class="event__type-list">
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Event type</legend>
-            ${typesTemplate}
+            <TypesListElement
+              v-for="type in types"
+              :key="type.id"
+              :type="type"
+            />
           </fieldset>
         </div>
       </div>
@@ -31,18 +35,18 @@
           class="event__label event__type-output"
           for="event-destination-1"
         >
-          ${type}
+          {{ point.type }}
         </label>
         <input
           class="event__input event__input--destination"
           id="event-destination-1"
           type="text"
           name="event-destination"
-          value="${destination.name}"
+          :value="point.destination.name"
           list="destination-list-1"
           required
         />
-        ${destinationsListTemplate}
+        <DestinationsList v-if="destinations" :destinations="destinations" />
       </div>
 
       <div class="event__field-group event__field-group--time">
@@ -52,7 +56,7 @@
           id="event-start-time-1"
           type="text"
           name="event-start-time"
-          value="${dayjs(dateFrom).format('DD/MM/YY HH:mm')}"
+          :value="this.$dayjs(point.date_from).format('DD/MM/YY HH:mm')"
         />
         &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -61,7 +65,7 @@
           id="event-end-time-1"
           type="text"
           name="event-end-time"
-          value="${dayjs(dateTo).format('DD/MM/YY HH:mm')}"
+          :value="this.$dayjs(point.date_to).format('DD/MM/YY HH:mm')"
         />
       </div>
 
@@ -75,7 +79,7 @@
           id="event-price-1"
           type="number"
           name="event-price"
-          value="${price}"
+          :value="point.base_price"
           min="0"
           required
         />
@@ -88,18 +92,29 @@
       ${isNewEvent ? '' : closeButtonTemplate}
     </header>
     <section class="event__details">
-      ${offersTemplate} ${destinationTemplate}
+      <OffersElement
+        v-if="offersData && availableOffers.length"
+        :availableOffers="availableOffers"
+        :currentOffers="currentOffers"
+      />
+      ${destinationTemplate}
     </section>
   </form>
 </template>
 
 <script>
-// import OffersList from '@/components/point-parts/OffersList.vue'
+import TypesListElement from '@/components/point-parts/TypesListElement';
+import DestinationsList from '@/components/point-parts/DestinationsList';
+import OffersElement from '@/components/point-parts/OffersElement';
+import PointService from '@/services/PointService';
+
 export default {
   name: 'PointEdit',
-  // components: {
-
-  // },
+  components: {
+    TypesListElement,
+    DestinationsList,
+    OffersElement,
+  },
   props: {
     point: {
       type: Object,
@@ -109,49 +124,42 @@ export default {
   data() {
     return {
       favoriteClass: 'event__favorite-btn--active',
+      destinations: null,
+      offersData: null,
+      availableOffers: null,
     };
+  },
+  created() {
+    PointService.getDestinations()
+      .then((response) => {
+        this.destinations = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    PointService.getOffers()
+      .then((response) => {
+        this.offersData = response.data;
+        this.availableOffers = this.getAvailableOffers(this.offersData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   computed: {
     eventIcon() {
       return require(`../assets/img/icons/${this.point.type}.png`);
     },
-    eventTitle() {
-      return `${this.point.type} ${this.point.destination.name}`;
+    types() {
+      return this.offersData?.map((offer) => offer.type);
     },
-
-    eventDuration() {
-      const MIN_IN_DAY = 1440;
-      const MIN_IN_HOUR = 60;
-
-      const getDuration = (end, start) =>
-        this.$dayjs(end).diff(this.$dayjs(start), 'm');
-
-      const formatDuration = (duration) => {
-        const days = Math.floor(duration / MIN_IN_DAY);
-        const hours = Math.floor((duration - days * MIN_IN_DAY) / MIN_IN_HOUR);
-        const minutes = duration - days * MIN_IN_DAY - hours * MIN_IN_HOUR;
-
-        if (days) {
-          return `${days.toString().padStart(2, '0')}D ${hours
-            .toString()
-            .padStart(2, '0')}H ${minutes.toString().padStart(2, '0')}M`;
-        } else if (hours) {
-          return `${hours.toString().padStart(2, '0')}H ${minutes
-            .toString()
-            .padStart(2, '0')}M`;
-        }
-        return `${minutes.toString().padStart(2, '0')}M`;
-      };
-
-      const createEventDurationTemplate = (start, end) => {
-        const eventDuration = getDuration(end, start);
-        return formatDuration(eventDuration);
-      };
-
-      return createEventDurationTemplate(
-        this.point.date_from,
-        this.point.date_to
-      );
+    currentOffers() {
+      return this.point.offers;
+    },
+  },
+  methods: {
+    getAvailableOffers(data) {
+      return data.find((el) => el.type === this.point.type).offers;
     },
   },
 };

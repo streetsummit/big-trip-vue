@@ -1,9 +1,13 @@
 <template>
   <nav class="trip-controls__trip-tabs trip-tabs">
-    <router-link to="/" class="trip-tabs__btn trip-tabs__btn--active"
+    <router-link
+      :to="{ name: 'TableView' }"
+      class="trip-tabs__btn trip-tabs__btn--active"
       >Table</router-link
     >
-    <router-link to="/stats" class="trip-tabs__btn">Stats</router-link>
+    <router-link :to="{ name: 'StatsView' }" class="trip-tabs__btn"
+      >Stats</router-link
+    >
   </nav>
 </template>
 

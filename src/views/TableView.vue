@@ -1,7 +1,7 @@
 <template>
-  <ul class="trip-events__list">
+  <ul class="trip-events__list" v-if="points">
     <li class="trip-events__item">
-      <PointEdit :point="points[0]" />
+      <PointEdit :point="points[7]" />
     </li>
     <li class="trip-events__item" v-for="point in points" :key="point.id">
       <PointComponent :point="point" />

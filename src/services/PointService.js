@@ -14,4 +14,10 @@ export default {
   getPoints() {
     return apiClient.get('/points');
   },
+  getOffers() {
+    return apiClient.get('/offers');
+  },
+  getDestinations() {
+    return apiClient.get('/destinations');
+  },
 };

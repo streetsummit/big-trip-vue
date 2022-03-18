@@ -37,7 +37,13 @@
       >
     </p>
     <h4 class="visually-hidden">Offers:</h4>
-    <OffersList :offers="point.offers" />
+    <ul class="event__selected-offers">
+      <li v-for="offer in point.offers" :key="offer.id" class="event__offer">
+        <span class="event__offer-title">{{ offer.title }}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">{{ offer.price }}</span>
+      </li>
+    </ul>
     <button
       class="event__favorite-btn"
       :class="point.is_favorite ? favoriteClass : ''"
@@ -62,12 +68,8 @@
 </template>
 
 <script>
-import OffersList from '@/components/point-parts/OffersList.vue';
 export default {
   name: 'PointComponent',
-  components: {
-    OffersList,
-  },
   props: {
     point: {
       type: Object,
@@ -223,6 +225,18 @@ export default {
 .event--edit .event__rollup-btn::after {
   top: calc(50% + 3px);
   transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.event__selected-offers {
+  width: 220px;
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  list-style: none;
+}
+
+.event__offer::first-letter {
+  text-transform: capitalize;
 }
 
 .event__favorite-btn {
