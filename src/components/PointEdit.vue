@@ -87,9 +87,13 @@
 
       <button class="event__save-btn btn btn--blue" type="submit">Save</button>
       <button class="event__reset-btn" type="reset">
-        ${isNewEvent ? 'Cancel' : 'Delete'}
+        <span v-if="isNewPoint">Cancel</span>
+        <span v-else>Delete</span>
       </button>
-      ${isNewEvent ? '' : closeButtonTemplate}
+
+      <button v-if="!isNewPoint" class="event__rollup-btn" type="button">
+        <span class="visually-hidden">Close event</span>
+      </button>
     </header>
     <section class="event__details">
       <OffersElement
@@ -180,6 +184,9 @@ export default {
     },
     currentOffers() {
       return this.offers;
+    },
+    isNewPoint() {
+      return false;
     },
   },
   methods: {
