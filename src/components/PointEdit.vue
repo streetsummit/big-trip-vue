@@ -97,7 +97,28 @@
         :availableOffers="availableOffers"
         :currentOffers="currentOffers"
       />
-      ${destinationTemplate}
+      <section
+        v-if="destination.pictures.length || destination.description"
+        class="event__section event__section--destination"
+      >
+        <h3 class="event__section-title event__section-title--destination">
+          Destination
+        </h3>
+        <p class="event__destination-description">
+          {{ destination.description }}
+        </p>
+        <div v-if="destination.pictures.length" class="event__photos-container">
+          <div class="event__photos-tape">
+            <img
+              v-for="photo in destination.pictures"
+              class="event__photo"
+              :src="photo.src"
+              :alt="photo.description"
+              :key="photo.src"
+            />
+          </div>
+        </div>
+      </section>
     </section>
   </form>
 </template>
