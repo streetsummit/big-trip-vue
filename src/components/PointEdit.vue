@@ -35,14 +35,14 @@
           class="event__label event__type-output"
           for="event-destination-1"
         >
-          {{ point.type }}
+          {{ type }}
         </label>
         <input
           class="event__input event__input--destination"
           id="event-destination-1"
           type="text"
           name="event-destination"
-          :value="point.destination.name"
+          :value="destination.name"
           list="destination-list-1"
           required
         />
@@ -56,7 +56,7 @@
           id="event-start-time-1"
           type="text"
           name="event-start-time"
-          :value="this.$dayjs(point.date_from).format('DD/MM/YY HH:mm')"
+          :value="this.$dayjs(date_from).format('DD/MM/YY HH:mm')"
         />
         &mdash;
         <label class="visually-hidden" for="event-end-time-1">To</label>
@@ -65,7 +65,7 @@
           id="event-end-time-1"
           type="text"
           name="event-end-time"
-          :value="this.$dayjs(point.date_to).format('DD/MM/YY HH:mm')"
+          :value="this.$dayjs(date_to).format('DD/MM/YY HH:mm')"
         />
       </div>
 
@@ -79,7 +79,7 @@
           id="event-price-1"
           type="number"
           name="event-price"
-          :value="point.base_price"
+          :value="base_price"
           min="0"
           required
         />
@@ -116,10 +116,14 @@ export default {
     OffersElement,
   },
   props: {
-    point: {
-      type: Object,
-      required: false,
-    },
+    id: String,
+    type: String,
+    date_from: String,
+    date_to: String,
+    destination: Object,
+    base_price: Number,
+    is_favorite: Boolean,
+    offers: Array,
   },
   data() {
     return {
@@ -148,18 +152,18 @@ export default {
   },
   computed: {
     eventIcon() {
-      return require(`../assets/img/icons/${this.point.type}.png`);
+      return require(`../assets/img/icons/${this.type}.png`);
     },
     types() {
       return this.offersData?.map((offer) => offer.type);
     },
     currentOffers() {
-      return this.point.offers;
+      return this.offers;
     },
   },
   methods: {
     getAvailableOffers(data) {
-      return data.find((el) => el.type === this.point.type).offers;
+      return data.find((el) => el.type === this.type).offers;
     },
   },
 };

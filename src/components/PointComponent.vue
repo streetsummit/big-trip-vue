@@ -2,8 +2,8 @@
   <div class="event">
     <time
       class="event__date"
-      :datetime="this.$dayjs(point.date_from).format('YYYY-MM-DD')"
-      >{{ this.$dayjs(point.date_from).format('MMM DD') }}
+      :datetime="this.$dayjs(date_from).format('YYYY-MM-DD')"
+      >{{ this.$dayjs(date_from).format('MMM DD') }}
     </time>
     <div class="event__type">
       <img
@@ -19,26 +19,24 @@
       <p class="event__time">
         <time
           class="event__start-time"
-          :datetime="this.$dayjs(point.date_from).format('YYYY-MM-DDTHH:mm')"
-          >{{ this.$dayjs(point.date_from).format('HH:mm') }}
+          :datetime="this.$dayjs(date_from).format('YYYY-MM-DDTHH:mm')"
+          >{{ this.$dayjs(date_from).format('HH:mm') }}
         </time>
         &mdash;
         <time
           class="event__end-time"
-          :datetime="this.$dayjs(point.date_to).format('YYYY-MM-DDTHH:mm')"
-          >{{ this.$dayjs(point.date_to).format('HH:mm') }}
+          :datetime="this.$dayjs(date_to).format('YYYY-MM-DDTHH:mm')"
+          >{{ this.$dayjs(date_to).format('HH:mm') }}
         </time>
       </p>
       <p class="event__duration">{{ eventDuration }}</p>
     </div>
     <p class="event__price">
-      &euro;&nbsp;<span class="event__price-value">
-        {{ point.base_price }}</span
-      >
+      &euro;&nbsp;<span class="event__price-value"> {{ base_price }}</span>
     </p>
     <h4 class="visually-hidden">Offers:</h4>
     <ul class="event__selected-offers">
-      <li v-for="offer in point.offers" :key="offer.id" class="event__offer">
+      <li v-for="offer in offers" :key="offer.id" class="event__offer">
         <span class="event__offer-title">{{ offer.title }}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">{{ offer.price }}</span>
@@ -46,7 +44,7 @@
     </ul>
     <button
       class="event__favorite-btn"
-      :class="point.is_favorite ? favoriteClass : ''"
+      :class="is_favorite ? favoriteClass : ''"
       type="button"
     >
       <span class="visually-hidden">Add to favorite</span>
@@ -71,10 +69,14 @@
 export default {
   name: 'PointComponent',
   props: {
-    point: {
-      type: Object,
-      required: true,
-    },
+    id: String,
+    type: String,
+    date_from: String,
+    date_to: String,
+    destination: Object,
+    base_price: Number,
+    is_favorite: Boolean,
+    offers: Array,
   },
   data() {
     return {
@@ -83,10 +85,10 @@ export default {
   },
   computed: {
     eventIcon() {
-      return require(`../assets/img/icons/${this.point.type}.png`);
+      return require(`../assets/img/icons/${this.type}.png`);
     },
     eventTitle() {
-      return `${this.point.type} ${this.point.destination.name}`;
+      return `${this.type} ${this.destination.name}`;
     },
 
     eventDuration() {
@@ -118,10 +120,7 @@ export default {
         return formatDuration(eventDuration);
       };
 
-      return createEventDurationTemplate(
-        this.point.date_from,
-        this.point.date_to
-      );
+      return createEventDurationTemplate(this.date_from, this.date_to);
     },
   },
 };
