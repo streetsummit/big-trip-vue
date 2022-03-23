@@ -1,4 +1,6 @@
 <template>
+  <EventSort />
+
   <ul class="trip-events__list" v-if="points">
     <li class="trip-events__item">
       <PointEdit v-bind="points[7]" />
@@ -13,9 +15,15 @@
 import PointComponent from '@/components/PointComponent.vue';
 import PointEdit from '@/components/PointEdit.vue';
 import PointService from '@/services/PointService.js';
+import EventSort from '@/components/EventSort.vue';
 
 export default {
   name: 'TableView',
+  components: {
+    EventSort,
+    PointComponent,
+    PointEdit,
+  },
   data() {
     return {
       points: null,
@@ -29,10 +37,6 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-  },
-  components: {
-    PointComponent,
-    PointEdit,
   },
 };
 </script>

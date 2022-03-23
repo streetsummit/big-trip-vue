@@ -37,9 +37,6 @@
     <div class="page-body__container board-container">
       <section class="trip-events">
         <h2 class="visually-hidden">Trip events</h2>
-
-        <EventSort />
-
         <router-view />
       </section>
     </div>
@@ -50,7 +47,6 @@
 import MainMenu from '@/components/MainMenu.vue';
 import TripInfo from '@/components/TripInfo.vue';
 import EventFilters from '@/components/EventFilters.vue';
-import EventSort from '@/components/EventSort.vue';
 
 export default {
   name: 'App',
@@ -58,7 +54,6 @@ export default {
     MainMenu,
     TripInfo,
     EventFilters,
-    EventSort,
   },
 };
 </script>
