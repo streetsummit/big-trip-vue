@@ -1,5 +1,7 @@
 # big-trip-vue
 
+Build: https://big-trip-vue.onrender.com/
+
 ## Project setup
 ```
 npm install
