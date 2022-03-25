@@ -37,16 +37,18 @@
     <div class="page-body__container board-container">
       <section class="trip-events">
         <h2 class="visually-hidden">Trip events</h2>
-        <router-view />
+        <router-view :points="points" />
       </section>
     </div>
   </main>
 </template>
 
 <script>
+import PointService from '@/services/PointService.js';
 import MainMenu from '@/components/MainMenu.vue';
 import TripInfo from '@/components/TripInfo.vue';
 import EventFilters from '@/components/EventFilters.vue';
+import { watchEffect } from 'vue';
 
 export default {
   name: 'App',
@@ -54,6 +56,22 @@ export default {
     MainMenu,
     TripInfo,
     EventFilters,
+  },
+  data() {
+    return {
+      points: null,
+    };
+  },
+  created() {
+    watchEffect(() => {
+      PointService.getPoints()
+        .then((response) => {
+          this.points = response.data;
+        })
+        .catch(() => {
+          this.$router.push({ name: 'NetworkError' });
+        });
+    });
   },
 };
 </script>
