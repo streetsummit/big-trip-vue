@@ -86,7 +86,7 @@
       </div>
 
       <button class="event__save-btn btn btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="reset">
+      <button class="event__reset-btn" type="button">
         <span v-if="isNewPoint">Cancel</span>
         <span v-else>Delete</span>
       </button>

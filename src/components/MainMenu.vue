@@ -8,6 +8,9 @@
     <router-link :to="{ name: 'StatsView' }" class="trip-tabs__btn"
       >Stats</router-link
     >
+    <router-link :to="{ name: 'WhereToGo' }" class="trip-tabs__btn"
+      >Where to go?</router-link
+    >
   </nav>
 </template>
 
