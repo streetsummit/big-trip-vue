@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Table from '../views/TableView.vue';
 import Stats from '../views/StatsView.vue';
+import WhereToGo from '../views/WhereToGoView.vue';
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/stats',
     name: 'StatsView',
     component: Stats,
+  },
+  {
+    path: '/where-to-go',
+    name: 'WhereToGo',
+    component: WhereToGo,
   },
 ];
 
