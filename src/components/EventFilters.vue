@@ -1,90 +1,79 @@
 <template>
-  <form class="trip-filters" action="#" method="get">
-    <div class="trip-filters__filter">
-      <input
-        id="filter-everything"
-        class="trip-filters__filter-input visually-hidden"
-        type="radio"
-        name="trip-filter"
-        value="everything"
-      />
-      <label class="trip-filters__filter-label" for="filter-everything"
-        >Everything</label
-      >
-    </div>
-
-    <div class="trip-filters__filter">
-      <input
-        id="filter-future"
-        class="trip-filters__filter-input visually-hidden"
-        type="radio"
-        name="trip-filter"
-        value="future"
-      />
-      <label class="trip-filters__filter-label" for="filter-future"
-        >Future</label
-      >
-    </div>
-
-    <div class="trip-filters__filter">
-      <input
-        id="filter-past"
-        class="trip-filters__filter-input visually-hidden"
-        type="radio"
-        name="trip-filter"
-        value="past"
-        checked
-      />
-      <label class="trip-filters__filter-label" for="filter-past">Past</label>
-    </div>
-
-    <button class="visually-hidden" type="submit">Accept filter</button>
-  </form>
+    <form
+        class="filters"
+        action="#"
+        method="get"
+    >
+        <div
+            class="filters__filter"
+            v-for="filter in filters"
+            :key="filter.name"
+        >
+            <input
+                :id="`filter-${filter.name}`"
+                class="filters__filter-input visually-hidden"
+                type="radio"
+                name="filter"
+                :value="filter.name"
+            />
+            <label
+                class="filters__filter-label"
+                :for="`filter-${filter.name}`"
+            >
+                {{ filter.label }}
+            </label>
+        </div>
+    </form>
 </template>
 
 <script>
 export default {
-  name: 'EventFilters',
+    name: 'event-filters',
+    data() {
+        return {
+            filters: [
+                { name: 'everything', label: 'Everything' },
+                { name: 'future', label: 'Future' },
+                { name: 'past', label: 'Past' },
+            ],
+        };
+    },
 };
 </script>
 
 <style>
-.trip-filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.trip-filters--hidden {
-  display: none;
+.filters {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.trip-filters__filter:not(:last-of-type) {
-  margin-right: 19px;
+.filters__filter:not(:last-of-type) {
+    margin-right: 19px;
 }
 
-.trip-filters__filter-label {
-  font-weight: 800;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  user-select: none;
-  opacity: 0.6;
-  cursor: pointer;
-  transition: opacity 0.2s;
+.filters__filter-label {
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    user-select: none;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
-.trip-filters__filter-label:hover {
-  opacity: 1;
+.filters__filter-label:hover {
+    opacity: 1;
 }
-.trip-filters__filter-label:active {
-  opacity: 0.6;
+.filters__filter-label:active {
+    opacity: 0.6;
 }
-.trip-filters__filter-input:checked + .trip-filters__filter-label {
-  opacity: 1;
-  cursor: default;
+.filters__filter-input:checked + .filters__filter-label {
+    opacity: 1;
+    cursor: default;
 }
-.trip-filters__filter-input:disabled + .trip-filters__filter-label {
-  opacity: 0.4;
-  cursor: default;
+.filters__filter-input:disabled + .filters__filter-label {
+    opacity: 0.4;
+    cursor: default;
 }
 </style>

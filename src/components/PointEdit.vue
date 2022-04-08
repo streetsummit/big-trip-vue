@@ -198,6 +198,41 @@ export default {
 </script>
 
 <style>
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px 5px;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 21px;
+    font-family: inherit;
+    text-decoration: none;
+    user-select: none;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn:active {
+    opacity: 0.6;
+}
+
+.btn--blue {
+    color: #ffffff;
+    background-color: #0d8ae4;
+}
+
+.btn:disabled {
+    opacity: 0.46;
+    cursor: default;
+}
+
 .event--edit {
   display: block;
   margin-left: 80px;
