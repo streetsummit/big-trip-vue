@@ -69,7 +69,7 @@
                     id="point-edit-start-time-1"
                     type="text"
                     name="point-edit-start-time"
-                    :value="this.$dayjs(date_from).format('DD/MM/YY HH:mm')"
+                    :value="formatDate(date_from, 'DD/MM/YY HH:mm')"
                 />
                 &mdash;
                 <label
@@ -83,7 +83,7 @@
                     id="point-edit-end-time-1"
                     type="text"
                     name="point-edit-end-time"
-                    :value="this.$dayjs(date_to).format('DD/MM/YY HH:mm')"
+                    :value="formatDate(date_to, 'DD/MM/YY HH:mm')"
                 />
             </div>
 
@@ -181,6 +181,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils/date';
 import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import TypesListItem from '@/components/point-parts/TypesListItem';
 import DestinationsList from '@/components/point-parts/DestinationsList';
@@ -247,6 +248,7 @@ export default {
         getAvailableOffers(data) {
             return data.find(el => el.type === this.type).offers;
         },
+        formatDate,
     },
 };
 </script>

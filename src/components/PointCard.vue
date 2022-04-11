@@ -2,9 +2,9 @@
     <div class="point">
         <time
             class="point__date"
-            :datetime="this.$dayjs(date_from).format('YYYY-MM-DD')"
+            :datetime="formatDate(date_from, 'YYYY-MM-DD')"
         >
-            {{ this.$dayjs(date_from).format('MMM DD') }}
+            {{ formatDate(date_from, 'MMM DD') }}
         </time>
 
         <PointTypeIcon
@@ -17,18 +17,16 @@
             <p class="point__time">
                 <time
                     class="point__start-time"
-                    :datetime="
-                        this.$dayjs(date_from).format('YYYY-MM-DDTHH:mm')
-                    "
+                    :datetime="formatDate(date_from, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ this.$dayjs(date_from).format('HH:mm') }}
+                    {{ formatDate(date_from, 'HH:mm') }}
                 </time>
                 &mdash;
                 <time
                     class="point__end-time"
-                    :datetime="this.$dayjs(date_to).format('YYYY-MM-DDTHH:mm')"
+                    :datetime="formatDate(date_to, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ this.$dayjs(date_to).format('HH:mm') }}
+                    {{ formatDate(date_to, 'HH:mm') }}
                 </time>
             </p>
             <p class="point__duration">{{ pointDuration }}</p>
@@ -71,6 +69,7 @@
 </template>
 
 <script>
+import { formatDate, getPointDuration } from '@/utils/date';
 import RollupButton from '@/components/point-parts/RollupButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 
@@ -100,41 +99,12 @@ export default {
             return `${this.type} ${this.destination.name}`;
         },
         pointDuration() {
-            const MIN_IN_DAY = 1440;
-            const MIN_IN_HOUR = 60;
-
-            const getDuration = (end, start) =>
-                this.$dayjs(end).diff(this.$dayjs(start), 'm');
-
-            const formatDuration = duration => {
-                const days = Math.floor(duration / MIN_IN_DAY);
-                const hours = Math.floor(
-                    (duration - days * MIN_IN_DAY) / MIN_IN_HOUR
-                );
-                const minutes =
-                    duration - days * MIN_IN_DAY - hours * MIN_IN_HOUR;
-
-                if (days) {
-                    return `${days.toString().padStart(2, '0')}D ${hours
-                        .toString()
-                        .padStart(2, '0')}H ${minutes
-                        .toString()
-                        .padStart(2, '0')}M`;
-                } else if (hours) {
-                    return `${hours.toString().padStart(2, '0')}H ${minutes
-                        .toString()
-                        .padStart(2, '0')}M`;
-                }
-                return `${minutes.toString().padStart(2, '0')}M`;
-            };
-
-            const createPointDurationTemplate = (start, end) => {
-                const pointDuration = getDuration(end, start);
-                return formatDuration(pointDuration);
-            };
-
-            return createPointDurationTemplate(this.date_from, this.date_to);
+            return this.getPointDuration(this.date_from, this.date_to);
         },
+    },
+    methods: {
+        formatDate,
+		getPointDuration,
     },
 };
 </script>
