@@ -28,7 +28,7 @@
 
 <script>
 export default {
-    name: 'event-filters',
+    name: 'PointFilters',
     data() {
         return {
             filters: [

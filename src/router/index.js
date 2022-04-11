@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Table from '../views/TableView.vue';
-import Stats from '../views/StatsView.vue';
-import WhereToGo from '../views/WhereToGoView.vue';
+import Table from '../views/TableView';
+import Stats from '../views/StatsView';
+import WhereToGo from '../views/WhereToGoView';
 import DestinationDetails from '../components/DestinationDetails';
 
 const routes = [

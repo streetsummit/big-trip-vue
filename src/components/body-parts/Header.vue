@@ -11,16 +11,16 @@
                 />
 
                 <div class="trip-main">
-                    <trip-info class="trip-main__info"></trip-info>
+                    <TripInfo class="trip-main__info" />
 
                     <div class="trip-main__controls">
-                        <main-menu class="trip-main__navigation"></main-menu>
+                        <MainMenu class="trip-main__navigation" />
 
-                        <event-filters></event-filters>
+                        <PointFilters />
                     </div>
 
                     <button
-                        class="trip-main__event-add-btn new-event-btn"
+                        class="trip-main__point-add-btn new-point-btn"
                         type="button"
                     >
                         New event
@@ -32,16 +32,16 @@
 </template>
 
 <script>
-import MainMenu from '@/components/MainMenu.vue';
-import TripInfo from '@/components/TripInfo.vue';
-import EventFilters from '@/components/EventFilters.vue';
+import MainMenu from '@/components/MainMenu';
+import TripInfo from '@/components/TripInfo';
+import PointFilters from '@/components/PointFilters';
 
 export default {
-    name: 'page-header',
+    name: 'PageHeader',
     components: {
         MainMenu,
         TripInfo,
-        EventFilters,
+        PointFilters,
     },
 };
 </script>
@@ -90,16 +90,16 @@ export default {
     margin-bottom: 9px;
 }
 
-.trip-main__event-add-btn {
+.trip-main__point-add-btn {
     min-width: 170px;
 }
 
-.trip-main__event-add-btn::before {
+.trip-main__point-add-btn::before {
     content: '\002B\000A0';
 }
 
-.new-event-btn {
-	display: flex;
+.new-point-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 17px 29px 16px;
@@ -108,20 +108,15 @@ export default {
     line-height: 21px;
     border-radius: 27px;
     transition: opacity 0.2s;
-	color: #424242;
-	background-color: #ffd054;
+    color: #424242;
+    background-color: #ffd054;
 }
 
-.new-event-btn:hover {
+.new-point-btn:hover {
     opacity: 0.8;
 }
 
-.new-event-btn:active {
+.new-point-btn:active {
     opacity: 0.6;
-}
-
-.btn:disabled {
-    opacity: 0.46;
-    cursor: default;
 }
 </style>

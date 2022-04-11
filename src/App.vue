@@ -1,24 +1,20 @@
 <template>
     <div>
-        <page-header></page-header>
-        <main class="page-body__page-main page-main">
-            <div class="page-body__container board-container">
-                <section class="trip-events">
-                    <h2 class="visually-hidden">Trip events</h2>
-                    <router-view
-                        :points="points"
-                        :destinations="destinations"
-                    />
-                </section>
+        <PageHeader />
+        <main class="page-main">
+            <div class="container">
+                <router-view
+                    :points="points"
+                    :destinations="destinations"
+                />
             </div>
         </main>
     </div>
 </template>
 
 <script>
-import PointService from '@/services/PointService.js';
-import PageHeader from '@/components/body-parts/Header.vue';
-import { watchEffect } from 'vue';
+import PointService from '@/services/PointService';
+import PageHeader from '@/components/body-parts/Header';
 
 export default {
     name: 'App',
@@ -32,22 +28,20 @@ export default {
         };
     },
     created() {
-        watchEffect(() => {
-            PointService.getPoints()
-                .then(response => {
-                    this.points = response.data;
-                })
-                .catch(() => {
-                    this.$router.push({ name: 'NetworkError' });
-                });
-            PointService.getDestinations()
-                .then(response => {
-                    this.destinations = response.data;
-                })
-                .catch(() => {
-                    this.$router.push({ name: 'NetworkError' });
-                });
-        });
+        PointService.getPoints()
+            .then(response => {
+                this.points = response.data;
+            })
+            .catch(() => {
+                this.$router.push({ name: 'NetworkError' });
+            });
+        PointService.getDestinations()
+            .then(response => {
+                this.destinations = response.data;
+            })
+            .catch(() => {
+                this.$router.push({ name: 'NetworkError' });
+            });
     },
 };
 </script>
@@ -82,20 +76,13 @@ body {
     border: 0;
 }
 
-/* Проверить нужен ли класс */
-.page-body__container {
+/* .page-body__container {
     flex-grow: 1;
     position: relative;
     z-index: 0;
     width: 1200px;
     padding: 0 10px;
     margin: 0 auto;
-}
-
-.container {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 0 10px;
 }
 
 .page-body__container::after {
@@ -107,15 +94,15 @@ body {
     left: 130px;
     width: 2px;
     background-color: rgba(255, 255, 255, 0.58);
-}
+} */
 
-.page-body__page-main {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.trip-events {
+.page-main {
     padding-top: 22px;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px;
 }
 </style>

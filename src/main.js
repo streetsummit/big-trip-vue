@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 
 import { createApp } from 'vue';
-import App from './App.vue';
+import App from './App';
 import router from './router';
 import store from './store';
 

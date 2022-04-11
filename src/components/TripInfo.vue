@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: 'trip-info',
+    name: 'TripInfo',
 };
 </script>
 

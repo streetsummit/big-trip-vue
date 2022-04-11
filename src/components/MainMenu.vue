@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: 'main-menu',
+    name: 'MainMenu',
     data() {
         return {
             tabs: [

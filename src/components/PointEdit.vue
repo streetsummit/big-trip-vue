@@ -1,199 +1,253 @@
 <template>
-  <form class="event event--edit" action="#" method="post">
-    <header class="event__header">
-      <div class="event__type-wrapper">
-        <label class="event__type event__type-btn" for="event-type-toggle-1">
-          <span class="visually-hidden">Choose event type</span>
-          <img
-            class="event__type-icon"
-            width="17"
-            height="17"
-            :src="eventIcon"
-            alt="Event type icon"
-          />
-        </label>
-        <input
-          class="event__type-toggle visually-hidden"
-          id="event-type-toggle-1"
-          type="checkbox"
-        />
+    <form
+        class="point-edit"
+        action="#"
+        method="post"
+    >
+        <header class="point-edit__header">
+            <div class="point-edit__type-wrapper">
+                <label for="point-type-toggle">
+                    <span class="visually-hidden">Choose event type</span>
+                    <PointTypeIcon
+                        :pointType="type"
+                        class="point-edit__type-btn"
+                    />
+                </label>
 
-        <div class="event__type-list">
-          <fieldset class="event__type-group">
-            <legend class="visually-hidden">Event type</legend>
-            <TypesListElement
-              v-for="type in types"
-              :key="type.id"
-              :type="type"
-            />
-          </fieldset>
-        </div>
-      </div>
+                <input
+                    class="point-edit__type-toggle visually-hidden"
+                    id="point-type-toggle"
+                    type="checkbox"
+                />
 
-      <div class="event__field-group event__field-group--destination">
-        <label
-          class="event__label event__type-output"
-          for="event-destination-1"
-        >
-          {{ type }}
-        </label>
-        <input
-          class="event__input event__input--destination"
-          id="event-destination-1"
-          type="text"
-          name="event-destination"
-          :value="destination.name"
-          list="destination-list-1"
-          required
-        />
-        <DestinationsList v-if="destinations" :destinations="destinations" />
-      </div>
+                <div class="point-edit__type-list">
+                    <fieldset class="point-edit__type-group">
+                        <legend class="visually-hidden">Event type</legend>
+                        <TypesListItem
+                            v-for="type in types"
+                            :key="type.id"
+                            :type="type"
+                            class="point-edit__type-item"
+                        />
+                    </fieldset>
+                </div>
+            </div>
 
-      <div class="event__field-group event__field-group--time">
-        <label class="visually-hidden" for="event-start-time-1">From</label>
-        <input
-          class="event__input event__input--time"
-          id="event-start-time-1"
-          type="text"
-          name="event-start-time"
-          :value="this.$dayjs(date_from).format('DD/MM/YY HH:mm')"
-        />
-        &mdash;
-        <label class="visually-hidden" for="event-end-time-1">To</label>
-        <input
-          class="event__input event__input--time"
-          id="event-end-time-1"
-          type="text"
-          name="event-end-time"
-          :value="this.$dayjs(date_to).format('DD/MM/YY HH:mm')"
-        />
-      </div>
+            <div
+                class="point-edit__field-group point-edit__field-group--destination"
+            >
+                <label
+                    class="point-edit__label point-edit__type-output"
+                    for="point-edit-destination-1"
+                >
+                    {{ type }}
+                </label>
+                <input
+                    class="point-edit__input point-edit__input--destination"
+                    id="point-edit-destination-1"
+                    type="text"
+                    name="point-edit-destination"
+                    :value="destination.name"
+                    list="destination-list-1"
+                    required
+                />
+                <DestinationsList
+                    v-if="destinations"
+                    :destinations="destinations"
+                />
+            </div>
 
-      <div class="event__field-group event__field-group--price">
-        <label class="event__label" for="event-price-1">
-          <span class="visually-hidden">Price</span>
-          &euro;
-        </label>
-        <input
-          class="event__input event__input--price"
-          id="event-price-1"
-          type="number"
-          name="event-price"
-          :value="base_price"
-          min="0"
-          required
-        />
-      </div>
+            <div class="point-edit__field-group point-edit__field-group--time">
+                <label
+                    class="visually-hidden"
+                    for="point-edit-start-time-1"
+                >
+                    From
+                </label>
+                <input
+                    class="point-edit__input point-edit__input--time"
+                    id="point-edit-start-time-1"
+                    type="text"
+                    name="point-edit-start-time"
+                    :value="this.$dayjs(date_from).format('DD/MM/YY HH:mm')"
+                />
+                &mdash;
+                <label
+                    class="visually-hidden"
+                    for="point-edit-end-time-1"
+                >
+                    To
+                </label>
+                <input
+                    class="point-edit__input point-edit__input--time"
+                    id="point-edit-end-time-1"
+                    type="text"
+                    name="point-edit-end-time"
+                    :value="this.$dayjs(date_to).format('DD/MM/YY HH:mm')"
+                />
+            </div>
 
-      <button class="event__save-btn btn btn--blue" type="submit">Save</button>
-      <button class="event__reset-btn" type="button">
-        <span v-if="isNewPoint">Cancel</span>
-        <span v-else>Delete</span>
-      </button>
+            <div class="point-edit__field-group point-edit__field-group--price">
+                <label
+                    class="point-edit__label"
+                    for="point-edit-price-1"
+                >
+                    <span class="visually-hidden">Price</span>
+                    &euro;
+                </label>
+                <input
+                    class="point-edit__input point-edit__input--price"
+                    id="point-edit-price-1"
+                    type="number"
+                    name="point-edit-price"
+                    :value="base_price"
+                    min="0"
+                    required
+                />
+            </div>
 
-      <button v-if="!isNewPoint" class="event__rollup-btn" type="button">
-        <span class="visually-hidden">Close event</span>
-      </button>
-    </header>
-    <section class="event__details">
-      <OffersElement
-        v-if="offersData && availableOffers.length"
-        :availableOffers="availableOffers"
-        :currentOffers="currentOffers"
-      />
-      <section
-        v-if="destination.pictures.length || destination.description"
-        class="event__section event__section--destination"
-      >
-        <h3 class="event__section-title event__section-title--destination">
-          Destination
-        </h3>
-        <p class="event__destination-description">
-          {{ destination.description }}
-        </p>
-        <div v-if="destination.pictures.length" class="event__photos-container">
-          <div class="event__photos-tape">
-            <img
-              v-for="photo in destination.pictures"
-              class="event__photo"
-              :src="photo.src"
-              :alt="photo.description"
-              :key="photo.src"
-            />
-          </div>
-        </div>
-      </section>
-    </section>
-  </form>
+            <button
+                class="point-edit__save-btn btn btn--blue"
+                type="submit"
+            >
+                Save
+            </button>
+            <button
+                class="point-edit__reset-btn"
+                type="button"
+            >
+                <span v-if="isNewPoint">Cancel</span>
+                <span v-else>Delete</span>
+            </button>
+
+            <rollup-button
+                v-if="!isNewPoint"
+                class="point-edit__close-button"
+                :isOpened="true"
+            >
+                Close event
+            </rollup-button>
+        </header>
+
+        <section class="point-edit__details">
+            <section
+                class="point-edit__section point-edit__section--offers"
+                v-if="offersData && availableOffers.length"
+            >
+                <h3
+                    class="point-edit__section-title point-edit__section-title--offers"
+                >
+                    Offers
+                </h3>
+                <div class="point-edit__available-offers">
+                    <AvailableOffer
+                        v-for="availableOffer in availableOffers"
+                        :availableOffer="availableOffer"
+                        :selectedOffers="selectedOffers"
+                        :key="availableOffer.title"
+                    />
+                </div>
+            </section>
+
+            <section
+                v-if="destination.pictures.length || destination.description"
+                class="point-edit__section point-edit__section--destination"
+            >
+                <h3
+                    class="point-edit__section-title point-edit__section-title--destination"
+                >
+                    Destination
+                </h3>
+                <p class="point-edit__destination-description">
+                    {{ destination.description }}
+                </p>
+                <div
+                    v-if="destination.pictures.length"
+                    class="point-edit__photos-container"
+                >
+                    <div class="point-edit__photos-tape">
+                        <img
+                            v-for="photo in destination.pictures"
+                            class="point-edit__photo"
+                            :src="photo.src"
+                            :alt="photo.description"
+                            :key="photo.src"
+                        />
+                    </div>
+                </div>
+            </section>
+        </section>
+    </form>
 </template>
 
 <script>
-import TypesListElement from '@/components/point-parts/TypesListElement';
+import AvailableOffer from '@/components/point-parts/AvailableOffer';
+import TypesListItem from '@/components/point-parts/TypesListItem';
 import DestinationsList from '@/components/point-parts/DestinationsList';
-import OffersElement from '@/components/point-parts/OffersElement';
 import PointService from '@/services/PointService';
+import RollupButton from '@/components/point-parts/RollupButton';
+import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 
 export default {
-  name: 'PointEdit',
-  components: {
-    TypesListElement,
-    DestinationsList,
-    OffersElement,
-  },
-  props: {
-    id: String,
-    type: String,
-    date_from: String,
-    date_to: String,
-    destination: Object,
-    base_price: Number,
-    is_favorite: Boolean,
-    offers: Array,
-  },
-  data() {
-    return {
-      favoriteClass: 'event__favorite-btn--active',
-      destinations: null,
-      offersData: null,
-      availableOffers: null,
-    };
-  },
-  created() {
-    PointService.getDestinations()
-      .then((response) => {
-        this.destinations = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    PointService.getOffers()
-      .then((response) => {
-        this.offersData = response.data;
-        this.availableOffers = this.getAvailableOffers(this.offersData);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-  computed: {
-    eventIcon() {
-      return require(`../assets/img/icons/${this.type}.png`);
+    name: 'PointEdit',
+    components: {
+        AvailableOffer,
+        TypesListItem,
+        DestinationsList,
+        RollupButton,
+        PointTypeIcon,
     },
-    types() {
-      return this.offersData?.map((offer) => offer.type);
+    props: {
+        id: String,
+        type: String,
+        date_from: String,
+        date_to: String,
+        destination: Object,
+        base_price: Number,
+        is_favorite: Boolean,
+        offers: Array,
     },
-    currentOffers() {
-      return this.offers;
+    data() {
+        return {
+            favoriteClass: 'point-edit__favorite-btn--active',
+            destinations: null,
+            offersData: null,
+            availableOffers: null,
+        };
     },
-    isNewPoint() {
-      return false;
+    created() {
+        PointService.getDestinations()
+            .then(response => {
+                this.destinations = response.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        PointService.getOffers()
+            .then(response => {
+                this.offersData = response.data;
+                this.availableOffers = this.getAvailableOffers(this.offersData);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
-  },
-  methods: {
-    getAvailableOffers(data) {
-      return data.find((el) => el.type === this.type).offers;
+    computed: {
+        types() {
+            return this.offersData?.map(offer => offer.type);
+        },
+        selectedOffers() {
+            return this.offers;
+        },
+        isNewPoint() {
+            return false;
+        },
     },
-  },
+    methods: {
+        getAvailableOffers(data) {
+            return data.find(el => el.type === this.type).offers;
+        },
+    },
 };
 </script>
 
@@ -233,382 +287,255 @@ export default {
     cursor: default;
 }
 
-.event--edit {
-  display: block;
-  margin-left: 80px;
-  padding: 0;
-  background-color: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 11px 20px rgba(0, 0, 0, 0.043);
+.point-edit {
+    display: block;
+    margin-left: 80px;
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 11px 20px rgba(0, 0, 0, 0.043);
 }
 
-.event__header {
-  display: flex;
-
-  align-items: center;
-  padding: 20px;
+.point-edit__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
 }
 
-.event__type-wrapper {
-  position: relative;
+.point-edit__header::after {
+    content: '';
+    position: absolute;
+    left: -20px;
+    right: -20px;
+    bottom: 0;
+    height: 2px;
+    background-color: #ffd054;
 }
 
-.event__type {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 42px;
-  height: 42px;
-  margin-right: 18px;
-  background-color: #ffffff;
-  border-radius: 50%;
+.point-edit__type-wrapper {
+    margin-right: 18px;
 }
 
-.event__type-btn {
-  padding: 0;
-  border: 1px solid #0d8ae4;
-  user-select: none;
-  cursor: pointer;
+.point-edit__type-btn {
+    border: 1px solid #0d8ae4;
+    user-select: none;
+    cursor: pointer;
 }
 
-.event__type-icon {
-  display: block;
-  width: 17px;
-  height: 17px;
+.point-edit__type-list {
+    position: absolute;
+    z-index: 2;
+    top: calc(100% + 7px);
+    left: -20px;
+    display: none;
+    width: 180px;
+    background-color: #ffffff;
+    border: 1px solid rgba(151, 151, 151, 0.169724);
+    box-shadow: 0 11px 20px rgba(0, 0, 0, 0.219146);
+    border-radius: 4px;
 }
 
-.event__type-list {
-  position: absolute;
-  z-index: 2;
-  top: calc(100% + 7px);
-  left: -20px;
-  display: none;
-  width: 180px;
-  background-color: #ffffff;
-  border: 1px solid rgba(151, 151, 151, 0.169724);
-  box-shadow: 0 11px 20px rgba(0, 0, 0, 0.219146);
-  border-radius: 4px;
+.point-edit__type-toggle:checked + .point-edit__type-list {
+    display: block;
 }
 
-.event__type-toggle:checked + .event__type-list {
-  display: block;
+.point-edit__type-group {
+    padding: 13px 0 11px;
+}
+.point-edit__type-group:not(:last-of-type) {
+    border-bottom: 1px solid rgba(151, 151, 151, 0.33);
 }
 
-.event__type-group {
-  padding: 13px 0 11px;
-  margin: 0;
-  border: none;
-}
-.event__type-group:not(:last-of-type) {
-  border-bottom: 1px solid rgba(151, 151, 151, 0.33);
+.point-edit__type-item:not(:last-child) {
+    margin-bottom: 5px;
 }
 
-.event__type-item:not(:last-child) {
-  margin-bottom: 5px;
+.point-edit__close-button {
+    margin-left: auto;
 }
 
-.event__type-label {
-  position: relative;
-  display: block;
-  padding: 5px 10px 5px 62px;
-  font-size: 17px;
-  line-height: 21px;
-  user-select: none;
-  cursor: pointer;
-  transition: color 0.2s;
+/* .point-edit .rollup-btn::after {
+    top: calc(50% + 3px);
+    transform: translate(-50%, -50%) rotate(225deg);
+} */
+
+.point-edit__field-group {
+    display: flex;
+    align-items: center;
+    padding: 5px 2px;
+    margin-right: 18px;
+    border-bottom: 1px solid #0d8ae4;
 }
-.event__type-label::before {
-  content: '';
-  position: absolute;
-  top: calc(50% - 3px);
-  left: 32px;
-  width: 17px;
-  height: 17px;
-  background-position: 0 0;
-  background-size: 17px 17px;
-  background-repeat: no-repeat;
-  transform: translateY(-50%);
-}
-.event__type-label--taxi::before {
-  background-image: url('../assets/img/icons/taxi.png');
-}
-.event__type-label--bus::before {
-  background-image: url('../assets/img/icons/bus.png');
-}
-.event__type-label--train::before {
-  background-image: url('../assets/img/icons/train.png');
-}
-.event__type-label--ship::before {
-  background-image: url('../assets/img/icons/ship.png');
-}
-.event__type-label--transport::before {
-  background-image: url('../assets/img/icons/transport.png');
-}
-.event__type-label--drive::before {
-  background-image: url('../assets/img/icons/drive.png');
-}
-.event__type-label--flight::before {
-  background-image: url('../assets/img/icons/flight.png');
-}
-.event__type-label--check-in::before {
-  background-image: url('../assets/img/icons/check-in.png');
-}
-.event__type-label--sightseeing::before {
-  background-image: url('../assets/img/icons/sightseeing.png');
-}
-.event__type-label--restaurant::before {
-  background-image: url('../assets/img/icons/restaurant.png');
-}
-.event__type-label:hover {
-  color: #ffd054;
+.point-edit__field-group--destination {
+    width: 290px;
 }
 
-.event__type-label::first-letter {
-  text-transform: capitalize;
+.point-edit__label {
+    margin-right: 5px;
+    cursor: pointer;
+}
+.point-edit__label::first-letter {
+    text-transform: capitalize;
 }
 
-.event__type-input:checked + .event__type-label {
-  color: #000000;
-  background-color: #ffd054;
+.point-edit__input {
+    flex-grow: 1;
+    appearance: none;
+    border: none;
 }
-.event__type-input:checked + .event__type-label::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 11px;
-  width: 8px;
-  height: 8px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+.point-edit__input--destination {
+    width: 150px;
 }
-
-.event__rollup-btn {
-  position: relative;
-  display: block;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.point-edit__input--destination::-webkit-calendar-picker-indicator {
+    display: none;
 }
-.event__rollup-btn::after {
-  content: '';
-  position: absolute;
-  top: calc(50% - 5px);
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-right: 2px solid #000000;
-  border-bottom: 2px solid #000000;
-  transform: translate(-50%, -50%) rotate(45deg);
-  transition: border-color 0.2s, transform 0.6s;
+.point-edit__input--time {
+    width: 130px;
+    text-align: center;
 }
-.event__rollup-btn:hover::after {
-  border-color: #0d8ae4;
+.point-edit__input--price {
+    width: 66px;
 }
 
-.event--edit .event__rollup-btn {
-  margin-left: auto;
-}
-.event--edit .event__rollup-btn::after {
-  top: calc(50% + 3px);
-  transform: translate(-50%, -50%) rotate(225deg);
+.point-edit__save-btn {
+    margin-right: 18px;
 }
 
-.event__field-group {
-  display: flex;
-
-  align-items: center;
-  padding: 5px 2px;
-  margin-right: 18px;
-  border-bottom: 1px solid #0d8ae4;
+.point-edit__reset-btn {
+    display: block;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 21px;
+    user-select: none;
+    color: #0d8ae4;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
-.event__field-group--destination {
-  width: 290px;
+.point-edit__reset-btn:hover {
+    opacity: 0.8;
 }
-
-.event__label {
-  margin-right: 5px;
-  cursor: pointer;
-}
-.event__label::first-letter {
-  text-transform: capitalize;
-}
-
-.event__input {
-  flex-grow: 1;
-  padding: 0;
-  font-size: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  appearance: none;
-  border: none;
-}
-.event__input--destination {
-  width: 150px;
-}
-.event__input--destination::-webkit-calendar-picker-indicator {
-  display: none;
-}
-.event__input--time {
-  width: 130px;
-  text-align: center;
-}
-.event__input--price {
-  width: 66px;
+.point-edit__reset-btn:active {
+    opacity: 0.6;
 }
 
-.event__save-btn {
-  margin-right: 18px;
+.point-edit__details {
+    padding-top: 27px;
 }
 
-.event__reset-btn {
-  display: block;
-  padding: 0;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 21px;
-  font-family: inherit;
-  user-select: none;
-  color: #0d8ae4;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
+/* .point-edit--blocked .point-edit__details {
+    position: relative;
 }
-.event__reset-btn:hover {
-  opacity: 0.8;
-}
-.event__reset-btn:active {
-  opacity: 0.6;
+.point-edit--blocked .point-edit__details::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0 0 18px 18px;
+} */
+
+.point-edit__details-title {
+    padding-left: 20px;
+    margin-bottom: 24px;
+    font-weight: 500;
+    font-size: 23px;
+    line-height: 27px;
 }
 
-.event__details {
-  padding: 20px 0 27px;
-  border-top: 2px solid #ffd054;
+.point-edit__section:not(:last-child) {
+    margin-bottom: 28px;
 }
 
-.event--blocked .event__details {
-  position: relative;
-}
-.event--blocked .event__details::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 0 0 18px 18px;
+.point-edit__section--offers {
+    padding: 0 20px;
 }
 
-.event__details-title {
-  padding-left: 20px;
-  margin: 0;
-  margin-bottom: 24px;
-  font-weight: 500;
-  font-size: 23px;
-  line-height: 27px;
+.point-edit__section-title {
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #ffd054;
+}
+.point-edit__section-title--offers {
+    margin-bottom: 15px;
+}
+.point-edit__section-title--destination {
+    margin-bottom: 8px;
+    margin-left: 20px;
 }
 
-.event__section:not(:last-child) {
-  margin-bottom: 28px;
+.point-edit__available-offers {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -6px;
 }
 
-.event__section--offers {
-  padding: 0 20px;
+.point-edit__offer-selector {
+    margin-bottom: 6px;
+}
+.point-edit__offer-selector:not(:last-of-type) {
+    margin-right: 6px;
 }
 
-.event__section-title {
-  margin: 0;
-  font-weight: 800;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  color: #ffd054;
+.point-edit__offer-label {
+    display: block;
+    padding: 22px 30px 21px;
+    font-size: 17px;
+    line-height: 21px;
+    user-select: none;
+    background-color: #f2f2f2;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
-.event__section-title--offers {
-  margin-bottom: 15px;
+.point-edit__offer-label:hover {
+    background-color: rgba(13, 138, 228, 0.6);
 }
-.event__section-title--destination {
-  margin-bottom: 8px;
-  margin-left: 20px;
-}
-
-.event__available-offers {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: -6px;
+.point-edit__offer-label::first-letter {
+    text-transform: capitalize;
 }
 
-.event__offer-selector {
-  margin-bottom: 6px;
-}
-.event__offer-selector:not(:last-of-type) {
-  margin-right: 6px;
+.point-edit__offer-checkbox:checked + .point-edit__offer-label {
+    background-color: #0d8ae4;
 }
 
-.event__offer-label {
-  display: block;
-  padding: 22px 30px 21px;
-  font-size: 17px;
-  line-height: 21px;
-  user-select: none;
-  background-color: #f2f2f2;
-  border-radius: 32px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.event__offer-label:hover {
-  background-color: rgba(13, 138, 228, 0.6);
-}
-.event__offer-label::first-letter {
-  text-transform: capitalize;
+.point-edit__destination-description {
+    width: 560px;
+    margin-bottom: 16px;
+    margin-left: 20px;
+    font-size: 15px;
+    line-height: 18px;
 }
 
-.event__offer-checkbox:checked + .event__offer-label {
-  background-color: #0d8ae4;
+.point-edit__photos-container {
+    width: 100%;
+    overflow-x: scroll;
 }
 
-.event__destination-description {
-  width: 560px;
-  margin: 0;
-  margin-bottom: 16px;
-  margin-left: 20px;
-  font-size: 15px;
-  line-height: 18px;
+.point-edit__photos-tape {
+    display: flex;
+    align-items: flex-start;
 }
 
-.event__photos-container {
-  width: 100%;
-  overflow-x: scroll;
+.point-edit__photo {
+    display: block;
+    height: 152px;
+    width: auto;
+    border-radius: 4px;
 }
-
-.event__photos-tape {
-  display: flex;
-  align-items: flex-start;
+.point-edit__photo:first-child {
+    padding-left: 20px;
 }
-
-.event__photo {
-  display: block;
-  height: 152px;
-  width: auto;
-  border-radius: 4px;
+.point-edit__photo:last-child {
+    padding-right: 20px;
 }
-.event__photo:first-child {
-  padding-left: 20px;
-}
-.event__photo:last-child {
-  padding-right: 20px;
-}
-.event__photo:not(:last-child) {
-  margin-right: 5px;
+.point-edit__photo:not(:last-child) {
+    margin-right: 5px;
 }
 </style>
