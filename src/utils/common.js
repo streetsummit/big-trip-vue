@@ -9,8 +9,4 @@ export const makeId = (idLength = 6) => {
 	return id;
 };
 
-export const capitalizeFirstLetter = (string) => {
-	const [firstLetter, ...restLetters] = string;
-	restLetters.unshift(firstLetter.toUpperCase());
-	return restLetters.join('');
-};
+export const capitalizeFirstLetter = (str) => str.charAt(0).toUpperCase() + str.slice(1);

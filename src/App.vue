@@ -4,8 +4,8 @@
         <main class="page-main">
             <div class="container">
                 <router-view
+                    v-if="points.length"
                     :points="points"
-                    :destinations="destinations"
                 />
             </div>
         </main>
@@ -17,31 +17,27 @@ import PointService from '@/services/PointService';
 import PageHeader from '@/components/body-parts/Header';
 
 export default {
+    data() {
+        return {
+            points: [],
+        };
+    },
     name: 'App',
     components: {
         PageHeader,
     },
-    data() {
-        return {
-            points: null,
-            destinations: null,
-        };
+    methods: {
+        async fetchPoints() {
+            try {
+                const response = await PointService.getPoints();
+                this.points = response.data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
     },
     created() {
-        PointService.getPoints()
-            .then(response => {
-                this.points = response.data;
-            })
-            .catch(() => {
-                this.$router.push({ name: 'NetworkError' });
-            });
-        PointService.getDestinations()
-            .then(response => {
-                this.destinations = response.data;
-            })
-            .catch(() => {
-                this.$router.push({ name: 'NetworkError' });
-            });
+        this.fetchPoints();
     },
 };
 </script>

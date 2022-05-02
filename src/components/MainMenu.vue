@@ -20,7 +20,7 @@ export default {
             tabs: [
                 { name: 'TableView', label: 'Table' },
                 { name: 'StatsView', label: 'Stats' },
-                { name: 'WhereToGo', label: 'WhereToGo?' },
+                // { name: 'WhereToGo', label: 'WhereToGo?' },
             ],
         };
     },

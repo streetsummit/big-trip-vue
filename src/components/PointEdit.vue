@@ -9,7 +9,7 @@
                 <label for="point-type-toggle">
                     <span class="visually-hidden">Choose event type</span>
                     <PointTypeIcon
-                        :pointType="type"
+                        :point-type="type"
                         class="point-edit__type-btn"
                     />
                 </label>
@@ -52,8 +52,8 @@
                     required
                 />
                 <DestinationsList
-                    v-if="destinations"
-                    :destinations="destinations"
+                    v-if="destinationsData.length"
+                    :destinations="destinationsData"
                 />
             </div>
 
@@ -123,7 +123,7 @@
             <rollup-button
                 v-if="!isNewPoint"
                 class="point-edit__close-button"
-                :isOpened="true"
+                :is-opened="true"
             >
                 Close event
             </rollup-button>
@@ -142,8 +142,8 @@
                 <div class="point-edit__available-offers">
                     <AvailableOffer
                         v-for="availableOffer in availableOffers"
-                        :availableOffer="availableOffer"
-                        :selectedOffers="selectedOffers"
+                        :available-offer="availableOffer"
+                        :selected-offers="selectedOffers"
                         :key="availableOffer.title"
                     />
                 </div>
@@ -208,31 +208,15 @@ export default {
         is_favorite: Boolean,
         offers: Array,
     },
+
     data() {
         return {
-            favoriteClass: 'point-edit__favorite-btn--active',
-            destinations: null,
-            offersData: null,
-            availableOffers: null,
+            availableOffers: [],
+            offersData: [],
+            destinationsData: [],
         };
     },
-    created() {
-        PointService.getDestinations()
-            .then(response => {
-                this.destinations = response.data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        PointService.getOffers()
-            .then(response => {
-                this.offersData = response.data;
-                this.availableOffers = this.getAvailableOffers(this.offersData);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    },
+
     computed: {
         types() {
             return this.offersData?.map(offer => offer.type);
@@ -244,7 +228,35 @@ export default {
             return false;
         },
     },
+    // watch: {
+    //     offersData(data) {
+    //         if (data) {
+    //             this.availableOffers = this.getAvailableOffers(data);
+    //         }
+    //     },
+    // },
+    created() {
+        this.fetchOffers();
+        this.fetchDestinations();
+    },
     methods: {
+        async fetchOffers() {
+            try {
+                const response = await PointService.getOffers();
+                this.offersData = response.data;
+				this.availableOffers = this.getAvailableOffers(this.offersData);
+            } catch (e) {
+                console.log(e);
+            }
+        },
+        async fetchDestinations() {
+            try {
+                const response = await PointService.getDestinations();
+                this.destinationsData = response.data;
+            } catch (e) {
+                console.log(e);
+            }
+        },
         getAvailableOffers(data) {
             return data.find(el => el.type === this.type).offers;
         },

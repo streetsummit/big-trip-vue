@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Table from '../views/TableView';
 import Stats from '../views/StatsView';
-import WhereToGo from '../views/WhereToGoView';
+// import WhereToGo from '../views/WhereToGoView';
 import DestinationDetails from '../components/DestinationDetails';
 
 const routes = [
@@ -15,11 +15,11 @@ const routes = [
     name: 'StatsView',
     component: Stats,
   },
-  {
-    path: '/where-to-go',
-    name: 'WhereToGo',
-    component: WhereToGo,
-  },
+//   {
+//     path: '/where-to-go',
+//     name: 'WhereToGo',
+//     component: WhereToGo,
+//   },
   {
     path: '/destination/:name',
     name: 'DestinationDetails',

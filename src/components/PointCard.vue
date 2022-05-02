@@ -9,7 +9,7 @@
 
         <PointTypeIcon
             class="point__type"
-            :pointType="type"
+            :point-type="type"
         />
 
         <h3 class="point__title">{{ pointTitle }}</h3>
@@ -49,7 +49,7 @@
         </ul>
         <button
             class="point__favorite-btn"
-            :class="is_favorite ? favoriteClass : ''"
+            :class="{ 'point__favorite-btn--active': is_favorite }"
             type="button"
         >
             <span class="visually-hidden">Add to favorite</span>
@@ -89,11 +89,6 @@ export default {
         is_favorite: Boolean,
         offers: Array,
     },
-    data() {
-        return {
-            favoriteClass: 'point__favorite-btn--active',
-        };
-    },
     computed: {
         pointTitle() {
             return `${this.type} ${this.destination.name}`;
@@ -104,7 +99,7 @@ export default {
     },
     methods: {
         formatDate,
-		getPointDuration,
+        getPointDuration,
     },
 };
 </script>
