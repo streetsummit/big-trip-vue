@@ -21,12 +21,6 @@
                 />
             </li>
         </ul>
-        <!-- <p
-            class="trip-points__msg"
-            v-else
-        >
-            Loading...
-        </p> -->
     </section>
 </template>
 
@@ -90,16 +84,5 @@ export default {
     padding: 20px;
     font-size: 17px;
     line-height: 21px;
-}
-
-.trip-points__msg {
-    margin: 0;
-    margin-top: 280px;
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 60px;
-    text-align: center;
-    color: #ffffff;
-    opacity: 0.89;
 }
 </style>

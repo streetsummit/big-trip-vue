@@ -3,8 +3,14 @@
         <PageHeader />
         <main class="page-main">
             <div class="container">
+                <p
+                    class="trip-points__msg"
+                    v-if="isLoading"
+                >
+                    Loading...
+                </p>
                 <router-view
-                    v-if="points.length"
+                    v-else
                     :points="points"
                 />
             </div>
@@ -20,6 +26,7 @@ export default {
     data() {
         return {
             points: [],
+            isLoading: true,
         };
     },
     name: 'App',
@@ -33,6 +40,8 @@ export default {
                 this.points = response.data;
             } catch (e) {
                 console.log(e);
+            } finally {
+                this.isLoading = false;
             }
         },
     },
@@ -100,5 +109,16 @@ body {
     width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
+}
+
+.trip-points__msg {
+    margin: 0;
+    margin-top: 280px;
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 60px;
+    text-align: center;
+    color: #ffffff;
+    opacity: 0.89;
 }
 </style>
