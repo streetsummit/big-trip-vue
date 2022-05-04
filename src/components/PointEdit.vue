@@ -24,7 +24,7 @@
                     <fieldset class="point-edit__type-group">
                         <legend class="visually-hidden">Event type</legend>
                         <TypesListItem
-                            v-for="type in types"
+                            v-for="type in availableTypes"
                             :key="type.id"
                             :type="type"
                             class="point-edit__type-item"
@@ -141,11 +141,15 @@
                 </h3>
                 <div class="point-edit__available-offers">
                     <AvailableOffer
+                        class="point-edit__offer-selector"
                         v-for="availableOffer in availableOffers"
-                        :available-offer="availableOffer"
-                        :selected-offers="selectedOffers"
                         :key="availableOffer.title"
-                    />
+                        :prop-value="availableOffer"
+                        v-model="proxyCheckedOffers"
+                    >
+                        {{ availableOffer.title }} &plus;&euro;&nbsp;
+                        {{ availableOffer.price }}
+                    </AvailableOffer>
                 </div>
             </section>
 
@@ -214,27 +218,27 @@ export default {
             availableOffers: [],
             offersData: [],
             destinationsData: [],
+            checkedOffers: [...this.offers],
+            selectedType: this.type,
         };
     },
 
     computed: {
-        types() {
-            return this.offersData?.map(offer => offer.type);
-        },
-        selectedOffers() {
-            return this.offers;
-        },
         isNewPoint() {
             return false;
         },
+        availableTypes() {
+            return this.offersData.map(el => el.type);
+        },
+        proxyCheckedOffers: {
+            get() {
+                return [...this.checkedOffers];
+            },
+            set(newValue) {
+                this.checkedOffers = newValue;
+            },
+        },
     },
-    // watch: {
-    //     offersData(data) {
-    //         if (data) {
-    //             this.availableOffers = this.getAvailableOffers(data);
-    //         }
-    //     },
-    // },
     created() {
         this.fetchOffers();
         this.fetchDestinations();
@@ -244,7 +248,7 @@ export default {
             try {
                 const response = await PointService.getOffers();
                 this.offersData = response.data;
-				this.availableOffers = this.getAvailableOffers(this.offersData);
+                this.availableOffers = this.getAvailableOffers(this.offersData);
             } catch (e) {
                 console.log(e);
             }
@@ -258,9 +262,17 @@ export default {
             }
         },
         getAvailableOffers(data) {
-            return data.find(el => el.type === this.type).offers;
+            return data.find(el => el.type === this.selectedType).offers;
         },
+
         formatDate,
+    },
+    watch: {
+        selectedType() {
+			this.availableOffers = this.getAvailableOffers(this.offersData);
+			console.log(this.availableOffers);
+            this.checkedOffers = [];
+        },
     },
 };
 </script>
@@ -495,28 +507,6 @@ export default {
 }
 .point-edit__offer-selector:not(:last-of-type) {
     margin-right: 6px;
-}
-
-.point-edit__offer-label {
-    display: block;
-    padding: 22px 30px 21px;
-    font-size: 17px;
-    line-height: 21px;
-    user-select: none;
-    background-color: #f2f2f2;
-    border-radius: 32px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.point-edit__offer-label:hover {
-    background-color: rgba(13, 138, 228, 0.6);
-}
-.point-edit__offer-label::first-letter {
-    text-transform: capitalize;
-}
-
-.point-edit__offer-checkbox:checked + .point-edit__offer-label {
-    background-color: #0d8ae4;
 }
 
 .point-edit__destination-description {

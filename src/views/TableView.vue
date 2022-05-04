@@ -64,7 +64,7 @@ export default {
     // },
     computed: {
         editPoint() {
-            return this.points[1];
+            return this.points[0];
         },
     },
 };

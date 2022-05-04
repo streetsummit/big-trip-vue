@@ -1,53 +1,58 @@
 <template>
-    <div class="point-edit__offer-selector">
+    <label>
         <input
             class="point-edit__offer-checkbox visually-hidden"
-            :id="`point-edit-offer-${id}-1`"
             type="checkbox"
-            :name="`point-edit-offer-${id}`"
-            :data-title="availableOffer.title"
-            :checked="changeOfferCheck(availableOffer)"
+            name="point-edit-offers[]"
+            v-model="proxyModel"
+            :value="propValue"
         />
-        <label
-            class="point-edit__offer-label"
-            :for="`point-edit-offer-${id}-1`"
-        >
-            <span class="point-edit__offer-title">
-                {{ availableOffer.title }}
-            </span>
-            &plus;&euro;&nbsp;
-            <span class="point-edit__offer-price">
-                {{ availableOffer.price }}
-            </span>
-        </label>
-    </div>
+        <span class="point-edit__offer-label">
+            <slot></slot>
+        </span>
+    </label>
 </template>
 
 <script>
-import { makeId } from '@/utils/common';
 export default {
     name: 'AvailableOffer',
     props: {
-        selectedOffers: {
-            type: Array,
-            required: false,
-        },
-        availableOffer: {
-            type: Object,
-            required: false,
-        },
+        modelValue: { type: Array },
+        propValue: { type: Object },
     },
     computed: {
-        id() {
-            return makeId();
-        },
-    },
-    methods: {
-        changeOfferCheck(offer) {
-            const isMatch = selectedOffer =>
-                selectedOffer.title === offer.title;
-            return this.selectedOffers.some(isMatch);
+        proxyModel: {
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            },
         },
     },
 };
 </script>
+
+<style>
+.point-edit__offer-label {
+    display: block;
+    padding: 22px 30px 21px;
+    font-size: 17px;
+    line-height: 21px;
+    user-select: none;
+    background-color: #f2f2f2;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.point-edit__offer-label:hover {
+    background-color: rgba(13, 138, 228, 0.6);
+}
+.point-edit__offer-label::first-letter {
+    text-transform: capitalize;
+}
+
+.point-edit__offer-checkbox:checked + .point-edit__offer-label {
+    background-color: #0d8ae4;
+}
+</style>
