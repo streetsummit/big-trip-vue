@@ -1,23 +1,19 @@
 <template>
-    <div class="type-option">
+    <label class="type-option">
         <input
-            :id="id"
             class="type-option__input visually-hidden"
             type="radio"
             name="point-edit-type"
             :value="type"
         />
-        <label
+        <span
             class="type-option__label"
             :class="labelClass"
-            :for="id"
         >
             {{ type }}
-        </label>
-    </div>
+        </span>
+    </label>
 </template>
-
-// ${currentType === type ? 'checked' : ''}
 
 <script>
 export default {
@@ -29,9 +25,6 @@ export default {
         },
     },
     computed: {
-        id() {
-            return `point-edit-type-${this.type}-1`;
-        },
         labelClass() {
             return `type-option__label--${this.type}`;
         },
