@@ -9,7 +9,7 @@
                 <label for="point-type-toggle">
                     <span class="visually-hidden">Choose event type</span>
                     <PointTypeIcon
-                        :point-type="type"
+                        :point-type="selectedType"
                         class="point-edit__type-btn"
                     />
                 </label>
@@ -28,6 +28,7 @@
                             :key="type.id"
                             :type="type"
                             class="point-edit__type-item"
+                            v-model="selectedType"
                         />
                     </fieldset>
                 </div>
@@ -40,7 +41,7 @@
                     class="point-edit__label point-edit__type-output"
                     for="point-edit-destination-1"
                 >
-                    {{ type }}
+                    {{ selectedType }}
                 </label>
                 <input
                     class="point-edit__input point-edit__input--destination"
@@ -269,8 +270,7 @@ export default {
     },
     watch: {
         selectedType() {
-			this.availableOffers = this.getAvailableOffers(this.offersData);
-			console.log(this.availableOffers);
+            this.availableOffers = this.getAvailableOffers(this.offersData);
             this.checkedOffers = [];
         },
     },

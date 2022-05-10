@@ -5,6 +5,7 @@
             type="radio"
             name="point-edit-type"
             :value="type"
+			@change="$emit('update:modelValue', $event.target.value)"
         />
         <span
             class="type-option__label"
@@ -19,10 +20,7 @@
 export default {
     name: 'TypesListItem',
     props: {
-        type: {
-            type: String,
-            required: true,
-        },
+        type: { type: String },
     },
     computed: {
         labelClass() {
