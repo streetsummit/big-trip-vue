@@ -5,58 +5,15 @@
         method="post"
     >
         <header class="point-edit__header">
-            <div class="point-edit__type-wrapper">
-                <label for="point-type-toggle">
-                    <span class="visually-hidden">Choose event type</span>
-                    <PointTypeIcon
-                        :point-type="selectedType"
-                        class="point-edit__type-btn"
-                    />
-                </label>
-
-                <input
-                    class="point-edit__type-toggle visually-hidden"
-                    id="point-type-toggle"
-                    type="checkbox"
-                />
-
-                <div class="point-edit__type-list">
-                    <fieldset class="point-edit__type-group">
-                        <legend class="visually-hidden">Event type</legend>
-                        <TypesListItem
-                            v-for="type in availableTypes"
-                            :key="type.id"
-                            :type="type"
-                            class="point-edit__type-item"
-                            v-model="selectedType"
-                        />
-                    </fieldset>
-                </div>
-            </div>
-
-            <div
+            <TypeField
+                v-model:selected-type="currentType"
+                :available-types="availableTypes"
+            />
+            <DestinationField
                 class="point-edit__field-group point-edit__field-group--destination"
-            >
-                <label
-                    class="point-edit__label point-edit__type-output"
-                    for="point-edit-destination-1"
-                >
-                    {{ selectedType }}
-                </label>
-                <input
-                    class="point-edit__input point-edit__input--destination"
-                    id="point-edit-destination-1"
-                    type="text"
-                    name="point-edit-destination"
-                    :value="destination.name"
-                    list="destination-list-1"
-                    required
-                />
-                <DestinationsList
-                    v-if="destinationsData.length"
-                    :destinations="destinationsData"
-                />
-            </div>
+                v-model:selected-destination="destName"
+                :destinations-data="destinationsData"
+            />
 
             <div class="point-edit__field-group point-edit__field-group--time">
                 <label
@@ -155,7 +112,10 @@
             </section>
 
             <section
-                v-if="destination.pictures.length || destination.description"
+                v-if="
+                    currentDestination.pictures?.length ||
+                    currentDestination.description
+                "
                 class="point-edit__section point-edit__section--destination"
             >
                 <h3
@@ -164,15 +124,15 @@
                     Destination
                 </h3>
                 <p class="point-edit__destination-description">
-                    {{ destination.description }}
+                    {{ currentDestination.description }}
                 </p>
                 <div
-                    v-if="destination.pictures.length"
+                    v-if="currentDestination.pictures?.length"
                     class="point-edit__photos-container"
                 >
                     <div class="point-edit__photos-tape">
                         <img
-                            v-for="photo in destination.pictures"
+                            v-for="photo in currentDestination.pictures"
                             class="point-edit__photo"
                             :src="photo.src"
                             :alt="photo.description"
@@ -186,22 +146,21 @@
 </template>
 
 <script>
-import { formatDate } from '@/utils/date';
-import AvailableOffer from '@/components/point-parts/AvailableOffer';
-import TypesListItem from '@/components/point-parts/TypesListItem';
-import DestinationsList from '@/components/point-parts/DestinationsList';
 import PointService from '@/services/PointService';
+import { formatDate } from '@/utils/date';
+
+import DestinationField from '@/components/point-parts/DestinationField.vue';
+import TypeField from '@/components/point-parts/TypeField.vue';
+import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import RollupButton from '@/components/point-parts/RollupButton';
-import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 
 export default {
     name: 'PointEdit',
     components: {
+        TypeField,
+        DestinationField,
         AvailableOffer,
-        TypesListItem,
-        DestinationsList,
         RollupButton,
-        PointTypeIcon,
     },
     props: {
         id: String,
@@ -216,20 +175,33 @@ export default {
 
     data() {
         return {
+            offersData: [], //global
+            destinationsData: [], //global
+
             availableOffers: [],
-            offersData: [],
-            destinationsData: [],
+
+            currentDestination: { ...this.destination },
+            currentType: this.type,
             checkedOffers: [...this.offers],
-            selectedType: this.type,
         };
     },
 
     computed: {
+        destName: {
+            get() {
+                return this.currentDestination.name;
+            },
+            set(newName) {
+                this.currentDestination = this.destinationsData.find(
+                    el => el.name === newName
+                );
+            },
+        },
         isNewPoint() {
             return false;
         },
         availableTypes() {
-            return this.offersData.map(el => el.type);
+            return this.offersData.map(el => el.type); //global
         },
         proxyCheckedOffers: {
             get() {
@@ -263,13 +235,13 @@ export default {
             }
         },
         getAvailableOffers(data) {
-            return data.find(el => el.type === this.selectedType).offers;
+            return data.find(el => el.type === this.currentType).offers;
         },
 
         formatDate,
     },
     watch: {
-        selectedType() {
+        currentType() {
             this.availableOffers = this.getAvailableOffers(this.offersData);
             this.checkedOffers = [];
         },
@@ -336,44 +308,6 @@ export default {
     bottom: 0;
     height: 2px;
     background-color: #ffd054;
-}
-
-.point-edit__type-wrapper {
-    margin-right: 18px;
-}
-
-.point-edit__type-btn {
-    border: 1px solid #0d8ae4;
-    user-select: none;
-    cursor: pointer;
-}
-
-.point-edit__type-list {
-    position: absolute;
-    z-index: 2;
-    top: calc(100% + 7px);
-    left: -20px;
-    display: none;
-    width: 180px;
-    background-color: #ffffff;
-    border: 1px solid rgba(151, 151, 151, 0.169724);
-    box-shadow: 0 11px 20px rgba(0, 0, 0, 0.219146);
-    border-radius: 4px;
-}
-
-.point-edit__type-toggle:checked + .point-edit__type-list {
-    display: block;
-}
-
-.point-edit__type-group {
-    padding: 13px 0 11px;
-}
-.point-edit__type-group:not(:last-of-type) {
-    border-bottom: 1px solid rgba(151, 151, 151, 0.33);
-}
-
-.point-edit__type-item:not(:last-child) {
-    margin-bottom: 5px;
 }
 
 .point-edit__close-button {
