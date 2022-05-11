@@ -45,24 +45,10 @@
                 />
             </div>
 
-            <div class="point-edit__field-group point-edit__field-group--price">
-                <label
-                    class="point-edit__label"
-                    for="point-edit-price-1"
-                >
-                    <span class="visually-hidden">Price</span>
-                    &euro;
-                </label>
-                <input
-                    class="point-edit__input point-edit__input--price"
-                    id="point-edit-price-1"
-                    type="number"
-                    name="point-edit-price"
-                    :value="base_price"
-                    min="0"
-                    required
-                />
-            </div>
+            <PriceField
+                class="point-edit__field-group point-edit__field-group--price point-edit__label"
+                v-model:price.number="currentPrice"
+            />
 
             <button
                 class="point-edit__save-btn btn btn--blue"
@@ -151,6 +137,7 @@ import { formatDate } from '@/utils/date';
 
 import DestinationField from '@/components/point-parts/DestinationField.vue';
 import TypeField from '@/components/point-parts/TypeField.vue';
+import PriceField from '@/components/point-parts/PriceField.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import RollupButton from '@/components/point-parts/RollupButton';
 
@@ -159,6 +146,7 @@ export default {
     components: {
         TypeField,
         DestinationField,
+        PriceField,
         AvailableOffer,
         RollupButton,
     },
@@ -183,6 +171,7 @@ export default {
             currentDestination: { ...this.destination },
             currentType: this.type,
             checkedOffers: [...this.offers],
+            currentPrice: this.base_price,
         };
     },
 
