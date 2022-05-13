@@ -160,7 +160,6 @@ export default {
         is_favorite: Boolean,
         offers: Array,
     },
-
     data() {
         return {
             offersData: [], //global
@@ -174,7 +173,6 @@ export default {
             currentPrice: this.base_price,
         };
     },
-
     computed: {
         destName: {
             get() {
@@ -226,7 +224,6 @@ export default {
         getAvailableOffers(data) {
             return data.find(el => el.type === this.currentType).offers;
         },
-
         formatDate,
     },
     watch: {
@@ -322,9 +319,6 @@ export default {
 .point-edit__label {
     margin-right: 5px;
     cursor: pointer;
-}
-.point-edit__label::first-letter {
-    text-transform: capitalize;
 }
 
 .point-edit__input {

@@ -32,7 +32,7 @@
             @click="toggleListVisible"
         >
             <span class="point-edit__label point-edit__type-output">
-                {{ selectedType }}
+                {{ formattedType }}
             </span>
         </div>
     </div>
@@ -41,20 +41,26 @@
 <script>
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 import TypesListItem from '@/components/point-parts/TypesListItem';
+import { capitalizeFirstLetter } from '@/utils/common.js';
 
 export default {
     name: 'TypeSelectItem',
     components: { PointTypeIcon, TypesListItem },
+	props: {
+        selectedType: String,
+        availableTypes: Array,
+    },
     data() {
         return {
             isListVisible: false,
         };
-    },
-    props: {
-        selectedType: String,
-        availableTypes: Array,
-    },
+    },    
     emits: ['update:selected-type'],
+	computed: {
+		formattedType() {
+			return capitalizeFirstLetter(this.selectedType);
+		}
+	},
     methods: {
         onTypeChange(evt) {
             this.$emit('update:selected-type', evt.target.value);

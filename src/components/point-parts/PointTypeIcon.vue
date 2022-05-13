@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: 'point-type-icon',
+    name: 'PointTypeIcon',
     props: {
         pointType: {
             type: String,

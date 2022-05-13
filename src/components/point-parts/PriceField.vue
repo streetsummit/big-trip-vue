@@ -17,7 +17,9 @@
 <script>
 export default {
     name: 'PriceField',
-    props: { price: Number },
+    props: {
+        price: Number,
+    },
     emits: ['update:price'],
     methods: {
         onInput(evt) {

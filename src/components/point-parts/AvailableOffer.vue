@@ -17,9 +17,10 @@
 export default {
     name: 'AvailableOffer',
     props: {
-        modelValue: { type: Array },
-        propValue: { type: Object },
+        modelValue: Array ,
+        propValue: Object,
     },
+	emits: ['update:modelValue'],
     computed: {
         proxyModel: {
             get() {
@@ -45,11 +46,9 @@ export default {
     cursor: pointer;
     transition: background-color 0.2s;
 }
+
 .point-edit__offer-label:hover {
     background-color: rgba(13, 138, 228, 0.6);
-}
-.point-edit__offer-label::first-letter {
-    text-transform: capitalize;
 }
 
 .point-edit__offer-checkbox:checked + .point-edit__offer-label {

@@ -22,7 +22,6 @@
 <script>
 export default {
     name: 'TypeAndDestinationField',
-
     props: {
         selectedDestination: String,
         destinationsData: Array,

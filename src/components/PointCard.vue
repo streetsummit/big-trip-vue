@@ -72,6 +72,7 @@
 import { formatDate, getPointDuration } from '@/utils/date';
 import RollupButton from '@/components/point-parts/RollupButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
+import { capitalizeFirstLetter } from '@/utils/common.js';
 
 export default {
     name: 'PointCard',
@@ -91,7 +92,7 @@ export default {
     },
     computed: {
         pointTitle() {
-            return `${this.type} ${this.destination.name}`;
+            return `${capitalizeFirstLetter (this.type)} ${this.destination.name}`;
         },
         pointDuration() {
             return this.getPointDuration(this.date_from, this.date_to);
@@ -130,9 +131,6 @@ export default {
     font-weight: 400;
     font-size: inherit;
 }
-.point__title::first-letter {
-    text-transform: capitalize;
-}
 
 .point__schedule {
     flex-shrink: 0;
@@ -162,10 +160,6 @@ export default {
 .point__selected-offers {
     width: 220px;
     font-weight: 600;
-}
-
-.point__offer::first-letter {
-    text-transform: capitalize;
 }
 
 .point__favorite-btn {

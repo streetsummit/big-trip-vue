@@ -5,26 +5,30 @@
             type="radio"
             name="point-edit-type"
             :value="type"
-			@change="$emit('update:modelValue', $event.target.value)"
+            @change="$emit('update:modelValue', $event.target.value)"
         />
         <span
             class="type-option__label"
             :class="labelClass"
         >
-            {{ type }}
+            {{ formattedType }}
         </span>
     </label>
 </template>
 
 <script>
+import { capitalizeFirstLetter } from '@/utils/common.js';
 export default {
     name: 'TypesListItem',
     props: {
-        type: { type: String },
+        type: String,
     },
     computed: {
         labelClass() {
             return `type-option__label--${this.type}`;
+        },
+        formattedType() {
+            return capitalizeFirstLetter(this.type);
         },
     },
 };
@@ -57,6 +61,7 @@ export default {
     cursor: pointer;
     transition: color 0.2s;
 }
+
 .type-option__label::before {
     content: '';
     position: absolute;
@@ -69,41 +74,48 @@ export default {
     background-repeat: no-repeat;
     transform: translateY(-50%);
 }
+
 .type-option__label--taxi::before {
     background-image: url('@/assets/img/icons/taxi.png');
 }
+
 .type-option__label--bus::before {
     background-image: url('@/assets/img/icons/bus.png');
 }
+
 .type-option__label--train::before {
     background-image: url('@/assets/img/icons/train.png');
 }
+
 .type-option__label--ship::before {
     background-image: url('@/assets/img/icons/ship.png');
 }
+
 .type-option__label--transport::before {
     background-image: url('@/assets/img/icons/transport.png');
 }
+
 .type-option__label--drive::before {
     background-image: url('@/assets/img/icons/drive.png');
 }
+
 .type-option__label--flight::before {
     background-image: url('@/assets/img/icons/flight.png');
 }
+
 .type-option__label--check-in::before {
     background-image: url('@/assets/img/icons/check-in.png');
 }
+
 .type-option__label--sightseeing::before {
     background-image: url('@/assets/img/icons/sightseeing.png');
 }
+
 .type-option__label--restaurant::before {
     background-image: url('@/assets/img/icons/restaurant.png');
 }
+
 .type-option__label:hover {
     color: #ffd054;
-}
-
-.type-option__label::first-letter {
-    text-transform: capitalize;
 }
 </style>
