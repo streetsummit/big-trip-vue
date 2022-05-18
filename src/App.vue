@@ -5,7 +5,7 @@
             <div class="container">
                 <p
                     class="trip-points__msg"
-                    v-if="isLoading"
+                    v-if="isPointsLoading"
                 >
                     Loading...
                 </p>
@@ -19,34 +19,22 @@
 </template>
 
 <script>
-import PointService from '@/services/PointService';
 import PageHeader from '@/components/body-parts/Header';
+import usePoints from '@/hooks/usePoints';
 
 export default {
-    data() {
-        return {
-            points: [],
-            isLoading: true,
-        };
-    },
     name: 'App',
     components: {
         PageHeader,
     },
-    methods: {
-        async fetchPoints() {
-            try {
-                const response = await PointService.getPoints();
-                this.points = response.data;
-            } catch (e) {
-                console.log(e);
-            } finally {
-                this.isLoading = false;
-            }
-        },
+    setup(props) {
+        const { points, isPointsLoading } = usePoints();
+        return { points, isPointsLoading };
     },
-    created() {
-        this.fetchPoints();
+
+
+
+	
     },
 };
 </script>

@@ -28,15 +28,9 @@
 import PointCard from '@/components/PointCard';
 import PointEdit from '@/components/PointEdit';
 import PointSort from '@/components/PointSort';
-// import PointService from '@/services/PointService.js';
 
 export default {
     name: 'TableView',
-    // data() {
-    //     return {
-    //         points: [],
-    //     };
-    // },
     props: {
         points: {
             required: true,
@@ -48,20 +42,6 @@ export default {
         PointCard,
         PointEdit,
     },
-    // methods: {
-    //     async fetchPoints() {
-    //         try {
-    //             const response = await PointService.getPoints();
-    // 			this.points = response.data;
-
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    //     },
-    // },
-    // created() {
-    //     this.fetchPoints();
-    // },
     computed: {
         editPoint() {
             return this.points[0];
