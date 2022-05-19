@@ -11,9 +11,9 @@ export default function useFilteredPoints(points) {
 			case FilterType.EVERYTHING:
 				return [...points.value];
 			case FilterType.FUTURE:
-				return [...points.value].filter(({ date_from }) => new Date(date_from) >= new Date());
+				return [...points.value].filter(({ dateFrom }) => new Date(dateFrom) >= new Date());
 			case FilterType.PAST:
-				return [...points.value].filter(({ date_to }) => new Date(date_to) <= new Date());
+				return [...points.value].filter(({ dateTo }) => new Date(dateTo) <= new Date());
 		}
 	});
 

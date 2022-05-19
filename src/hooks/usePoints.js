@@ -1,4 +1,5 @@
 import PointService from '@/services/PointService.js';
+import { adaptToClient } from '@/utils/adapter.js';
 import { onMounted, ref } from 'vue';
 
 export default function usePoints() {
@@ -8,7 +9,8 @@ export default function usePoints() {
 	const fetching = async () => {
 		try {
 			const response = await PointService.getPoints();
-			points.value = response.data;
+			points.value = response.data.map(point => adaptToClient(point));
+			console.log(points.value);
 		} catch (e) {
 			console.log(e);
 		} finally {

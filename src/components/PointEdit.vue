@@ -27,7 +27,7 @@
                     id="point-edit-start-time-1"
                     type="text"
                     name="point-edit-start-time"
-                    :value="formatDate(date_from, 'DD/MM/YY HH:mm')"
+                    :value="formatDate(dateFrom, 'DD/MM/YY HH:mm')"
                 />
                 &mdash;
                 <label
@@ -41,7 +41,7 @@
                     id="point-edit-end-time-1"
                     type="text"
                     name="point-edit-end-time"
-                    :value="formatDate(date_to, 'DD/MM/YY HH:mm')"
+                    :value="formatDate(dateTo, 'DD/MM/YY HH:mm')"
                 />
             </div>
 
@@ -153,11 +153,11 @@ export default {
     props: {
         id: String,
         type: String,
-        date_from: String,
-        date_to: String,
+        dateFrom: String,
+        dateTo: String,
         destination: Object,
-        base_price: Number,
-        is_favorite: Boolean,
+        price: Number,
+        isFavorite: Boolean,
         offers: Array,
     },
     data() {
@@ -170,7 +170,7 @@ export default {
             currentDestination: { ...this.destination },
             currentType: this.type,
             checkedOffers: [...this.offers],
-            currentPrice: this.base_price,
+            currentPrice: this.price,
         };
     },
     computed: {

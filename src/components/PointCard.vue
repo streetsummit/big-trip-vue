@@ -2,9 +2,9 @@
     <div class="point">
         <time
             class="point__date"
-            :datetime="formatDate(date_from, 'YYYY-MM-DD')"
+            :datetime="formatDate(dateFrom, 'YYYY-MM-DD')"
         >
-            {{ formatDate(date_from, 'MMM DD') }}
+            {{ formatDate(dateFrom, 'MMM DD') }}
         </time>
 
         <PointTypeIcon
@@ -17,23 +17,23 @@
             <p class="point__time">
                 <time
                     class="point__start-time"
-                    :datetime="formatDate(date_from, 'YYYY-MM-DDTHH:mm')"
+                    :datetime="formatDate(dateFrom, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ formatDate(date_from, 'HH:mm') }}
+                    {{ formatDate(dateFrom, 'HH:mm') }}
                 </time>
                 &mdash;
                 <time
                     class="point__end-time"
-                    :datetime="formatDate(date_to, 'YYYY-MM-DDTHH:mm')"
+                    :datetime="formatDate(dateTo, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ formatDate(date_to, 'HH:mm') }}
+                    {{ formatDate(dateTo, 'HH:mm') }}
                 </time>
             </p>
             <p class="point__duration">{{ pointDuration }}</p>
         </div>
         <p class="point__price">
             &euro;&nbsp;
-            <span class="point__price-value">{{ base_price }}</span>
+            <span class="point__price-value">{{ price }}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="point__selected-offers">
@@ -49,7 +49,7 @@
         </ul>
         <button
             class="point__favorite-btn"
-            :class="{ 'point__favorite-btn--active': is_favorite }"
+            :class="{ 'point__favorite-btn--active': isFavorite }"
             type="button"
         >
             <span class="visually-hidden">Add to favorite</span>
@@ -83,11 +83,11 @@ export default {
     props: {
         id: String,
         type: String,
-        date_from: String,
-        date_to: String,
+        dateFrom: String,
+        dateTo: String,
         destination: Object,
-        base_price: Number,
-        is_favorite: Boolean,
+        price: Number,
+        isFavorite: Boolean,
         offers: Array,
     },
     computed: {
@@ -95,7 +95,7 @@ export default {
             return `${capitalizeFirstLetter (this.type)} ${this.destination.name}`;
         },
         pointDuration() {
-            return this.getPointDuration(this.date_from, this.date_to);
+            return this.getPointDuration(this.dateFrom, this.dateTo);
         },
     },
     methods: {
