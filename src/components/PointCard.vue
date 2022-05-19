@@ -47,30 +47,19 @@
                 <span class="point__offer-price">{{ offer.price }}</span>
             </li>
         </ul>
-        <button
+        <FavoriteButton
             class="point__favorite-btn"
-            :class="{ 'point__favorite-btn--active': isFavorite }"
-            type="button"
-        >
-            <span class="visually-hidden">Add to favorite</span>
-            <svg
-                class="point__favorite-icon"
-                width="28"
-                height="28"
-                viewBox="0 0 28 28"
-            >
-                <path
-                    d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"
-                />
-            </svg>
-        </button>
-        <rollup-button>Open event</rollup-button>
+            :is-active="isFavorite"
+            @click="onFavoriteClick"
+        />
+        <RollupButton>Open event</RollupButton>
     </div>
 </template>
 
 <script>
 import { formatDate, getPointDuration } from '@/utils/date';
 import RollupButton from '@/components/point-parts/RollupButton';
+import FavoriteButton from '@/components/point-parts/FavoriteButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 import { capitalizeFirstLetter } from '@/utils/common.js';
 
@@ -79,6 +68,7 @@ export default {
     components: {
         RollupButton,
         PointTypeIcon,
+        FavoriteButton,
     },
     props: {
         id: String,
@@ -92,7 +82,9 @@ export default {
     },
     computed: {
         pointTitle() {
-            return `${capitalizeFirstLetter (this.type)} ${this.destination.name}`;
+            return `${capitalizeFirstLetter(this.type)} ${
+                this.destination.name
+            }`;
         },
         pointDuration() {
             return this.getPointDuration(this.dateFrom, this.dateTo);
@@ -101,6 +93,9 @@ export default {
     methods: {
         formatDate,
         getPointDuration,
+        onFavoriteClick() {
+            this.isFavorite = !this.isFavorite;
+        },
     },
 };
 </script>
@@ -163,28 +158,7 @@ export default {
 }
 
 .point__favorite-btn {
-    margin: 0 10px;
+    margin-right: 10px;
     margin-left: auto;
-    color: #ebebeb;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    transition: color 0.2s;
-}
-.point__favorite-btn:hover,
-.point__favorite-btn:focus {
-    color: rgba(255, 208, 84, 0.6);
-}
-.point__favorite-btn--active {
-    color: #ffd054;
-}
-
-.point__favorite-icon {
-    display: block;
-    width: 28px;
-    height: 28px;
-    fill: currentColor;
-    transition: fill 0.2s;
 }
 </style>
