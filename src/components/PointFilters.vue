@@ -1,42 +1,42 @@
 <template>
-    <form
-        class="filters"
-        action="#"
-        method="get"
-    >
-        <div
+    <div class="filters">
+        <label
             class="filters__filter"
             v-for="filter in filters"
-            :key="filter.name"
+            :key="filter"
         >
             <input
-                :id="`filter-${filter.name}`"
                 class="filters__filter-input visually-hidden"
                 type="radio"
                 name="filter"
-                :value="filter.name"
+                :value="filter"
+                v-model="modelValue"
+                @change="changeFilter"
             />
-            <label
-                class="filters__filter-label"
-                :for="`filter-${filter.name}`"
-            >
-                {{ filter.label }}
-            </label>
-        </div>
-    </form>
+            <span class="filters__filter-label">
+                {{ capitalizeFirstLetter(filter) }}
+            </span>
+        </label>
+    </div>
 </template>
 
 <script>
+import { capitalizeFirstLetter } from '@/utils/common.js';
 export default {
     name: 'PointFilters',
-    data() {
-        return {
-            filters: [
-                { name: 'everything', label: 'Everything' },
-                { name: 'future', label: 'Future' },
-                { name: 'past', label: 'Past' },
-            ],
-        };
+    props: {
+        filters: {
+            type: Array,
+        },
+        modelValue: {
+            type: String,
+        },
+    },
+    methods: {
+        changeFilter(event) {
+            this.$emit('update:modelValue', event.target.value);
+        },
+        capitalizeFirstLetter,
     },
 };
 </script>

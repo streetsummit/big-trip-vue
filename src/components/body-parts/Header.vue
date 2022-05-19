@@ -16,7 +16,12 @@
                     <div class="trip-main__controls">
                         <MainMenu class="trip-main__navigation" />
 
-                        <PointFilters />
+                        <PointFilters
+                            class="trip-main__filters"
+                            v-model="modelValue"
+                            @change="changeFilter"
+							:filters="filters"
+                        />
                     </div>
 
                     <button
@@ -42,6 +47,19 @@ export default {
         MainMenu,
         TripInfo,
         PointFilters,
+    },
+    props: {
+        modelValue: {
+            type: String,
+        },
+        filters: {
+            type: Array,
+        },
+    },
+    methods: {
+        changeFilter(event) {
+            this.$emit('update:modelValue', event.target.value);
+        },
     },
 };
 </script>

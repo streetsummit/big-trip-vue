@@ -1,6 +1,9 @@
 <template>
     <div>
-        <PageHeader />
+        <PageHeader
+            v-model="selectedFilter"
+            :filters="filters"
+        />
         <main class="page-main">
             <div class="container">
                 <p
@@ -11,7 +14,7 @@
                 </p>
                 <router-view
                     v-else
-                    :points="points"
+                    :points="filteredPoints"
                 />
             </div>
         </main>
@@ -21,6 +24,7 @@
 <script>
 import PageHeader from '@/components/body-parts/Header';
 import usePoints from '@/hooks/usePoints';
+import useFilteredPoints from '@/hooks/useFilteredPoints';
 
 export default {
     name: 'App',
@@ -29,12 +33,15 @@ export default {
     },
     setup(props) {
         const { points, isPointsLoading } = usePoints();
-        return { points, isPointsLoading };
-    },
-
-
-
-	
+        const { filters, selectedFilter, filteredPoints } =
+            useFilteredPoints(points);
+        return {
+            points,
+            isPointsLoading,
+            filters,
+            selectedFilter,
+            filteredPoints,
+        };
     },
 };
 </script>
