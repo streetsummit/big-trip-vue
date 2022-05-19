@@ -16,7 +16,7 @@
                 :key="point.id"
             >
                 <PointCard
-                    v-bind="point"
+                    :point="point"
                     class="trip-points__card"
                 />
             </li>

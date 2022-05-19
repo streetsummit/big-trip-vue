@@ -62,6 +62,8 @@ import RollupButton from '@/components/point-parts/RollupButton';
 import FavoriteButton from '@/components/point-parts/FavoriteButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 import { capitalizeFirstLetter } from '@/utils/common.js';
+import { toRefs } from '@vue/reactivity';
+import PointService from '@/services/PointService';
 
 export default {
     name: 'PointCard',
@@ -71,14 +73,32 @@ export default {
         FavoriteButton,
     },
     props: {
-        id: String,
-        type: String,
-        dateFrom: String,
-        dateTo: String,
-        destination: Object,
-        price: Number,
-        isFavorite: Boolean,
-        offers: Array,
+        point: {
+            type: Object,
+        },
+    },
+    setup(props) {
+        const {
+            id,
+            type,
+            dateFrom,
+            dateTo,
+            destination,
+            price,
+            isFavorite,
+            offers,
+        } = toRefs(props.point);
+
+        return {
+            id,
+            type,
+            dateFrom,
+            dateTo,
+            destination,
+            price,
+            isFavorite,
+            offers,
+        };
     },
     computed: {
         pointTitle() {
@@ -95,6 +115,10 @@ export default {
         getPointDuration,
         onFavoriteClick() {
             this.isFavorite = !this.isFavorite;
+            PointService.updatePoint({
+                ...this.point,
+                isFavorite: this.isFavorite,
+            });
         },
     },
 };

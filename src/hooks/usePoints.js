@@ -10,7 +10,6 @@ export default function usePoints() {
 		try {
 			const response = await PointService.getPoints();
 			points.value = response.data.map(point => adaptToClient(point));
-			console.log(points.value);
 		} catch (e) {
 			console.log(e);
 		} finally {
