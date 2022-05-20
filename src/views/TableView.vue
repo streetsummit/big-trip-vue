@@ -1,7 +1,11 @@
 <template>
     <section class="trip-points">
         <h2 class="visually-hidden">Trip events</h2>
-        <PointSort class="trip-points__trip-sort" />
+        <PointSort
+            class="trip-points__trip-sort"
+            v-model="modelValue"
+            @change="changeSort"
+        />
 
         <ul class="trip-points__list">
             <li class="trip-points__item">
@@ -36,6 +40,9 @@ export default {
             required: true,
             type: Array,
         },
+        modelValue: {
+            type: String,
+        },
     },
     components: {
         PointSort,
@@ -45,6 +52,11 @@ export default {
     computed: {
         editPoint() {
             return this.points[0];
+        },
+    },
+    methods: {
+        changeSort(event) {
+            this.$emit('update:modelValue', event.target.value);
         },
     },
 };

@@ -1,45 +1,48 @@
 <template>
-    <form
-        class="trip-sort"
-        action="#"
-        method="get"
-    >
+    <div class="trip-sort">
         <div
-            v-for="sort in sortTypes"
+            v-for="sort in sortControls"
             :key="sort"
             class="trip-sort__item"
             :class="`trip-sort__item--${sort}`"
         >
-            <input
-                :id="`sort-${sort}`"
-                class="trip-sort__input visually-hidden"
-                type="radio"
-                name="trip-sort"
-                :value="`sort-${sort}`"
-                checked
-            />
-            <label
-                class="trip-sort__btn"
-                :for="`sort-${sort}`"
-            >
-                {{ formatLabel(sort) }}
+            <label>
+                <input
+                    class="trip-sort__input visually-hidden"
+                    type="radio"
+                    name="trip-sort"
+                    :value="sort"
+                    :disabled="disabledSortControls.includes(sort)"
+                    v-model="modelValue"
+                    @change="changeSort"
+                />
+                <span class="trip-sort__btn">{{ formatLabel(sort) }}</span>
             </label>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
 import { capitalizeFirstLetter } from '@/utils/common';
+import useSortedPoints from '@/hooks/useSortedPoints.js';
 export default {
     name: 'PointSort',
-    data() {
-        return {
-            sortTypes: ['day', 'event', 'time', 'price', 'offers'],
-        };
+    props: {
+        modelValue: {
+            type: String,
+        },
+    },
+    setup() {
+        const { sortControls, disabledSortControls } = useSortedPoints();
+        return { sortControls, disabledSortControls };
     },
     methods: {
         formatLabel(sort) {
             return capitalizeFirstLetter(sort);
+        },
+        changeSort(event) {
+            console.log('Меняю сортировку на ' + event.target.value);
+            this.$emit('update:modelValue', event.target.value);
         },
     },
 };

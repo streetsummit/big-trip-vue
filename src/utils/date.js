@@ -2,12 +2,13 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 dayjs.extend(duration);
 
+export const getTimestamp = (str) => Date.parse(str);
 export const formatDate = (date, pattern) => dayjs(date).format(pattern);
 
 const MIN_IN_DAY = 1440;
 const MIN_IN_HOUR = 60;
 
-const getDuration = (start, end) => dayjs(end).diff(dayjs(start), 'm');
+export const getDuration = (start, end) => dayjs(end).diff(dayjs(start), 'm');
 
 const formatDuration = duration => {
 	const days = Math.floor(duration / MIN_IN_DAY);
@@ -31,7 +32,7 @@ const formatDuration = duration => {
 	return `${minutes.toString().padStart(2, '0')}M`;
 };
 
-export const getPointDuration = (start, end) => {
+export const getFormattedPointDuration = (start, end) => {
 	const pointDuration = getDuration(start, end);
 	return formatDuration(pointDuration);
 };

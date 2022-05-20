@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { formatDate, getPointDuration } from '@/utils/date';
+import { formatDate, getFormattedPointDuration } from '@/utils/date';
 import RollupButton from '@/components/point-parts/RollupButton';
 import FavoriteButton from '@/components/point-parts/FavoriteButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
@@ -107,12 +107,12 @@ export default {
             }`;
         },
         pointDuration() {
-            return this.getPointDuration(this.dateFrom, this.dateTo);
+            return this.getFormattedPointDuration(this.dateFrom, this.dateTo);
         },
     },
     methods: {
         formatDate,
-        getPointDuration,
+        getFormattedPointDuration,
         onFavoriteClick() {
             this.isFavorite = !this.isFavorite;
             PointService.updatePoint({

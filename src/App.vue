@@ -14,7 +14,8 @@
                 </p>
                 <router-view
                     v-else
-                    :points="filteredPoints"
+                    :points="sortedPoints"
+					v-model="selectedSort"
                 />
             </div>
         </main>
@@ -25,6 +26,7 @@
 import PageHeader from '@/components/body-parts/Header';
 import usePoints from '@/hooks/usePoints';
 import useFilteredPoints from '@/hooks/useFilteredPoints';
+import useSortedPoints from '@/hooks/useSortedPoints';
 
 export default {
     name: 'App',
@@ -35,12 +37,15 @@ export default {
         const { points, isPointsLoading } = usePoints();
         const { filters, selectedFilter, filteredPoints } =
             useFilteredPoints(points);
+        const { selectedSort, sortedPoints } = useSortedPoints(filteredPoints);
         return {
             points,
             isPointsLoading,
             filters,
             selectedFilter,
             filteredPoints,
+            selectedSort,
+            sortedPoints,
         };
     },
 };
