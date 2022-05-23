@@ -41,7 +41,6 @@ export default {
             return capitalizeFirstLetter(sort);
         },
         changeSort(event) {
-            console.log('Меняю сортировку на ' + event.target.value);
             this.$emit('update:modelValue', event.target.value);
         },
     },

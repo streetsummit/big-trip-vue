@@ -1,4 +1,5 @@
 import { FilterType } from '@/utils/constants.js';
+import { isFuture, isPast } from '@/utils/filter-sort.js';
 import { computed, ref } from 'vue';
 
 export default function useFilteredPoints(points) {
@@ -11,9 +12,9 @@ export default function useFilteredPoints(points) {
 			case FilterType.EVERYTHING:
 				return [...points.value];
 			case FilterType.FUTURE:
-				return [...points.value].filter(({ dateFrom }) => new Date(dateFrom) >= new Date());
+				return [...points.value].filter(isFuture);
 			case FilterType.PAST:
-				return [...points.value].filter(({ dateTo }) => new Date(dateTo) <= new Date());
+				return [...points.value].filter(isPast);
 		}
 	});
 

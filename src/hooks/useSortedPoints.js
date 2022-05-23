@@ -1,5 +1,5 @@
 import { SortType } from '@/utils/constants.js';
-import { sortByDay, sortByPrice, sortByTime } from '@/utils/sort.js';
+import { sortByDay, sortByPrice, sortByTime } from '@/utils/filter-sort.js';
 import { computed, ref } from 'vue';
 
 export default function useSortedPoints(filteredPoints) {

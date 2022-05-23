@@ -16,7 +16,7 @@
 
         <div
             class="point-edit__type-list"
-            v-if="isListVisible"
+            v-show="isListVisible"
         >
             <fieldset class="point-edit__type-group">
                 <legend class="visually-hidden">Event type</legend>
