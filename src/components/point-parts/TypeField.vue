@@ -1,5 +1,8 @@
 <template>
-    <div class="point-edit__type-wrapper">
+    <div
+        class="point-edit__type-wrapper"
+        v-click-outside="onOutsideClick"
+    >
         <button
             type="button"
             @click="toggleListVisible"
@@ -46,7 +49,7 @@ import { capitalizeFirstLetter } from '@/utils/common.js';
 export default {
     name: 'TypeSelectItem',
     components: { PointTypeIcon, TypesListItem },
-	props: {
+    props: {
         selectedType: String,
         availableTypes: Array,
     },
@@ -54,20 +57,25 @@ export default {
         return {
             isListVisible: false,
         };
-    },    
+    },
     emits: ['update:selected-type'],
-	computed: {
-		formattedType() {
-			return capitalizeFirstLetter(this.selectedType);
-		}
-	},
-    methods: {
-        onTypeChange(evt) {
-            this.$emit('update:selected-type', evt.target.value);
-            this.isListVisible = false;
+    computed: {
+        formattedType() {
+            return capitalizeFirstLetter(this.selectedType);
         },
+    },
+    methods: {
         toggleListVisible() {
             this.isListVisible = !this.isListVisible;
+        },
+        onTypeChange(evt) {
+            this.$emit('update:selected-type', evt.target.value);
+            this.toggleListVisible();
+        },
+        onOutsideClick() {
+            if (this.isListVisible) {
+                this.toggleListVisible();
+            }
         },
     },
 };
