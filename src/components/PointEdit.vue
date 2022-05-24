@@ -33,11 +33,19 @@
                 Save
             </button>
             <button
+                v-if="isNewPoint"
                 class="point-edit__reset-btn"
                 type="button"
             >
-                <span v-if="isNewPoint">Cancel</span>
-                <span v-else>Delete</span>
+                Cancel
+            </button>
+            <button
+                v-else
+                class="point-edit__reset-btn"
+                type="button"
+                @click="onDeleteClick"
+            >
+                Delete
             </button>
 
             <rollup-button
@@ -224,18 +232,15 @@ export default {
         onEditClick() {
             this.$emit('toggleCardView');
         },
+        onDeleteClick() {
+            this.$emit('deletePoint', this.id);
+        },
     },
     watch: {
         currentType() {
             this.availableOffers = this.getAvailableOffers(this.offersData);
             this.checkedOffers = [];
         },
-    },
-    mounted() {
-        console.log(`Component id:${this.id} is mounted`);
-    },
-    unmounted() {
-        console.log(`Component id:${this.id} is unmounted`);
     },
 };
 </script>

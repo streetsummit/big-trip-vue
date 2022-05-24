@@ -23,5 +23,8 @@ export default {
 	},
 	updatePoint(point) {
 		return apiClient.put(`/points/${point.id}`, adaptToServer(point));
+	},
+	deletePoint(id) {
+		return apiClient.delete(`/points/${id}`);
 	}
 };

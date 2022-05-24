@@ -21,6 +21,7 @@
                     "
                     :point="point"
                     @toggleCardView="toggleCardView"
+                    @deletePoint="deletePoint"
                     class="trip-points__card"
                 />
             </li>
@@ -64,6 +65,10 @@ export default {
                 return;
             }
             this.editedPointId = null;
+        },
+        deletePoint(id) {
+            this.$emit('deletePoint', id);
+			this.editedPointId = null;
         },
     },
 };
