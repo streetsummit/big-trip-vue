@@ -15,35 +15,11 @@
                 :destinations-data="destinationsData"
             />
 
-            <div class="point-edit__field-group point-edit__field-group--time">
-                <label
-                    class="visually-hidden"
-                    for="point-edit-start-time-1"
-                >
-                    From
-                </label>
-                <input
-                    class="point-edit__input point-edit__input--time"
-                    id="point-edit-start-time-1"
-                    type="text"
-                    name="point-edit-start-time"
-                    :value="formatDate(dateFrom, 'DD/MM/YY HH:mm')"
-                />
-                &mdash;
-                <label
-                    class="visually-hidden"
-                    for="point-edit-end-time-1"
-                >
-                    To
-                </label>
-                <input
-                    class="point-edit__input point-edit__input--time"
-                    id="point-edit-end-time-1"
-                    type="text"
-                    name="point-edit-end-time"
-                    :value="formatDate(dateTo, 'DD/MM/YY HH:mm')"
-                />
-            </div>
+            <DateFields
+                class="point-edit__field-group point-edit__field-group--time"
+                :date-from="dateFrom"
+                :date-to="dateTo"
+            />
 
             <PriceField
                 class="point-edit__field-group point-edit__field-group--price point-edit__label"
@@ -134,11 +110,11 @@
 
 <script>
 import PointService from '@/services/PointService';
-import { formatDate } from '@/utils/date';
 
 import DestinationField from '@/components/point-parts/DestinationField.vue';
 import TypeField from '@/components/point-parts/TypeField.vue';
 import PriceField from '@/components/point-parts/PriceField.vue';
+import DateFields from '@/components/point-parts/DateFields.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import RollupButton from '@/components/point-parts/RollupButton';
 import { toRefs } from '@vue/reactivity';
@@ -149,6 +125,7 @@ export default {
         TypeField,
         DestinationField,
         PriceField,
+        DateFields,
         AvailableOffer,
         RollupButton,
     },
@@ -244,7 +221,6 @@ export default {
         getAvailableOffers(data) {
             return data.find(el => el.type === this.currentType).offers;
         },
-        formatDate,
         onEditClick() {
             this.$emit('toggleCardView');
         },
@@ -255,12 +231,12 @@ export default {
             this.checkedOffers = [];
         },
     },
-	mounted() {
-		console.log(`Component id:${this.id} is mounted`);
-	},
-	unmounted() {
-		console.log(`Component id:${this.id} is unmounted`);
-	}
+    mounted() {
+        console.log(`Component id:${this.id} is mounted`);
+    },
+    unmounted() {
+        console.log(`Component id:${this.id} is unmounted`);
+    },
 };
 </script>
 
@@ -341,6 +317,7 @@ export default {
     margin-right: 18px;
     border-bottom: 1px solid #0d8ae4;
 }
+
 .point-edit__field-group--destination {
     width: 290px;
 }
@@ -355,16 +332,20 @@ export default {
     appearance: none;
     border: none;
 }
+
 .point-edit__input--destination {
     width: 150px;
 }
+
 .point-edit__input--destination::-webkit-calendar-picker-indicator {
     display: none;
 }
+
 .point-edit__input--time {
     width: 130px;
     text-align: center;
 }
+
 .point-edit__input--price {
     width: 66px;
 }
