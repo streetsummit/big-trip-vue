@@ -68,6 +68,7 @@
                 v-if="!isNewPoint"
                 class="point-edit__close-button"
                 :is-opened="true"
+                @click="onEditClick"
             >
                 Close event
             </rollup-button>
@@ -140,6 +141,7 @@ import TypeField from '@/components/point-parts/TypeField.vue';
 import PriceField from '@/components/point-parts/PriceField.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import RollupButton from '@/components/point-parts/RollupButton';
+import { toRefs } from '@vue/reactivity';
 
 export default {
     name: 'PointEdit',
@@ -151,14 +153,32 @@ export default {
         RollupButton,
     },
     props: {
-        id: String,
-        type: String,
-        dateFrom: String,
-        dateTo: String,
-        destination: Object,
-        price: Number,
-        isFavorite: Boolean,
-        offers: Array,
+        point: {
+            type: Object,
+        },
+    },
+    setup(props) {
+        const {
+            id,
+            type,
+            dateFrom,
+            dateTo,
+            destination,
+            price,
+            isFavorite,
+            offers,
+        } = toRefs(props.point);
+
+        return {
+            id,
+            type,
+            dateFrom,
+            dateTo,
+            destination,
+            price,
+            isFavorite,
+            offers,
+        };
     },
     data() {
         return {
@@ -225,6 +245,9 @@ export default {
             return data.find(el => el.type === this.currentType).offers;
         },
         formatDate,
+        onEditClick() {
+            this.$emit('toggleCardView');
+        },
     },
     watch: {
         currentType() {
@@ -232,6 +255,12 @@ export default {
             this.checkedOffers = [];
         },
     },
+	mounted() {
+		console.log(`Component id:${this.id} is mounted`);
+	},
+	unmounted() {
+		console.log(`Component id:${this.id} is unmounted`);
+	}
 };
 </script>
 

@@ -52,7 +52,7 @@
             :is-active="isFavorite"
             @click="onFavoriteClick"
         />
-        <RollupButton>Open event</RollupButton>
+        <RollupButton @click="onEditClick">Open event</RollupButton>
     </div>
 </template>
 
@@ -120,6 +120,9 @@ export default {
                 isFavorite: this.isFavorite,
             });
         },
+		onEditClick() {
+			this.$emit('toggleCardView', this.id);
+		}
     },
 };
 </script>

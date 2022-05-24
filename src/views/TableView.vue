@@ -8,19 +8,19 @@
         />
 
         <ul class="trip-points__list">
-            <li class="trip-points__item">
-                <PointEdit
-                    v-bind="editPoint"
-                    class="trip-points__card"
-                />
-            </li>
             <li
                 class="trip-points__item"
                 v-for="point in points"
                 :key="point.id"
             >
-                <PointCard
+                <Component
+                    :is="
+                        this.editedPointId === point.id
+                            ? 'PointEdit'
+                            : 'PointCard'
+                    "
                     :point="point"
+                    @toggleCardView="toggleCardView"
                     class="trip-points__card"
                 />
             </li>
@@ -49,14 +49,21 @@ export default {
         PointCard,
         PointEdit,
     },
-    computed: {
-        editPoint() {
-            return this.points[0];
-        },
+    data() {
+        return {
+            editedPointId: null,
+        };
     },
     methods: {
         changeSort(event) {
             this.$emit('update:modelValue', event.target.value);
+        },
+        toggleCardView(id) {
+            if (id) {
+                this.editedPointId = id;
+                return;
+            }
+            this.editedPointId = null;
         },
     },
 };
