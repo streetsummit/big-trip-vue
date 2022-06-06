@@ -5,7 +5,7 @@
             type="radio"
             name="point-edit-type"
             :value="type"
-            @change="$emit('update:modelValue', $event.target.value)"
+            @change="onTypeChange"
         />
         <span
             class="type-option__label"
@@ -23,12 +23,18 @@ export default {
     props: {
         type: String,
     },
+    emits: ['update:modelValue'],
     computed: {
         labelClass() {
             return `type-option__label--${this.type}`;
         },
         formattedType() {
             return capitalizeFirstLetter(this.type);
+        },
+    },
+    methods: {
+        onTypeChange(event) {
+            this.$emit('update:modelValue', event.target.value);
         },
     },
 };

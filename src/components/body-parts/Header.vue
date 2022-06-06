@@ -56,6 +56,7 @@ export default {
             type: Array,
         },
     },
+	emits: ['update:modelValue'],
     methods: {
         changeFilter(event) {
             this.$emit('update:modelValue', event.target.value);

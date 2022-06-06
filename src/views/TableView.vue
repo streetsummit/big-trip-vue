@@ -46,6 +46,7 @@ export default {
             type: String,
         },
     },
+    emits: ['update:modelValue', 'deletePoint'],
     data() {
         return {
             editedPointId: null,

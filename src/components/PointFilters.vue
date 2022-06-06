@@ -32,6 +32,7 @@ export default {
             type: String,
         },
     },
+	emits: ['update:modelValue'],
     methods: {
         changeFilter(event) {
             this.$emit('update:modelValue', event.target.value);

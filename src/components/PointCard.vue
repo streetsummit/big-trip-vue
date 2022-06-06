@@ -77,6 +77,7 @@ export default {
             type: Object,
         },
     },
+	emits: ['toggleCardView'],
     setup(props) {
         const {
             id,

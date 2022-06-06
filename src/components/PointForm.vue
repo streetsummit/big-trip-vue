@@ -135,6 +135,7 @@ export default {
             type: Object,
         },
     },
+	emits: ['toggleCardView', 'deletePoint'],
     setup(props) {
         const {
             id,

@@ -32,6 +32,7 @@ export default {
             type: String,
         },
     },
+	emits: ['update:modelValue'],
     setup() {
         const { sortControls, isDisabled } = useSortedPoints();
         return { sortControls, isDisabled };

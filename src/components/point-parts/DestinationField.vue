@@ -7,7 +7,7 @@
             :value="selectedDestination"
             list="destination-list"
             required
-            @change="$emit('update:selected-destination', $event.target.value)"
+            @change="onDestinationChange"
         />
         <datalist id="destination-list">
             <option
@@ -27,5 +27,10 @@ export default {
         destinationsData: Array,
     },
     emits: ['update:selected-destination'],
+    methods: {
+        onDestinationChange(event) {
+            this.$emit('update:selected-destination', event.target.value);
+        },
+    },
 };
 </script>
