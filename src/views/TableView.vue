@@ -16,7 +16,7 @@
                 <Component
                     :is="
                         this.editedPointId === point.id
-                            ? 'PointEdit'
+                            ? 'PointForm'
                             : 'PointCard'
                     "
                     :point="point"
@@ -31,11 +31,16 @@
 
 <script>
 import PointCard from '@/components/PointCard';
-import PointEdit from '@/components/PointEdit';
+import PointForm from '@/components/PointForm';
 import PointSort from '@/components/PointSort';
 
 export default {
     name: 'TableView',
+	components: {
+        PointSort,
+        PointCard,
+        PointForm,
+    },
     props: {
         points: {
             required: true,
@@ -44,11 +49,6 @@ export default {
         modelValue: {
             type: String,
         },
-    },
-    components: {
-        PointSort,
-        PointCard,
-        PointEdit,
     },
     data() {
         return {

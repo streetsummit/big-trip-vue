@@ -61,11 +61,9 @@
         <section class="point-edit__details">
             <section
                 class="point-edit__section point-edit__section--offers"
-                v-if="offersData && availableOffers.length"
+                v-if="hasOffers"
             >
-                <h3
-                    class="point-edit__section-title point-edit__section-title--offers"
-                >
+                <h3 class="point-edit__title point-edit__title--offers">
                     Offers
                 </h3>
                 <div class="point-edit__available-offers">
@@ -83,15 +81,10 @@
             </section>
 
             <section
-                v-if="
-                    currentDestination.pictures?.length ||
-                    currentDestination.description
-                "
+                v-if="hasDescription"
                 class="point-edit__section point-edit__section--destination"
             >
-                <h3
-                    class="point-edit__section-title point-edit__section-title--destination"
-                >
+                <h3 class="point-edit__title point-edit__title--destination">
                     Destination
                 </h3>
                 <p class="point-edit__destination-description">
@@ -128,7 +121,7 @@ import RollupButton from '@/components/point-parts/RollupButton';
 import { toRefs } from '@vue/reactivity';
 
 export default {
-    name: 'PointEdit',
+    name: 'PointForm',
     components: {
         TypeField,
         DestinationField,
@@ -203,6 +196,21 @@ export default {
                 this.checkedOffers = newValue;
             },
         },
+        hasDescription() {
+            return (
+                this.currentDestination.pictures?.length ||
+                this.currentDestination.description
+            );
+        },
+        hasOffers() {
+            return this.offersData && this.availableOffers.length;
+        },
+    },
+    watch: {
+        currentType() {
+            this.availableOffers = this.getAvailableOffers(this.offersData);
+            this.checkedOffers = [];
+        },
     },
     created() {
         this.fetchOffers();
@@ -234,12 +242,6 @@ export default {
         },
         onDeleteClick() {
             this.$emit('deletePoint', this.id);
-        },
-    },
-    watch: {
-        currentType() {
-            this.availableOffers = this.getAvailableOffers(this.offersData);
-            this.checkedOffers = [];
         },
     },
 };
@@ -412,7 +414,7 @@ export default {
     padding: 0 20px;
 }
 
-.point-edit__section-title {
+.point-edit__title {
     font-weight: 800;
     font-size: 14px;
     line-height: 17px;
@@ -420,10 +422,10 @@ export default {
     text-transform: uppercase;
     color: #ffd054;
 }
-.point-edit__section-title--offers {
+.point-edit__title--offers {
     margin-bottom: 15px;
 }
-.point-edit__section-title--destination {
+.point-edit__title--destination {
     margin-bottom: 8px;
     margin-left: 20px;
 }

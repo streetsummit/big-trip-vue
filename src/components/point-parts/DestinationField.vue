@@ -5,11 +5,11 @@
             type="text"
             name="point-edit-destination"
             :value="selectedDestination"
-            list="destination-list-1"
+            list="destination-list"
             @change="$emit('update:selected-destination', $event.target.value)"
             required
         />
-        <datalist id="destination-list-1">
+        <datalist id="destination-list">
             <option
                 v-for="destination in destinationsData"
                 :value="destination.name"
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-    name: 'TypeAndDestinationField',
+    name: 'DestinationField',
     props: {
         selectedDestination: String,
         destinationsData: Array,

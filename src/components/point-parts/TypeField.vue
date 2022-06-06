@@ -53,12 +53,12 @@ export default {
         selectedType: String,
         availableTypes: Array,
     },
+    emits: ['update:selected-type'],
     data() {
         return {
             isListVisible: false,
         };
     },
-    emits: ['update:selected-type'],
     computed: {
         formattedType() {
             return capitalizeFirstLetter(this.selectedType);
