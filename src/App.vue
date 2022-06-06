@@ -7,15 +7,15 @@
         <main class="page-main">
             <div class="container">
                 <p
-                    class="trip-points__msg"
                     v-if="isPointsLoading"
+                    class="trip-points__msg"
                 >
                     Loading...
                 </p>
                 <router-view
                     v-else
-                    :points="sortedPoints"
                     v-model="selectedSort"
+                    :points="sortedPoints"
                     @deletePoint="deletePoint"
                 />
             </div>
@@ -53,7 +53,7 @@ export default {
     methods: {
         deletePoint(id) {
             PointService.deletePoint(id);
-			this.points = this.points.filter(point => point.id !== id);
+            this.points = this.points.filter(point => point.id !== id);
         },
     },
 };

@@ -8,6 +8,7 @@
         >
             <label>
                 <input
+                    v-model="modelValue"
                     class="trip-sort__input visually-hidden"
                     type="radio"
                     name="trip-sort"

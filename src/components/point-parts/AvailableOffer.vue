@@ -1,10 +1,10 @@
 <template>
     <label>
         <input
+            v-model="proxyModel"
             class="point-edit__offer-checkbox visually-hidden"
             type="checkbox"
             name="point-edit-offers[]"
-            v-model="proxyModel"
             :value="propValue"
         />
         <span class="point-edit__offer-label">
@@ -17,10 +17,10 @@
 export default {
     name: 'AvailableOffer',
     props: {
-        modelValue: Array ,
+        modelValue: Array,
         propValue: Object,
     },
-	emits: ['update:modelValue'],
+    emits: ['update:modelValue'],
     computed: {
         proxyModel: {
             get() {

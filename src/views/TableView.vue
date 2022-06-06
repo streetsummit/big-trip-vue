@@ -2,27 +2,23 @@
     <section class="trip-points">
         <h2 class="visually-hidden">Trip events</h2>
         <PointSort
-            class="trip-points__trip-sort"
             v-model="modelValue"
+            class="trip-points__trip-sort"
             @change="changeSort"
         />
 
         <ul class="trip-points__list">
             <li
-                class="trip-points__item"
                 v-for="point in points"
                 :key="point.id"
+                class="trip-points__item"
             >
                 <Component
-                    :is="
-                        this.editedPointId === point.id
-                            ? 'PointForm'
-                            : 'PointCard'
-                    "
+                    :is="currentCardView(point.id)"
                     :point="point"
+                    class="trip-points__card"
                     @toggleCardView="toggleCardView"
                     @deletePoint="deletePoint"
-                    class="trip-points__card"
                 />
             </li>
         </ul>
@@ -36,7 +32,7 @@ import PointSort from '@/components/PointSort';
 
 export default {
     name: 'TableView',
-	components: {
+    components: {
         PointSort,
         PointCard,
         PointForm,
@@ -68,7 +64,10 @@ export default {
         },
         deletePoint(id) {
             this.$emit('deletePoint', id);
-			this.editedPointId = null;
+            this.editedPointId = null;
+        },
+        currentCardView(id) {
+            return this.editedPointId === id ? 'PointForm' : 'PointCard';
         },
     },
 };

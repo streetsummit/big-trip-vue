@@ -1,16 +1,16 @@
 <template>
     <div class="filters">
         <label
-            class="filters__filter"
             v-for="filter in filters"
             :key="filter"
+            class="filters__filter"
         >
             <input
+                v-model="modelValue"
                 class="filters__filter-input visually-hidden"
                 type="radio"
                 name="filter"
                 :value="filter"
-                v-model="modelValue"
                 @change="changeFilter"
             />
             <span class="filters__filter-label">

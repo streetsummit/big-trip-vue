@@ -17,10 +17,10 @@
                         <MainMenu class="trip-main__navigation" />
 
                         <PointFilters
-                            class="trip-main__filters"
                             v-model="modelValue"
+                            class="trip-main__filters"
+                            :filters="filters"
                             @change="changeFilter"
-							:filters="filters"
                         />
                     </div>
 

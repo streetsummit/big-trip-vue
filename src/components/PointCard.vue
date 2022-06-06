@@ -120,9 +120,9 @@ export default {
                 isFavorite: this.isFavorite,
             });
         },
-		onEditClick() {
-			this.$emit('toggleCardView', this.id);
-		}
+        onEditClick() {
+            this.$emit('toggleCardView', this.id);
+        },
     },
 };
 </script>

@@ -8,8 +8,8 @@
             name="point-edit-price"
             :value="price"
             min="0"
-            @input="onInput"
             required
+            @input="onInput"
         />
     </label>
 </template>

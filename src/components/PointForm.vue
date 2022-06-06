@@ -10,8 +10,8 @@
                 :available-types="availableTypes"
             />
             <DestinationField
-                class="point-edit__field-group point-edit__field-group--destination"
                 v-model:selected-destination="destName"
+                class="point-edit__field-group point-edit__field-group--destination"
                 :destinations-data="destinationsData"
             />
 
@@ -22,8 +22,8 @@
             />
 
             <PriceField
-                class="point-edit__field-group point-edit__field-group--price point-edit__label"
                 v-model:price.number="currentPrice"
+                class="point-edit__field-group point-edit__field-group--price point-edit__label"
             />
 
             <button
@@ -60,19 +60,19 @@
 
         <section class="point-edit__details">
             <section
-                class="point-edit__section point-edit__section--offers"
                 v-if="hasOffers"
+                class="point-edit__section point-edit__section--offers"
             >
                 <h3 class="point-edit__title point-edit__title--offers">
                     Offers
                 </h3>
                 <div class="point-edit__available-offers">
                     <AvailableOffer
-                        class="point-edit__offer-selector"
                         v-for="availableOffer in availableOffers"
                         :key="availableOffer.title"
-                        :prop-value="availableOffer"
                         v-model="proxyCheckedOffers"
+                        class="point-edit__offer-selector"
+                        :prop-value="availableOffer"
                     >
                         {{ availableOffer.title }} &plus;&euro;&nbsp;
                         {{ availableOffer.price }}
@@ -97,10 +97,10 @@
                     <div class="point-edit__photos-tape">
                         <img
                             v-for="photo in currentDestination.pictures"
+                            :key="photo.src"
                             class="point-edit__photo"
                             :src="photo.src"
                             :alt="photo.description"
-                            :key="photo.src"
                         />
                     </div>
                 </div>

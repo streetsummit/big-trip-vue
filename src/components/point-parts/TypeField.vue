@@ -9,23 +9,23 @@
         >
             <span class="visually-hidden">Choose event type</span>
             <PointTypeIcon
-                :point-type="selectedType"
                 class="point-edit__type-btn"
+                :point-type="selectedType"
             />
         </button>
 
         <div
-            class="point-edit__type-list"
             v-show="isListVisible"
+            class="point-edit__type-list"
         >
             <fieldset class="point-edit__type-group">
                 <legend class="visually-hidden">Event type</legend>
                 <TypesListItem
                     v-for="type in availableTypes"
                     :key="type.id"
-                    :type="type"
-                    class="point-edit__type-item"
                     v-model="selectedType"
+                    class="point-edit__type-item"
+                    :type="type"
                     @change="onTypeChange"
                 />
             </fieldset>

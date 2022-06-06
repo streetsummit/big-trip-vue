@@ -6,14 +6,14 @@
             name="point-edit-destination"
             :value="selectedDestination"
             list="destination-list"
-            @change="$emit('update:selected-destination', $event.target.value)"
             required
+            @change="$emit('update:selected-destination', $event.target.value)"
         />
         <datalist id="destination-list">
             <option
                 v-for="destination in destinationsData"
-                :value="destination.name"
                 :key="destination.name"
+                :value="destination.name"
             ></option>
         </datalist>
     </div>

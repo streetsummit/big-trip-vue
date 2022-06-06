@@ -1,7 +1,7 @@
 <template>
     <button
         class="rollup-btn"
-        :class="isOpened ? 'rollup-btn--opened' : ''"
+        :class="{'rollup-btn--opened': isOpened}"
         type="button"
     >
         <span class="visually-hidden">
