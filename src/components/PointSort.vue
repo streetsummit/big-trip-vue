@@ -13,8 +13,7 @@
                     type="radio"
                     name="trip-sort"
                     :value="sort"
-                    :disabled="disabledSortControls.includes(sort)"
-                    v-model="modelValue"
+                    :disabled="isDisabled(sort)"
                     @change="changeSort"
                 />
                 <span class="trip-sort__btn">{{ formatLabel(sort) }}</span>
@@ -34,8 +33,8 @@ export default {
         },
     },
     setup() {
-        const { sortControls, disabledSortControls } = useSortedPoints();
-        return { sortControls, disabledSortControls };
+        const { sortControls, isDisabled } = useSortedPoints();
+        return { sortControls, isDisabled };
     },
     methods: {
         formatLabel(sort) {

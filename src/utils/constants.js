@@ -11,3 +11,5 @@ export const SortType = {
 	PRICE: 'price',
 	OFFERS: 'offers',
 };
+
+export const DisabledSortType = [SortType.OFFERS, SortType.EVENT];

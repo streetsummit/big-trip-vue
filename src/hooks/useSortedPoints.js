@@ -1,10 +1,9 @@
-import { SortType } from '@/utils/constants.js';
+import { SortType, DisabledSortType } from '@/utils/constants.js';
 import { sortByDay, sortByPrice, sortByTime } from '@/utils/filter-sort.js';
 import { computed, ref } from 'vue';
 
 export default function useSortedPoints(filteredPoints) {
 	const sortControls = Object.values(SortType);
-	const disabledSortControls = [SortType.OFFERS, SortType.EVENT];
 	const selectedSort = ref(SortType.DAY);
 
 	const sortedPoints = computed(() => {
@@ -18,5 +17,7 @@ export default function useSortedPoints(filteredPoints) {
 		}
 	});
 
-	return { selectedSort, sortedPoints, sortControls, disabledSortControls };
+	const isDisabled = (control) => DisabledSortType.includes(control);
+
+	return { selectedSort, sortedPoints, sortControls, isDisabled };
 }
