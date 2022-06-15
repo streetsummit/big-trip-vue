@@ -17,8 +17,8 @@
 
             <DateFields
                 class="point-edit__field-group point-edit__field-group--time"
-                :date-from="dateFrom"
-                :date-to="dateTo"
+                v-model:date-from="currentDateFrom"
+                v-model:date-to="currentDateTo"
             />
 
             <PriceField
@@ -144,7 +144,6 @@ export default {
             dateTo,
             destination,
             price,
-            isFavorite,
             offers,
         } = toRefs(props.point);
 
@@ -155,7 +154,6 @@ export default {
             dateTo,
             destination,
             price,
-            isFavorite,
             offers,
         };
     },
@@ -163,13 +161,14 @@ export default {
         return {
             offersData: [], //global
             destinationsData: [], //global
-
-            availableOffers: [],
-
+            availableOffers: [],			
+			currentType: this.type,
+			currentDateFrom: this.dateFrom,
+			currentDateTo: this.dateTo,
             currentDestination: { ...this.destination },
-            currentType: this.type,
+			currentPrice: this.price,
             checkedOffers: [...this.offers],
-            currentPrice: this.price,
+            
         };
     },
     computed: {
@@ -313,11 +312,6 @@ export default {
     margin-left: auto;
 }
 
-/* .point-edit .rollup-btn::after {
-    top: calc(50% + 3px);
-    transform: translate(-50%, -50%) rotate(225deg);
-} */
-
 .point-edit__field-group {
     display: flex;
     align-items: center;
@@ -327,7 +321,11 @@ export default {
 }
 
 .point-edit__field-group--destination {
-    width: 290px;
+    width: 170px;
+}
+
+.point-edit__field-group--time {
+	width: 310px;
 }
 
 .point-edit__label {
