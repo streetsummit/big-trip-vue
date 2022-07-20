@@ -321,7 +321,7 @@ export default {
 }
 
 .point-edit__field-group--destination {
-    width: 170px;
+    width: 200px;
 }
 
 .point-edit__field-group--time {

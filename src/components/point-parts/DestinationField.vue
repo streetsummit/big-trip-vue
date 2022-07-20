@@ -1,27 +1,21 @@
 <template>
     <div>
-        <input
-            class="point-edit__input point-edit__input--destination"
-            type="text"
-            name="point-edit-destination"
-            :value="selectedDestination"
-            list="destination-list"
-            required
+        <Dropdown
+            v-model="selectedDestination"
+            :options="destinationsData"
+            optionLabel="name"
+            optionValue="name"
             @change="onDestinationChange"
         />
-        <datalist id="destination-list">
-            <option
-                v-for="destination in destinationsData"
-                :key="destination.name"
-                :value="destination.name"
-            ></option>
-        </datalist>
     </div>
 </template>
 
 <script>
+import Dropdown from 'primevue/dropdown';
+
 export default {
     name: 'DestinationField',
+    components: { Dropdown },
     props: {
         selectedDestination: String,
         destinationsData: Array,
@@ -29,7 +23,7 @@ export default {
     emits: ['update:selected-destination'],
     methods: {
         onDestinationChange(event) {
-            this.$emit('update:selected-destination', event.target.value);
+            this.$emit('update:selected-destination', event.value);
         },
     },
 };
