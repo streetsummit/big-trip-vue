@@ -1,82 +1,57 @@
 <template>
-    <div
-        class="point-edit__type-wrapper"
-        v-click-outside="onOutsideClick"
-    >
-        <button
-            type="button"
-            @click="toggleListVisible"
-        >
-            <span class="visually-hidden">Choose event type</span>
-            <PointTypeIcon
-                class="point-edit__type-btn"
-                :point-type="selectedType"
-            />
-        </button>
-
-        <div
-            v-show="isListVisible"
-            class="point-edit__type-list"
-        >
-            <fieldset class="point-edit__type-group">
-                <legend class="visually-hidden">Event type</legend>
-                <TypesListItem
-                    v-for="type in availableTypes"
-                    :key="type.id"
-                    v-model="selectedType"
-                    class="point-edit__type-item"
-                    :type="type"
-                    @change="onTypeChange"
-                />
-            </fieldset>
-        </div>
-        <div
-            class="point-edit__field-group point-edit__field-group--type"
-            @click="toggleListVisible"
-        >
-            <span class="point-edit__label point-edit__type-output">
-                {{ formattedType }}
-            </span>
+    <div class="point-edit__type-wrapper">
+        <PointTypeIcon
+            class="point-edit__type-btn"
+            :point-type="selectedType"
+			@click="showDropdown"
+        />
+        <div class="point-edit__field-group point-edit__field-group--type">
+            <Dropdown
+				ref="dropdown"
+                v-model="selectedType"
+                :options="availableTypes"
+                @change="onTypeChange"
+            >
+                <template #value="slotProps">
+                    {{ formatType(slotProps.value) }}
+                </template>
+                <template #option="slotProps">
+                    <div class="type-item">
+                        <img :src="getTypeIcon(slotProps.option)" />
+                        <div>{{ formatType(slotProps.option) }}</div>
+                    </div>
+                </template>
+            </Dropdown>
         </div>
     </div>
 </template>
 
 <script>
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
-import TypesListItem from '@/components/point-parts/TypesListItem';
 import { capitalizeFirstLetter } from '@/utils/common.js';
+import Dropdown from 'primevue/dropdown';
 
 export default {
     name: 'TypeSelectItem',
-    components: { PointTypeIcon, TypesListItem },
+    components: { PointTypeIcon, Dropdown },
     props: {
         selectedType: String,
         availableTypes: Array,
     },
     emits: ['update:selected-type'],
-    data() {
-        return {
-            isListVisible: false,
-        };
-    },
-    computed: {
-        formattedType() {
-            return capitalizeFirstLetter(this.selectedType);
-        },
-    },
     methods: {
-        toggleListVisible() {
-            this.isListVisible = !this.isListVisible;
-        },
         onTypeChange(evt) {
-            this.$emit('update:selected-type', evt.target.value);
-            this.toggleListVisible();
+            this.$emit('update:selected-type', evt.value);
         },
-        onOutsideClick() {
-            if (this.isListVisible) {
-                this.toggleListVisible();
-            }
+        formatType(type) {
+            return capitalizeFirstLetter(type);
         },
+        getTypeIcon(type) {
+            return require(`@/assets/img/icons/${type}.png`);
+        },
+		showDropdown() {
+			this.$refs.dropdown.show();
+		}
     },
 };
 </script>
@@ -90,8 +65,8 @@ export default {
 .point-edit__type-btn {
     border: 1px solid #0d8ae4;
     user-select: none;
-    cursor: pointer;
     margin-right: 18px;
+	cursor: pointer;
 }
 
 .point-edit__type-list {
@@ -118,7 +93,17 @@ export default {
 }
 
 .point-edit__field-group--type {
-    width: 110px;
+    width: 155px;
     cursor: pointer;
+}
+
+.type-item {
+    display: flex;
+    align-items: center;
+}
+
+.type-item img {
+    width: 17px;
+    margin-right: 10px;
 }
 </style>
