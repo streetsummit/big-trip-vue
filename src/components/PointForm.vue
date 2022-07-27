@@ -118,7 +118,6 @@ import PriceField from '@/components/point-parts/PriceField.vue';
 import DateFields from '@/components/point-parts/DateFields.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer';
 import RollupButton from '@/components/point-parts/RollupButton';
-import { toRefs } from '@vue/reactivity';
 
 export default {
     name: 'PointForm',
@@ -131,44 +130,48 @@ export default {
         RollupButton,
     },
     props: {
-        point: {
-            type: Object,
+        id: {
+            required: true,
+			// default: create id
+        },
+        type: {
+            required: true,
+			// default: 'start value', or empty, placeholder
+        },
+        dateFrom: {
+            required: true,
+			// default: new Date()
+        },
+        dateTo: {
+            required: true,
+			// default: new Date()
+        },
+        destination: {
+            required: true,
+			// default: 'start value', or empty, placeholder
+        },
+        price: {
+            required: true,
+			// default: 0 or empty
+        },
+        offers: {
+            required: true,
+			// default: none or according type
         },
     },
-	emits: ['toggleCardView', 'deletePoint'],
-    setup(props) {
-        const {
-            id,
-            type,
-            dateFrom,
-            dateTo,
-            destination,
-            price,
-            offers,
-        } = toRefs(props.point);
+    emits: ['toggleCardView', 'deletePoint'],
 
-        return {
-            id,
-            type,
-            dateFrom,
-            dateTo,
-            destination,
-            price,
-            offers,
-        };
-    },
     data() {
         return {
             offersData: [], //global
             destinationsData: [], //global
-            availableOffers: [],			
-			currentType: this.type,
-			currentDateFrom: this.dateFrom,
-			currentDateTo: this.dateTo,
+            availableOffers: [],
+            currentType: this.type,
+            currentDateFrom: this.dateFrom,
+            currentDateTo: this.dateTo,
             currentDestination: { ...this.destination },
-			currentPrice: this.price,
+            currentPrice: this.price,
             checkedOffers: [...this.offers],
-            
         };
     },
     computed: {
@@ -325,7 +328,7 @@ export default {
 }
 
 .point-edit__field-group--time {
-	width: 310px;
+    width: 310px;
 }
 
 .point-edit__label {

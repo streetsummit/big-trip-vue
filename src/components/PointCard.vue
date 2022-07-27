@@ -62,7 +62,6 @@ import RollupButton from '@/components/point-parts/RollupButton';
 import FavoriteButton from '@/components/point-parts/FavoriteButton';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 import { capitalizeFirstLetter } from '@/utils/common.js';
-import { toRefs } from '@vue/reactivity';
 import PointService from '@/services/PointService';
 
 export default {
@@ -73,34 +72,32 @@ export default {
         FavoriteButton,
     },
     props: {
-        point: {
-            type: Object,
+        id: {
+            required: true,
+        },
+        type: {
+            required: true,
+        },
+        dateFrom: {
+            required: true,
+        },
+        dateTo: {
+            required: true,
+        },
+        destination: {
+            required: true,
+        },
+        price: {
+            required: true,
+        },
+        offers: {
+            required: true,
+        },
+        isFavorite: {
+            required: true,
         },
     },
-	emits: ['toggleCardView'],
-    setup(props) {
-        const {
-            id,
-            type,
-            dateFrom,
-            dateTo,
-            destination,
-            price,
-            isFavorite,
-            offers,
-        } = toRefs(props.point);
-
-        return {
-            id,
-            type,
-            dateFrom,
-            dateTo,
-            destination,
-            price,
-            isFavorite,
-            offers,
-        };
-    },
+    emits: ['toggleCardView'],
     computed: {
         pointTitle() {
             return `${capitalizeFirstLetter(this.type)} ${
