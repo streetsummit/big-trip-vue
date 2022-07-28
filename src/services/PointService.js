@@ -1,6 +1,8 @@
 import { adaptToServer } from '@/utils/adapter.js';
 import axios from 'axios';
 
+// Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE
+
 const apiClient = axios.create({
 	baseURL: 'https://15.ecmascript.pages.academy/big-trip',
 	withCredentials: false,

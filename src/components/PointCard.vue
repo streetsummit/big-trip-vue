@@ -49,7 +49,7 @@
         </ul>
         <FavoriteButton
             class="point__favorite-btn"
-            :is-active="isFavorite"
+            :is-active="localeIsFavorite"
             @click="onFavoriteClick"
         />
         <RollupButton @click="onEditClick">Open event</RollupButton>
@@ -74,30 +74,43 @@ export default {
     props: {
         id: {
             required: true,
+			type: String,
         },
         type: {
             required: true,
+			type: String,
         },
         dateFrom: {
             required: true,
+			type: String,
         },
         dateTo: {
             required: true,
+			type: String,
         },
         destination: {
             required: true,
+			type: Object,
         },
         price: {
             required: true,
+			type: Number,
         },
         offers: {
             required: true,
+			type: Array,
         },
         isFavorite: {
             required: true,
+			type: Boolean,
         },
     },
     emits: ['toggleCardView'],
+	data() {
+		return {
+			localeIsFavorite: this.isFavorite,
+		};
+	},
     computed: {
         pointTitle() {
             return `${capitalizeFirstLetter(this.type)} ${
@@ -111,11 +124,19 @@ export default {
     methods: {
         formatDate,
         getFormattedPointDuration,
+		
         onFavoriteClick() {
-            this.isFavorite = !this.isFavorite;
+            this.localeIsFavorite = !this.localeIsFavorite;
+
             PointService.updatePoint({
-                ...this.point,
-                isFavorite: this.isFavorite,
+                id: this.id,
+				type: this.type,
+				dateFrom: this.dateFrom,
+				dateTo: this.dateTo,
+				destination: this.destination,
+				price: this.price,
+				offers: this.offers,
+                isFavorite: this.localeIsFavorite,
             });
         },
         onEditClick() {
