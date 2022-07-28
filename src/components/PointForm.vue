@@ -5,10 +5,7 @@
         method="post"
     >
         <header class="point-edit__header">
-            <TypeField
-                v-model:selected-type="currentType"
-                :available-types="availableTypes"
-            />
+            <TypeField v-model:selected-type="currentType" />
             <DestinationField
                 v-model:selected-destination="destName"
                 class="point-edit__field-group point-edit__field-group--destination"
@@ -111,6 +108,9 @@
 
 <script>
 import PointService from '@/services/PointService';
+import { storeToRefs } from 'pinia';
+import { useDestinationsStore } from '@/stores/DestinationsStore';
+import { useOffersStore } from '@/stores/OffersStore';
 
 import DestinationField from '@/components/point-parts/DestinationField.vue';
 import TypeField from '@/components/point-parts/TypeField.vue';
@@ -131,41 +131,55 @@ export default {
     },
     props: {
         id: {
-            required: true,
-			// default: create id
+            type: String,
+            // default: create id
         },
         type: {
-            required: true,
-			// default: 'start value', or empty, placeholder
+            type: String,
+            // default: 'start value', or empty, placeholder
         },
         dateFrom: {
-            required: true,
-			// default: new Date()
+            type: String,
+            // default: new Date()
         },
         dateTo: {
-            required: true,
-			// default: new Date()
+            type: String,
+            // default: new Date()
         },
         destination: {
-            required: true,
-			// default: 'start value', or empty, placeholder
+            type: Object,
+            // default: 'start value', or empty, placeholder
         },
         price: {
-            required: true,
-			// default: 0 or empty
+            type: Number,
+            // default: 0 or empty
         },
         offers: {
-            required: true,
-			// default: none or according type
+            type: Array,
+            // default: none or according type
         },
+        isFavorite: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    setup() {
+        const { destinationsData } = storeToRefs(useDestinationsStore());
+        const { offersData, getAvailableOffers } = storeToRefs(
+            useOffersStore()
+        );
+
+        return {
+            destinationsData,
+            offersData,
+            getAvailableOffers,
+        };
     },
     emits: ['toggleCardView', 'deletePoint'],
 
     data() {
         return {
-            offersData: [], //global
-            destinationsData: [], //global
-            availableOffers: [],
+            availableOffers: this.getAvailableOffers(this.type),
             currentType: this.type,
             currentDateFrom: this.dateFrom,
             currentDateTo: this.dateTo,
@@ -188,9 +202,6 @@ export default {
         isNewPoint() {
             return false;
         },
-        availableTypes() {
-            return this.offersData.map(el => el.type); //global
-        },
         proxyCheckedOffers: {
             get() {
                 return [...this.checkedOffers];
@@ -211,35 +222,11 @@ export default {
     },
     watch: {
         currentType() {
-            this.availableOffers = this.getAvailableOffers(this.offersData);
+            this.availableOffers = this.getAvailableOffers(this.currentType);
             this.checkedOffers = [];
         },
     },
-    created() {
-        this.fetchOffers();
-        this.fetchDestinations();
-    },
     methods: {
-        async fetchOffers() {
-            try {
-                const response = await PointService.getOffers();
-                this.offersData = response.data;
-                this.availableOffers = this.getAvailableOffers(this.offersData);
-            } catch (e) {
-                console.log(e);
-            }
-        },
-        async fetchDestinations() {
-            try {
-                const response = await PointService.getDestinations();
-                this.destinationsData = response.data;
-            } catch (e) {
-                console.log(e);
-            }
-        },
-        getAvailableOffers(data) {
-            return data.find(el => el.type === this.currentType).offers;
-        },
         onEditClick() {
             this.$emit('toggleCardView');
         },

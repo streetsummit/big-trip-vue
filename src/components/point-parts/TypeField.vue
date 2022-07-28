@@ -3,11 +3,11 @@
         <PointTypeIcon
             class="point-edit__type-btn"
             :point-type="selectedType"
-			@click="showDropdown"
+            @click="showDropdown"
         />
         <div class="point-edit__field-group point-edit__field-group--type">
             <Dropdown
-				ref="dropdown"
+                ref="dropdown"
                 v-model="selectedType"
                 :options="availableTypes"
                 @change="onTypeChange"
@@ -27,16 +27,24 @@
 </template>
 
 <script>
+import { useOffersStore } from '@/stores/OffersStore';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import Dropdown from 'primevue/dropdown';
+import { storeToRefs } from 'pinia';
 
 export default {
     name: 'TypeSelectItem',
     components: { PointTypeIcon, Dropdown },
     props: {
         selectedType: String,
-        availableTypes: Array,
+    },
+    setup() {
+        const { availableTypes } = storeToRefs(useOffersStore());
+
+        return {
+            availableTypes,
+        };
     },
     emits: ['update:selected-type'],
     methods: {
@@ -49,9 +57,9 @@ export default {
         getTypeIcon(type) {
             return require(`@/assets/img/icons/${type}.png`);
         },
-		showDropdown() {
-			this.$refs.dropdown.show();
-		}
+        showDropdown() {
+            this.$refs.dropdown.show();
+        },
     },
 };
 </script>
@@ -66,7 +74,7 @@ export default {
     border: 1px solid #0d8ae4;
     user-select: none;
     margin-right: 18px;
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .point-edit__type-list {

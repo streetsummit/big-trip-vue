@@ -28,7 +28,9 @@ import PageHeader from '@/components/body-parts/Header';
 import usePoints from '@/hooks/usePoints';
 import useFilteredPoints from '@/hooks/useFilteredPoints';
 import useSortedPoints from '@/hooks/useSortedPoints';
-import PointService from './services/PointService.js';
+import PointService from '@/services/PointService';
+import { useDestinationsStore } from '@/stores/DestinationsStore';
+import { useOffersStore } from '@/stores/OffersStore';
 
 export default {
     name: 'App',
@@ -40,6 +42,12 @@ export default {
         const { filters, selectedFilter, filteredPoints } =
             useFilteredPoints(points);
         const { selectedSort, sortedPoints } = useSortedPoints(filteredPoints);
+
+        const { fetchDestinations } = useDestinationsStore();
+        const { fetchOffers } = useOffersStore();
+        fetchDestinations();
+        fetchOffers();
+
         return {
             points,
             isPointsLoading,
@@ -62,7 +70,7 @@ export default {
 <style>
 html {
     height: 100%;
-	overflow: overlay;
+    overflow: overlay;
 }
 
 body {
