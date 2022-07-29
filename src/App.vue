@@ -1,9 +1,6 @@
 <template>
     <div>
-        <PageHeader
-            v-model="selectedFilter"
-            :filters="filters"
-        />
+        <PageHeader />
         <main class="page-main">
             <div class="container">
                 <p
@@ -12,10 +9,17 @@
                 >
                     Loading...
                 </p>
+                <p
+                    v-if="error"
+                    class="trip-points__msg"
+                >
+                    Shit happens
+                    <br />
+                    {{ error.message }}
+                </p>
                 <router-view
                     v-else
-                    v-model="selectedSort"
-                    :points="sortedPoints"
+                    :points="filteredPoints"
                     @deletePoint="deletePoint"
                 />
             </div>
@@ -25,12 +29,11 @@
 
 <script>
 import PageHeader from '@/components/body-parts/Header';
-import usePoints from '@/hooks/usePoints';
-import useFilteredPoints from '@/hooks/useFilteredPoints';
-import useSortedPoints from '@/hooks/useSortedPoints';
 import PointService from '@/services/PointService';
 import { useDestinationsStore } from '@/stores/DestinationsStore';
 import { useOffersStore } from '@/stores/OffersStore';
+import { usePointsStore } from './stores/PointsStore.js';
+import { storeToRefs } from 'pinia';
 
 export default {
     name: 'App',
@@ -38,24 +41,21 @@ export default {
         PageHeader,
     },
     setup() {
-        const { points, isPointsLoading } = usePoints();
-        const { filters, selectedFilter, filteredPoints } =
-            useFilteredPoints(points);
-        const { selectedSort, sortedPoints } = useSortedPoints(filteredPoints);
-
         const { fetchDestinations } = useDestinationsStore();
         const { fetchOffers } = useOffersStore();
+        const { fetchPoints } = usePointsStore();
+        const { filteredPoints, isPointsLoading, error } = storeToRefs(
+            usePointsStore()
+        );
+
         fetchDestinations();
         fetchOffers();
+        fetchPoints();
 
         return {
-            points,
-            isPointsLoading,
-            filters,
-            selectedFilter,
             filteredPoints,
-            selectedSort,
-            sortedPoints,
+            isPointsLoading,
+            error,
         };
     },
     methods: {

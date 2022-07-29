@@ -6,12 +6,12 @@
             class="filters__filter"
         >
             <input
-                v-model="modelValue"
                 class="filters__filter-input visually-hidden"
                 type="radio"
                 name="filter"
                 :value="filter"
-                @change="changeFilter"
+				:checked="selectedFilter === filter"
+                @change="changeFilter($event.target.value)"
             />
             <span class="filters__filter-label">
                 {{ capitalizeFirstLetter(filter) }}
@@ -22,21 +22,21 @@
 
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
+import { useFiltersStore } from '@/stores/FilterStore.js';
+import { storeToRefs } from 'pinia';
 export default {
     name: 'PointFilters',
-    props: {
-        filters: {
-            type: Array,
-        },
-        modelValue: {
-            type: String,
-        },
+    setup() {
+        const { filters, selectedFilter } = storeToRefs(useFiltersStore());
+        const { changeFilter } = useFiltersStore();
+
+        return {
+            filters,
+			selectedFilter,
+            changeFilter,
+        };
     },
-	emits: ['update:modelValue'],
     methods: {
-        changeFilter(event) {
-            this.$emit('update:modelValue', event.target.value);
-        },
         capitalizeFirstLetter,
     },
 };

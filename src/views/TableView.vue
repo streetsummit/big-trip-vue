@@ -2,14 +2,13 @@
     <section class="trip-points">
         <h2 class="visually-hidden">Trip events</h2>
         <PointSort
-            v-model="modelValue"
+            v-model="selectedSort"
             class="trip-points__trip-sort"
-            @change="changeSort"
         />
 
         <ul class="trip-points__list">
             <li
-                v-for="point in points"
+                v-for="point in sortedPoints"
                 :key="point.id"
                 class="trip-points__item"
             >
@@ -29,6 +28,7 @@
 import PointCard from '@/components/PointCard';
 import PointForm from '@/components/PointForm';
 import PointSort from '@/components/PointSort';
+import useSortedPoints from '@/hooks/useSortedPoints';
 
 export default {
     name: 'TableView',
@@ -42,20 +42,23 @@ export default {
             required: true,
             type: Array,
         },
-        modelValue: {
-            type: String,
-        },
     },
-    emits: ['update:modelValue', 'deletePoint'],
+    setup() {
+        const { selectedSort, getSortedPoints } = useSortedPoints();
+        return { selectedSort, getSortedPoints };
+    },
+    emits: ['deletePoint'],
     data() {
         return {
             editedPointId: null,
         };
     },
-    methods: {
-        changeSort(event) {
-            this.$emit('update:modelValue', event.target.value);
+    computed: {
+        sortedPoints() {
+            return this.getSortedPoints(this.points);
         },
+    },
+    methods: {
         toggleCardView(id) {
             if (id) {
                 this.editedPointId = id;

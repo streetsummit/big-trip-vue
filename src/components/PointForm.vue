@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import PointService from '@/services/PointService';
 import { storeToRefs } from 'pinia';
 import { useDestinationsStore } from '@/stores/DestinationsStore';
 import { useOffersStore } from '@/stores/OffersStore';
