@@ -30,5 +30,9 @@ export const usePointsStore = defineStore('pointsStore', {
 				this.isPointsLoading = false;
 			}
 		},
+		deletePoint(id) {
+            PointService.deletePoint(id);
+            this.pointsData = this.pointsData.filter(point => point.id !== id);
+        },
 	}
 });

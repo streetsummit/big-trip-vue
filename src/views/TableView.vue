@@ -17,7 +17,6 @@
                     v-bind="point"
                     class="trip-points__card"
                     @toggleCardView="toggleCardView"
-                    @deletePoint="deletePoint"
                 />
             </li>
         </ul>
@@ -64,10 +63,6 @@ export default {
                 this.editedPointId = id;
                 return;
             }
-            this.editedPointId = null;
-        },
-        deletePoint(id) {
-            this.$emit('deletePoint', id);
             this.editedPointId = null;
         },
         currentCardView(id) {

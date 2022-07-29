@@ -20,7 +20,6 @@
                 <router-view
                     v-else
                     :points="filteredPoints"
-                    @deletePoint="deletePoint"
                 />
             </div>
         </main>
@@ -57,12 +56,6 @@ export default {
             isPointsLoading,
             error,
         };
-    },
-    methods: {
-        deletePoint(id) {
-            PointService.deletePoint(id);
-            this.points = this.points.filter(point => point.id !== id);
-        },
     },
 };
 </script>

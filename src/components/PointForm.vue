@@ -40,7 +40,7 @@
                 v-else
                 class="point-edit__reset-btn"
                 type="button"
-                @click="onDeleteClick"
+                @click="deletePoint(id)"
             >
                 Delete
             </button>
@@ -108,8 +108,10 @@
 
 <script>
 import { storeToRefs } from 'pinia';
+
 import { useDestinationsStore } from '@/stores/DestinationsStore';
 import { useOffersStore } from '@/stores/OffersStore';
+import { usePointsStore } from '@/stores/PointsStore';
 
 import DestinationField from '@/components/point-parts/DestinationField.vue';
 import TypeField from '@/components/point-parts/TypeField.vue';
@@ -167,14 +169,16 @@ export default {
         const { offersData, getAvailableOffers } = storeToRefs(
             useOffersStore()
         );
+        const { deletePoint } = usePointsStore();
 
         return {
             destinationsData,
             offersData,
             getAvailableOffers,
+            deletePoint,
         };
     },
-    emits: ['toggleCardView', 'deletePoint'],
+    emits: ['toggleCardView'],
 
     data() {
         return {
@@ -228,9 +232,6 @@ export default {
     methods: {
         onEditClick() {
             this.$emit('toggleCardView');
-        },
-        onDeleteClick() {
-            this.$emit('deletePoint', this.id);
         },
     },
 };
