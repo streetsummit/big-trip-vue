@@ -1,5 +1,5 @@
 import { SortType, DisabledSortType } from '@/utils/constants.js';
-import { sortByDay, sortByPrice, sortByTime } from '@/utils/filter-sort.js';
+import { sort } from '@/utils/filter-sort.js';
 import { computed, ref } from 'vue';
 
 export default function useSortedPoints(filteredPoints) {
@@ -9,11 +9,11 @@ export default function useSortedPoints(filteredPoints) {
 	const sortedPoints = computed(() => {
 		switch (selectedSort.value) {
 			case SortType.DAY:
-				return [...filteredPoints.value].sort(sortByDay);
+				return [...filteredPoints.value].sort(sort.BY_DAY);
 			case SortType.PRICE:
-				return [...filteredPoints.value].sort(sortByPrice);
+				return [...filteredPoints.value].sort(sort.BY_PRICE);
 			case SortType.TIME:
-				return [...filteredPoints.value].sort(sortByTime);
+				return [...filteredPoints.value].sort(sort.BY_TIME);
 		}
 	});
 
