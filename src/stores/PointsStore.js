@@ -14,6 +14,9 @@ export const usePointsStore = defineStore('pointsStore', {
 		filteredPoints: (state) => {
 			const filterStore = useFiltersStore();
 			return filterStore.getFilteredPoints(state.pointsData);
+		},
+		isPointsListNotEmpty: (state) => {
+			return Boolean(state.pointsData.length);
 		}
 	},
 

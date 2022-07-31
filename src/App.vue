@@ -28,7 +28,6 @@
 
 <script>
 import PageHeader from '@/components/body-parts/Header';
-import PointService from '@/services/PointService';
 import { useDestinationsStore } from '@/stores/DestinationsStore';
 import { useOffersStore } from '@/stores/OffersStore';
 import { usePointsStore } from './stores/PointsStore.js';

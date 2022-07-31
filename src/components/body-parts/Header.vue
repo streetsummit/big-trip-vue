@@ -11,7 +11,7 @@
                 />
 
                 <div class="trip-main">
-                    <TripInfo class="trip-main__info" />
+                    <TripInfo v-if="isPointsListNotEmpty" class="trip-main__info" />
 
                     <div class="trip-main__controls">
                         <MainMenu class="trip-main__navigation" />
@@ -35,6 +35,8 @@
 import MainMenu from '@/components/MainMenu';
 import TripInfo from '@/components/TripInfo';
 import PointFilters from '@/components/PointFilters';
+import { usePointsStore } from '@/stores/PointsStore.js';
+import { storeToRefs } from 'pinia';
 
 export default {
     name: 'PageHeader',
@@ -42,6 +44,10 @@ export default {
         MainMenu,
         TripInfo,
         PointFilters,
+    },
+    setup() {
+        const { isPointsListNotEmpty } = storeToRefs(usePointsStore());
+        return { isPointsListNotEmpty };
     },
 };
 </script>
