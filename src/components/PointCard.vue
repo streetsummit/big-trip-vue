@@ -57,12 +57,12 @@
 </template>
 
 <script>
-import { formatDate, getFormattedPointDuration } from '@/utils/date';
-import RollupButton from '@/components/point-parts/RollupButton';
-import FavoriteButton from '@/components/point-parts/FavoriteButton';
-import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
+import { formatDate, getFormattedPointDuration } from '@/utils/date.js';
+import RollupButton from '@/components/point-parts/RollupButton.vue';
+import FavoriteButton from '@/components/point-parts/FavoriteButton.vue';
+import PointTypeIcon from '@/components/point-parts/PointTypeIcon.vue';
 import { capitalizeFirstLetter } from '@/utils/common.js';
-import PointService from '@/services/PointService';
+import PointService from '@/services/PointService.js';
 
 export default {
     name: 'PointCard',

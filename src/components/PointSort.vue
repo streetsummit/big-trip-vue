@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { capitalizeFirstLetter } from '@/utils/common';
+import { capitalizeFirstLetter } from '@/utils/common.js';
 import useSortedPoints from '@/hooks/useSortedPoints.js';
 export default {
     name: 'PointSort',

@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import PageHeader from '@/components/body-parts/Header';
-import { useDestinationsStore } from '@/stores/DestinationsStore';
-import { useOffersStore } from '@/stores/OffersStore';
+import PageHeader from '@/components/body-parts/Header.vue';
+import { useDestinationsStore } from '@/stores/DestinationsStore.js';
+import { useOffersStore } from '@/stores/OffersStore.js';
 import { usePointsStore } from './stores/PointsStore.js';
 import { storeToRefs } from 'pinia';
 

@@ -20,7 +20,7 @@ export default {
     },
     computed: {
         pointIcon() {
-            return require(`@/assets/img/icons/${this.pointType}.png`);
+            return `src/assets/img/icons/${this.pointType}.png`;
         },
     },
 };

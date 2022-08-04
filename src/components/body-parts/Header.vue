@@ -32,9 +32,9 @@
 </template>
 
 <script>
-import MainMenu from '@/components/MainMenu';
-import TripInfo from '@/components/TripInfo';
-import PointFilters from '@/components/PointFilters';
+import MainMenu from '@/components/MainMenu.vue';
+import TripInfo from '@/components/TripInfo.vue';
+import PointFilters from '@/components/PointFilters.vue';
 import { usePointsStore } from '@/stores/PointsStore.js';
 import { storeToRefs } from 'pinia';
 

@@ -109,16 +109,16 @@
 <script>
 import { storeToRefs } from 'pinia';
 
-import { useDestinationsStore } from '@/stores/DestinationsStore';
-import { useOffersStore } from '@/stores/OffersStore';
-import { usePointsStore } from '@/stores/PointsStore';
+import { useDestinationsStore } from '@/stores/DestinationsStore.js';
+import { useOffersStore } from '@/stores/OffersStore.js';
+import { usePointsStore } from '@/stores/PointsStore.js';
 
 import DestinationField from '@/components/point-parts/DestinationField.vue';
 import TypeField from '@/components/point-parts/TypeField.vue';
 import PriceField from '@/components/point-parts/PriceField.vue';
 import DateFields from '@/components/point-parts/DateFields.vue';
-import AvailableOffer from '@/components/point-parts/AvailableOffer';
-import RollupButton from '@/components/point-parts/RollupButton';
+import AvailableOffer from '@/components/point-parts/AvailableOffer.vue';
+import RollupButton from '@/components/point-parts/RollupButton.vue';
 
 export default {
     name: 'PointForm',

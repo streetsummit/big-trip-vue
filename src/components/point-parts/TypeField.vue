@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { useOffersStore } from '@/stores/OffersStore';
-import PointTypeIcon from '@/components/point-parts/PointTypeIcon';
+import { useOffersStore } from '@/stores/OffersStore.js';
+import PointTypeIcon from '@/components/point-parts/PointTypeIcon.vue';
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import Dropdown from 'primevue/dropdown';
 import { storeToRefs } from 'pinia';
@@ -55,7 +55,7 @@ export default {
             return capitalizeFirstLetter(type);
         },
         getTypeIcon(type) {
-            return require(`@/assets/img/icons/${type}.png`);
+            return `src/assets/img/icons/${type}.png`;
         },
         showDropdown() {
             this.$refs.dropdown.show();

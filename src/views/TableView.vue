@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import PointCard from '@/components/PointCard';
-import PointForm from '@/components/PointForm';
-import PointSort from '@/components/PointSort';
-import useSortedPoints from '@/hooks/useSortedPoints';
+import PointCard from '@/components/PointCard.vue';
+import PointForm from '@/components/PointForm.vue';
+import PointSort from '@/components/PointSort.vue';
+import useSortedPoints from '@/hooks/useSortedPoints.js';
 
 export default {
     name: 'TableView',

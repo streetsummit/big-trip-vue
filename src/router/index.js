@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Table from '../views/TableView';
-import Stats from '../views/StatsView';
-// import WhereToGo from '../views/WhereToGoView';
-import DestinationDetails from '../components/DestinationDetails';
+import Table from '@/views/TableView.vue';
+import Stats from '@/views/StatsView.vue';
+// import WhereToGo from '@/views/WhereToGoView.vue';
+import DestinationDetails from '@/components/DestinationDetails.vue';
 
 const routes = [
   {
@@ -29,7 +29,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 

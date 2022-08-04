@@ -1,4 +1,4 @@
-import { getDuration, getTimestamp } from './date.js';
+import { getDuration, getTimestamp } from '@/utils/date.js';
 
 export const sort = {
 	BY_DAY: (pointA, pointB) => getTimestamp(pointA.dateFrom) - getTimestamp(pointB.dateFrom),
