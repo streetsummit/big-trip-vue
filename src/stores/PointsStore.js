@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import PointService from '@/services/PointService.js';
-import { useFiltersStore } from './FilterStore.js';
+import { useFiltersStore } from '@/stores/FilterStore.js';
 import { adaptToClient } from '@/utils/adapter.js';
 
 export const usePointsStore = defineStore('pointsStore', {
@@ -34,8 +34,8 @@ export const usePointsStore = defineStore('pointsStore', {
 			}
 		},
 		deletePoint(id) {
-            PointService.deletePoint(id);
-            this.pointsData = this.pointsData.filter(point => point.id !== id);
-        },
+			PointService.deletePoint(id);
+			this.pointsData = this.pointsData.filter(point => point.id !== id);
+		},
 	}
 });
