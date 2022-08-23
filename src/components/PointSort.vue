@@ -7,15 +7,14 @@
             :class="`trip-sort__item--${sort}`"
         >
             <label>
-                <input                    
-                    v-model="modelValue"
+                <input
+                    v-model="selectedSort"
                     class="trip-sort__input visually-hidden"
                     type="radio"
-					name="trip-sort"
+                    name="trip-sort"
                     :value="sort"
                     :disabled="isDisabled(sort)"
-					@change="changeSort"
-                    
+                    @change="changeSort($event.target.value)"
                 />
                 <span class="trip-sort__btn">{{ formatLabel(sort) }}</span>
             </label>
@@ -26,24 +25,18 @@
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import useSortedPoints from '@/hooks/useSortedPoints.js';
+
 export default {
     name: 'PointSort',
-    props: {
-        modelValue: {
-            type: String,
-        },
-    },
-	emits: ['update:modelValue'],
+
     setup() {
-        const { sortControls, isDisabled } = useSortedPoints();
-        return { sortControls, isDisabled };
+        const { sortControls, isDisabled, selectedSort, changeSort } =
+            useSortedPoints();
+        return { sortControls, isDisabled, selectedSort, changeSort };
     },
     methods: {
         formatLabel(sort) {
             return capitalizeFirstLetter(sort);
-        },
-        changeSort(event) {
-            this.$emit('update:modelValue', event.target.value);
         },
     },
 };

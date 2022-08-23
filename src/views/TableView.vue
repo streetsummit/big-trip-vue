@@ -1,10 +1,7 @@
 <template>
     <section class="trip-points">
         <h2 class="visually-hidden">Trip events</h2>
-        <PointSort
-            v-model="selectedSort"
-            class="trip-points__trip-sort"
-        />
+        <PointSort class="trip-points__trip-sort" />
 
         <ul class="trip-points__list">
             <li
@@ -28,6 +25,7 @@ import PointCard from '@/components/PointCard.vue';
 import PointForm from '@/components/PointForm.vue';
 import PointSort from '@/components/PointSort.vue';
 import useSortedPoints from '@/hooks/useSortedPoints.js';
+import { computed } from 'vue';
 
 export default {
     name: 'TableView',
@@ -43,20 +41,17 @@ export default {
         },
     },
     emits: ['deletePoint'],
-    setup() {
-        const { selectedSort, getSortedPoints } = useSortedPoints();
-        return { selectedSort, getSortedPoints };
+    setup(props) {
+        const { getSortedPoints } = useSortedPoints();
+        const sortedPoints = computed(() => getSortedPoints(props.points));
+        return { sortedPoints };
     },
     data() {
         return {
             editedPointId: null,
         };
     },
-    computed: {
-        sortedPoints() {
-            return this.getSortedPoints(this.points);
-        },
-    },
+    
     methods: {
         toggleCardView(id) {
             if (id) {
