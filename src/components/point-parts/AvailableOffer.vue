@@ -17,7 +17,12 @@
 export default {
     name: 'AvailableOffer',
     props: {
-        modelValue: Array,
+        modelValue: {
+            type: Array,
+            default: () => {
+                [];
+            },
+        },
         propValue: Object,
     },
     emits: ['update:modelValue'],

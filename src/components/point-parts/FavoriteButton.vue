@@ -22,15 +22,17 @@
 export default {
     name: 'FavouriteButton',
     props: {
-        isActive: Boolean,
-        default: false,
+        isActive: {
+            type: Boolean,
+            default: false,
+        },
     },
 };
 </script>
 
 <style scoped>
-.favorite-btn {    
-    color: #ebebeb;    
+.favorite-btn {
+    color: #ebebeb;
 }
 
 .favorite-btn--active {

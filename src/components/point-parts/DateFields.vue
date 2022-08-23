@@ -1,9 +1,9 @@
 <template>
     <Calendar
         v-model="date"
-        selectionMode="range"
-		:showTime="true"
-		@update:modelValue="onChange"
+        selection-mode="range"
+        :show-time="true"
+        @update:model-value="onChange"
     />
 </template>
 
@@ -24,16 +24,23 @@ export default {
             required: true,
         },
     },
-	data() {
-		return {
-			date: [new Date(this.dateFrom), new Date(this.dateTo)],
-		}
-	},
-	methods: {
+    emits: ['update:dateFrom', 'update:dateTo'],
+    data() {
+        return {
+            date: [new Date(this.dateFrom), new Date(this.dateTo)],
+        };
+    },
+    methods: {
         onChange(date) {
-			let [newDateFrom, newDateTo] = date;
-			this.$emit('update:dateFrom', formatDate(newDateFrom, 'YYYY-MM-DDTHH:mm:ss[Z]'))
-            this.$emit('update:dateTo', formatDate(newDateTo, 'YYYY-MM-DDTHH:mm:ss[Z]'))
+            let [newDateFrom, newDateTo] = date;
+            this.$emit(
+                'update:dateFrom',
+                formatDate(newDateFrom, 'YYYY-MM-DDTHH:mm:ss[Z]')
+            );
+            this.$emit(
+                'update:dateTo',
+                formatDate(newDateTo, 'YYYY-MM-DDTHH:mm:ss[Z]')
+            );
         },
     },
 };

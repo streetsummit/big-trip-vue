@@ -7,14 +7,15 @@
             :class="`trip-sort__item--${sort}`"
         >
             <label>
-                <input
+                <input                    
                     v-model="modelValue"
                     class="trip-sort__input visually-hidden"
                     type="radio"
-                    name="trip-sort"
+					name="trip-sort"
                     :value="sort"
                     :disabled="isDisabled(sort)"
-                    @change="changeSort"
+					@change="changeSort"
+                    
                 />
                 <span class="trip-sort__btn">{{ formatLabel(sort) }}</span>
             </label>

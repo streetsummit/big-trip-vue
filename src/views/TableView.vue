@@ -16,7 +16,7 @@
                     :is="currentCardView(point.id)"
                     v-bind="point"
                     class="trip-points__card"
-                    @toggleCardView="toggleCardView"
+                    @toggle-card-view="toggleCardView"
                 />
             </li>
         </ul>
@@ -42,11 +42,11 @@ export default {
             type: Array,
         },
     },
+    emits: ['deletePoint'],
     setup() {
         const { selectedSort, getSortedPoints } = useSortedPoints();
         return { selectedSort, getSortedPoints };
     },
-    emits: ['deletePoint'],
     data() {
         return {
             editedPointId: null,

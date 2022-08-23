@@ -3,8 +3,8 @@
         <Dropdown
             v-model="selectedDestination"
             :options="destinationsData"
-            optionLabel="name"
-            optionValue="name"
+            option-label="name"
+            option-value="name"
             @change="onDestinationChange"
         />
     </div>

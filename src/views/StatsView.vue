@@ -1,7 +1,5 @@
 <template>
-    <section
-        class="about"
-    >
+    <section class="about">
         <h2>Trip statistic</h2>
         <p>There is {{ points.length }} points</p>
     </section>
@@ -13,6 +11,9 @@ export default {
     props: {
         points: {
             type: Array,
+            default: () => {
+                [];
+            },
         },
     },
 };

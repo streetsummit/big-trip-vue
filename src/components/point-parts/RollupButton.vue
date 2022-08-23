@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: 'rollup-button',
+    name: 'RollupButton',
     props: {
         isOpened: {
             type: Boolean,

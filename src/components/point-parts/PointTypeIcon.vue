@@ -21,6 +21,7 @@ export default {
     computed: {
         pointIcon() {
             return `src/assets/img/icons/${this.pointType}.png`;
+			// return new URL(`@/assets/img/icons/${this.pointType}.png`, import.meta.url).href
         },
     },
 };

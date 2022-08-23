@@ -39,6 +39,7 @@ export default {
     props: {
         selectedType: String,
     },
+    emits: ['update:selected-type'],
     setup() {
         const { availableTypes } = storeToRefs(useOffersStore());
 
@@ -46,7 +47,6 @@ export default {
             availableTypes,
         };
     },
-    emits: ['update:selected-type'],
     methods: {
         onTypeChange(evt) {
             this.$emit('update:selected-type', evt.value);
