@@ -5,7 +5,7 @@
             :key="tab.name"
             :to="{ name: tab.name }"
             class="navigation__link"
-			:active-class="'navigation__link--current'"
+            :active-class="'navigation__link--current'"
         >
             {{ tab.label }}
         </router-link>

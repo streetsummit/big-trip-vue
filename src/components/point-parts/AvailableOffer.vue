@@ -5,10 +5,11 @@
             class="point-edit__offer-checkbox visually-hidden"
             type="checkbox"
             name="point-edit-offers[]"
-            :value="propValue"
+            :value="offer"
         />
         <span class="point-edit__offer-label">
-            <slot></slot>
+            {{ offer.title }} &plus;&euro;&nbsp;
+            {{ offer.price }}
         </span>
     </label>
 </template>
@@ -17,22 +18,25 @@
 export default {
     name: 'AvailableOffer',
     props: {
-        modelValue: {
+        checkedOffers: {
             type: Array,
             default: () => {
                 [];
             },
         },
-        propValue: Object,
+        offer: {
+			type: Object,
+			required: true,
+		},
     },
-    emits: ['update:modelValue'],
+    emits: ['update:checkedOffers'],
     computed: {
         proxyModel: {
             get() {
-                return this.modelValue;
+                return this.checkedOffers;
             },
             set(val) {
-                this.$emit('update:modelValue', val);
+                this.$emit('update:checkedOffers', val);
             },
         },
     },

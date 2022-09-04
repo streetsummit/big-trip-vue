@@ -40,7 +40,6 @@ export default {
             type: Array,
         },
     },
-    emits: ['deletePoint'],
     setup(props) {
         const { getSortedPoints } = useSortedPoints();
         const sortedPoints = computed(() => getSortedPoints(props.points));

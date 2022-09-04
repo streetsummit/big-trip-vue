@@ -9,13 +9,12 @@
             <DestinationField
                 v-model:selected-destination="destName"
                 class="point-edit__field-group point-edit__field-group--destination"
-                :destinations-data="destinationsData"
             />
 
             <DateFields
-                class="point-edit__field-group point-edit__field-group--time"
                 v-model:date-from="currentDateFrom"
                 v-model:date-to="currentDateTo"
+                class="point-edit__field-group point-edit__field-group--time"
             />
 
             <PriceField
@@ -67,13 +66,10 @@
                     <AvailableOffer
                         v-for="availableOffer in availableOffers"
                         :key="availableOffer.title"
-                        v-model="proxyCheckedOffers"
+                        v-model:checked-offers="proxyCheckedOffers"
                         class="point-edit__offer-selector"
-                        :prop-value="availableOffer"
-                    >
-                        {{ availableOffer.title }} &plus;&euro;&nbsp;
-                        {{ availableOffer.price }}
-                    </AvailableOffer>
+                        :offer="availableOffer"
+                    />
                 </div>
             </section>
 
@@ -164,6 +160,7 @@ export default {
             default: false,
         },
     },
+    emits: ['toggleCardView'],
     setup() {
         const { destinationsData } = storeToRefs(useDestinationsStore());
         const { offersData, getAvailableOffers } = storeToRefs(
@@ -178,7 +175,6 @@ export default {
             deletePoint,
         };
     },
-    emits: ['toggleCardView'],
 
     data() {
         return {

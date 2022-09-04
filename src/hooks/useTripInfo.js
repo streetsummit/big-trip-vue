@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 const MAX_POINTS_SHOW = 3;
 
-export function useTripInfo() {
+export default function useTripInfo() {
 	const points = computed(() => usePointsStore().pointsData);
 
 	const getFullPointPrice = (point) => point.offers.reduce((sum, current) => sum + current.price, point.price);
