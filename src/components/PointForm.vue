@@ -39,7 +39,7 @@
                 v-else
                 class="point-edit__reset-btn"
                 type="button"
-                @click="deletePoint(id)"
+                @click="deletePoint(point.id)"
             >
                 Delete
             </button>
@@ -127,37 +127,9 @@ export default {
         RollupButton,
     },
     props: {
-        id: {
-            type: String,
-            // default: create id
-        },
-        type: {
-            type: String,
-            // default: 'start value', or empty, placeholder
-        },
-        dateFrom: {
-            type: String,
-            // default: new Date()
-        },
-        dateTo: {
-            type: String,
-            // default: new Date()
-        },
-        destination: {
+		point: {
             type: Object,
-            // default: 'start value', or empty, placeholder
-        },
-        price: {
-            type: Number,
-            // default: 0 or empty
-        },
-        offers: {
-            type: Array,
-            // default: none or according type
-        },
-        isFavorite: {
-            type: Boolean,
-            default: false,
+            required: true,
         },
     },
     emits: ['toggleCardView'],
@@ -178,13 +150,13 @@ export default {
 
     data() {
         return {
-            availableOffers: this.getAvailableOffers(this.type),
-            currentType: this.type,
-            currentDateFrom: this.dateFrom,
-            currentDateTo: this.dateTo,
-            currentDestination: { ...this.destination },
-            currentPrice: this.price,
-            checkedOffers: [...this.offers],
+            availableOffers: this.getAvailableOffers(this.point.type),
+            currentType: this.point.type,
+            currentDateFrom: this.point.dateFrom,
+            currentDateTo: this.point.dateTo,
+            currentDestination: { ...this.point.destination },
+            currentPrice: this.point.price,
+            checkedOffers: [...this.point.offers],
         };
     },
     computed: {

@@ -2,14 +2,14 @@
     <div class="point">
         <time
             class="point__date"
-            :datetime="formatDate(dateFrom, 'YYYY-MM-DD')"
+            :datetime="formatDate(point.dateFrom, 'YYYY-MM-DD')"
         >
-            {{ formatDate(dateFrom, 'MMM DD') }}
+            {{ formatDate(point.dateFrom, 'MMM DD') }}
         </time>
 
         <PointTypeIcon
             class="point__type"
-            :point-type="type"
+            :point-type="point.type"
         />
 
         <h3 class="point__title">{{ pointTitle }}</h3>
@@ -17,28 +17,28 @@
             <p class="point__time">
                 <time
                     class="point__start-time"
-                    :datetime="formatDate(dateFrom, 'YYYY-MM-DDTHH:mm')"
+                    :datetime="formatDate(point.dateFrom, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ formatDate(dateFrom, 'HH:mm') }}
+                    {{ formatDate(point.dateFrom, 'HH:mm') }}
                 </time>
                 &mdash;
                 <time
                     class="point__end-time"
-                    :datetime="formatDate(dateTo, 'YYYY-MM-DDTHH:mm')"
+                    :datetime="formatDate(point.dateTo, 'YYYY-MM-DDTHH:mm')"
                 >
-                    {{ formatDate(dateTo, 'HH:mm') }}
+                    {{ formatDate(point.dateTo, 'HH:mm') }}
                 </time>
             </p>
             <p class="point__duration">{{ pointDuration }}</p>
         </div>
         <p class="point__price">
             &euro;&nbsp;
-            <span class="point__price-value">{{ price }}</span>
+            <span class="point__price-value">{{ point.price }}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="point__selected-offers">
             <li
-                v-for="offer in offers"
+                v-for="offer in point.offers"
                 :key="offer.id"
                 class="point__offer"
             >
@@ -72,75 +72,50 @@ export default {
         FavoriteButton,
     },
     props: {
-        id: {
+        point: {
+            type: Object,
             required: true,
-			type: String,
-        },
-        type: {
-            required: true,
-			type: String,
-        },
-        dateFrom: {
-            required: true,
-			type: String,
-        },
-        dateTo: {
-            required: true,
-			type: String,
-        },
-        destination: {
-            required: true,
-			type: Object,
-        },
-        price: {
-            required: true,
-			type: Number,
-        },
-        offers: {
-            required: true,
-			type: Array,
-        },
-        isFavorite: {
-            required: true,
-			type: Boolean,
         },
     },
     emits: ['toggleCardView'],
-	data() {
-		return {
-			localeIsFavorite: this.isFavorite,
-		};
-	},
+    data() {
+        return {
+            localeIsFavorite: this.point.isFavorite,
+        };
+    },
     computed: {
         pointTitle() {
-            return `${capitalizeFirstLetter(this.type)} ${
-                this.destination.name
+            return `${capitalizeFirstLetter(this.point.type)} ${
+                this.point.destination.name
             }`;
         },
         pointDuration() {
-            return this.getFormattedPointDuration(this.dateFrom, this.dateTo);
+            return this.getFormattedPointDuration(
+                this.point.dateFrom,
+                this.point.dateTo
+            );
         },
     },
     methods: {
         formatDate,
         getFormattedPointDuration,
-		
+
         onFavoriteClick() {
             this.localeIsFavorite = !this.localeIsFavorite;
 
             PointService.updatePoint({
-                id: this.id,
-				type: this.type,
-				dateFrom: this.dateFrom,
-				dateTo: this.dateTo,
-				destination: this.destination,
-				price: this.price,
-				offers: this.offers,
-                isFavorite: this.localeIsFavorite,
+                id: this.point.id,
+                type: this.point.type,
+                dateFrom: this.point.dateFrom,
+                dateTo: this.point.dateTo,
+                destination: this.point.destination,
+                price: this.point.price,
+                offers: this.point.offers,
+                isFavorite: this.point.localeIsFavorite,
             });
         },
         onEditClick() {
-            this.$emit('toggleCardView', this.id);
+            this.$emit('toggleCardView', this.point.id);
         },
     },
 };

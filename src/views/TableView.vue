@@ -11,7 +11,7 @@
             >
                 <Component
                     :is="currentCardView(point.id)"
-                    v-bind="point"
+                    :point="point"
                     class="trip-points__card"
                     @toggle-card-view="toggleCardView"
                 />
