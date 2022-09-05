@@ -37,5 +37,11 @@ export const usePointsStore = defineStore('pointsStore', {
 			PointService.deletePoint(id);
 			this.pointsData = this.pointsData.filter(point => point.id !== id);
 		},
+		updatePoint(point) {
+			PointService.updatePoint(point);
+			this.pointsData = this.pointsData.map(el => {
+				return el.id === point.id ? point : el;
+			});
+		}
 	}
 });

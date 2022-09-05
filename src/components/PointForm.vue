@@ -5,26 +5,27 @@
         method="post"
     >
         <header class="point-edit__header">
-            <TypeField v-model:selected-type="currentType" />
+            <TypeField v-model:selected-type="pointState.type" />
             <DestinationField
                 v-model:selected-destination="destName"
                 class="point-edit__field-group point-edit__field-group--destination"
             />
 
             <DateFields
-                v-model:date-from="currentDateFrom"
-                v-model:date-to="currentDateTo"
+                v-model:date-from="pointState.dateFrom"
+                v-model:date-to="pointState.dateTo"
                 class="point-edit__field-group point-edit__field-group--time"
             />
 
             <PriceField
-                v-model:price.number="currentPrice"
+                v-model:price.number="pointState.price"
                 class="point-edit__field-group point-edit__field-group--price point-edit__label"
             />
 
             <button
                 class="point-edit__save-btn btn btn--blue"
-                type="submit"
+                type="button"
+                @click="onSaveClick"
             >
                 Save
             </button>
@@ -81,15 +82,15 @@
                     Destination
                 </h3>
                 <p class="point-edit__destination-description">
-                    {{ currentDestination.description }}
+                    {{ pointState.destination.description }}
                 </p>
                 <div
-                    v-if="currentDestination.pictures?.length"
+                    v-if="pointState.destination.pictures?.length"
                     class="point-edit__photos-container"
                 >
                     <div class="point-edit__photos-tape">
                         <img
-                            v-for="photo in currentDestination.pictures"
+                            v-for="photo in pointState.destination.pictures"
                             :key="photo.src"
                             class="point-edit__photo"
                             :src="photo.src"
@@ -115,6 +116,7 @@ import PriceField from '@/components/point-parts/PriceField.vue';
 import DateFields from '@/components/point-parts/DateFields.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer.vue';
 import RollupButton from '@/components/point-parts/RollupButton.vue';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'PointForm',
@@ -127,7 +129,7 @@ export default {
         RollupButton,
     },
     props: {
-		point: {
+        point: {
             type: Object,
             required: true,
         },
@@ -138,34 +140,30 @@ export default {
         const { offersData, getAvailableOffers } = storeToRefs(
             useOffersStore()
         );
-        const { deletePoint } = usePointsStore();
+        const { deletePoint, updatePoint } = usePointsStore();
 
         return {
             destinationsData,
             offersData,
             getAvailableOffers,
             deletePoint,
+            updatePoint,
         };
     },
 
     data() {
         return {
             availableOffers: this.getAvailableOffers(this.point.type),
-            currentType: this.point.type,
-            currentDateFrom: this.point.dateFrom,
-            currentDateTo: this.point.dateTo,
-            currentDestination: { ...this.point.destination },
-            currentPrice: this.point.price,
-            checkedOffers: [...this.point.offers],
+            pointState: cloneDeep(this.point),
         };
     },
     computed: {
         destName: {
             get() {
-                return this.currentDestination.name;
+                return this.pointState.destination.name;
             },
             set(newName) {
-                this.currentDestination = this.destinationsData.find(
+                this.pointState.destination = this.destinationsData.find(
                     el => el.name === newName
                 );
             },
@@ -175,16 +173,16 @@ export default {
         },
         proxyCheckedOffers: {
             get() {
-                return [...this.checkedOffers];
+                return [...this.pointState.offers];
             },
             set(newValue) {
-                this.checkedOffers = newValue;
+                this.pointState.offers = newValue;
             },
         },
         hasDescription() {
             return (
-                this.currentDestination.pictures?.length ||
-                this.currentDestination.description
+                this.pointState.destination.pictures?.length ||
+                this.pointState.destination.description
             );
         },
         hasOffers() {
@@ -192,13 +190,19 @@ export default {
         },
     },
     watch: {
-        currentType() {
-            this.availableOffers = this.getAvailableOffers(this.currentType);
-            this.checkedOffers = [];
+        'pointState.type'() {
+            this.availableOffers = this.getAvailableOffers(
+                this.pointState.type
+            );
+            this.pointState.offers = [];
         },
     },
     methods: {
         onEditClick() {
+            this.$emit('toggleCardView');
+        },
+        onSaveClick() {
+            this.updatePoint(this.pointState);
             this.$emit('toggleCardView');
         },
     },

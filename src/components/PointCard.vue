@@ -62,7 +62,7 @@ import RollupButton from '@/components/point-parts/RollupButton.vue';
 import FavoriteButton from '@/components/point-parts/FavoriteButton.vue';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon.vue';
 import { capitalizeFirstLetter } from '@/utils/common.js';
-import PointService from '@/services/PointService.js';
+import { usePointsStore } from '@/stores/PointsStore.js';
 
 export default {
     name: 'PointCard',
@@ -78,6 +78,10 @@ export default {
         },
     },
     emits: ['toggleCardView'],
+    setup() {
+        const { updatePoint } = usePointsStore();
+        return { updatePoint };
+    },
     data() {
         return {
             localeIsFavorite: this.point.isFavorite,
@@ -102,16 +106,9 @@ export default {
 
         onFavoriteClick() {
             this.localeIsFavorite = !this.localeIsFavorite;
-
-            PointService.updatePoint({
-                id: this.point.id,
-                type: this.point.type,
-                dateFrom: this.point.dateFrom,
-                dateTo: this.point.dateTo,
-                destination: this.point.destination,
-                price: this.point.price,
-                offers: this.point.offers,
-                isFavorite: this.point.localeIsFavorite,
+            this.updatePoint({
+                ...this.point,
+                isFavorite: this.localeIsFavorite,
             });
         },
         onEditClick() {
