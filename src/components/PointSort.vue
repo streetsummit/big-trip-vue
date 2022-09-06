@@ -14,9 +14,11 @@
                     name="trip-sort"
                     :value="sort"
                     :disabled="isDisabled(sort)"
-                    @change="changeSort($event.target.value)"
+                    @change="onSortChange"
                 />
-                <span class="trip-sort__btn">{{ formatLabel(sort) }}</span>
+                <span class="trip-sort__btn">
+                    {{ capitalizeFirstLetter(sort) }}
+                </span>
             </label>
         </div>
     </div>
@@ -25,6 +27,7 @@
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import useSortedPoints from '@/hooks/useSortedPoints.js';
+import usePointsList from '@/hooks/usePointsList.js';
 
 export default {
     name: 'PointSort',
@@ -32,12 +35,16 @@ export default {
     setup() {
         const { sortControls, isDisabled, selectedSort, changeSort } =
             useSortedPoints();
-        return { sortControls, isDisabled, selectedSort, changeSort };
+        const { toggleCardView } = usePointsList();
+        const onSortChange = evt => {
+            changeSort(evt.target.value);
+            toggleCardView();
+        };
+
+        return { sortControls, isDisabled, selectedSort, onSortChange };
     },
     methods: {
-        formatLabel(sort) {
-            return capitalizeFirstLetter(sort);
-        },
+        capitalizeFirstLetter,
     },
 };
 </script>

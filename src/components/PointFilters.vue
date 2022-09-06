@@ -10,8 +10,8 @@
                 type="radio"
                 name="filter"
                 :value="filter"
-				:checked="selectedFilter === filter"
-                @change="changeFilter($event.target.value)"
+                :checked="selectedFilter === filter"
+                @change="onFilterChange"
             />
             <span class="filters__filter-label">
                 {{ capitalizeFirstLetter(filter) }}
@@ -23,17 +23,25 @@
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import { useFiltersStore } from '@/stores/FilterStore.js';
+import usePointsList from '@/hooks/usePointsList.js';
 import { storeToRefs } from 'pinia';
+
 export default {
     name: 'PointFilters',
     setup() {
         const { filters, selectedFilter } = storeToRefs(useFiltersStore());
         const { changeFilter } = useFiltersStore();
+        const { toggleCardView } = usePointsList();
+		
+        const onFilterChange = evt => {
+            changeFilter(evt.target.value);
+            toggleCardView();
+        };
 
         return {
             filters,
-			selectedFilter,
-            changeFilter,
+            selectedFilter,
+            onFilterChange,
         };
     },
     methods: {

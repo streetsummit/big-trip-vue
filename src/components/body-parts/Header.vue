@@ -22,8 +22,9 @@
                     <button
                         class="trip-main__point-add-btn new-point-btn"
                         type="button"
+						disabled
                     >
-                        New event
+                        New event (soon)
                     </button>
                 </div>
             </div>
@@ -124,5 +125,11 @@ export default {
 
 .new-point-btn:active {
     opacity: 0.6;
+}
+
+.new-point-btn:disabled {
+    background-color: #f1f1f1;
+	color: #d2d2d2;
+	pointer-events: none;
 }
 </style>

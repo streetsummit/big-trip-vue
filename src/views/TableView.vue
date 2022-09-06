@@ -26,6 +26,7 @@ import PointForm from '@/components/PointForm.vue';
 import PointSort from '@/components/PointSort.vue';
 import useSortedPoints from '@/hooks/useSortedPoints.js';
 import { computed } from 'vue';
+import usePointsList from '@/hooks/usePointsList.js';
 
 export default {
     name: 'TableView',
@@ -41,23 +42,13 @@ export default {
         },
     },
     setup(props) {
+		const { editedPointId, toggleCardView } = usePointsList();
         const { getSortedPoints } = useSortedPoints();
-        const sortedPoints = computed(() => getSortedPoints(props.points));
-        return { sortedPoints };
-    },
-    data() {
-        return {
-            editedPointId: null,
-        };
+        const sortedPoints = computed(() => getSortedPoints(props.points));        
+
+        return { sortedPoints, editedPointId, toggleCardView };
     },
     methods: {
-        toggleCardView(id) {
-            if (id) {
-                this.editedPointId = id;
-                return;
-            }
-            this.editedPointId = null;
-        },
         currentCardView(id) {
             return this.editedPointId === id ? 'PointForm' : 'PointCard';
         },
