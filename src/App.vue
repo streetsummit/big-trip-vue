@@ -46,9 +46,13 @@ export default {
             usePointsStore()
         );
 
-        fetchDestinations();
-        fetchOffers();
-        fetchPoints();
+        async function fetchData() {
+            await fetchDestinations();
+            await fetchOffers();
+            await fetchPoints();
+        }
+
+		fetchData();
 
         return {
             filteredPoints,

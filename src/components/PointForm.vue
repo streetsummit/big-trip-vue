@@ -67,7 +67,7 @@
                     <AvailableOffer
                         v-for="availableOffer in availableOffers"
                         :key="availableOffer.title"
-                        v-model:checked-offers="proxyCheckedOffers"
+                        v-model:checked-offers="checkedOffers"
                         class="point-edit__offer-selector"
                         :offer="availableOffer"
                     />
@@ -137,15 +137,17 @@ export default {
     emits: ['toggleCardView'],
     setup() {
         const { destinationsData } = storeToRefs(useDestinationsStore());
-        const { offersData, getAvailableOffers } = storeToRefs(
-            useOffersStore()
-        );
+
+        const offersStore = useOffersStore();
+        const getOffersByIds = offersStore.getOffersByIds;
+        const getAvailableOffers = offersStore.getAvailableOffers;
+
         const { deletePoint, updatePoint } = usePointsStore();
 
         return {
             destinationsData,
-            offersData,
             getAvailableOffers,
+            getOffersByIds,
             deletePoint,
             updatePoint,
         };
@@ -155,6 +157,7 @@ export default {
         return {
             availableOffers: this.getAvailableOffers(this.point.type),
             pointState: cloneDeep(this.point),
+            checkedOffers: this.getOffersByIds(this.point),
         };
     },
     computed: {
@@ -171,14 +174,6 @@ export default {
         isNewPoint() {
             return false;
         },
-        proxyCheckedOffers: {
-            get() {
-                return [...this.pointState.offers];
-            },
-            set(newValue) {
-                this.pointState.offers = newValue;
-            },
-        },
         hasDescription() {
             return (
                 this.pointState.destination.pictures?.length ||
@@ -186,7 +181,7 @@ export default {
             );
         },
         hasOffers() {
-            return this.offersData && this.availableOffers.length;
+            return this.availableOffers.length;
         },
     },
     watch: {
@@ -194,7 +189,10 @@ export default {
             this.availableOffers = this.getAvailableOffers(
                 this.pointState.type
             );
-            this.pointState.offers = [];
+            this.checkedOffers = [];
+        },
+        checkedOffers(newOffers) {
+            this.pointState.offers = newOffers.map(el => el.id);
         },
     },
     methods: {

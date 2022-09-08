@@ -38,7 +38,7 @@
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="point__selected-offers">
             <li
-                v-for="offer in point.offers"
+                v-for="offer in pointOffers"
                 :key="offer.id"
                 class="point__offer"
             >
@@ -63,6 +63,7 @@ import FavoriteButton from '@/components/point-parts/FavoriteButton.vue';
 import PointTypeIcon from '@/components/point-parts/PointTypeIcon.vue';
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import { usePointsStore } from '@/stores/PointsStore.js';
+import { useOffersStore } from '@/stores/OffersStore.js';
 
 export default {
     name: 'PointCard',
@@ -80,7 +81,11 @@ export default {
     emits: ['toggleCardView'],
     setup() {
         const { updatePoint } = usePointsStore();
-        return { updatePoint };
+
+        const offersStore = useOffersStore();
+        const getOffersByIds = offersStore.getOffersByIds;
+
+        return { updatePoint, getOffersByIds };
     },
     data() {
         return {
@@ -88,6 +93,9 @@ export default {
         };
     },
     computed: {
+        pointOffers() {
+            return this.getOffersByIds(this.point);
+        },
         pointTitle() {
             return `${capitalizeFirstLetter(this.point.type)} ${
                 this.point.destination.name

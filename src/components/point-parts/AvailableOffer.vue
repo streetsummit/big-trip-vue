@@ -1,7 +1,7 @@
 <template>
     <label>
         <input
-            v-model="proxyModel"
+            v-model="localCheckedOffers"
             class="point-edit__offer-checkbox visually-hidden"
             type="checkbox"
             name="point-edit-offers[]"
@@ -31,9 +31,9 @@ export default {
     },
     emits: ['update:checkedOffers'],
     computed: {
-        proxyModel: {
+        localCheckedOffers: {
             get() {
-                return this.checkedOffers;
+                return [...this.checkedOffers];
             },
             set(val) {
                 this.$emit('update:checkedOffers', val);

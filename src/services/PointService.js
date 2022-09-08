@@ -4,12 +4,12 @@ import axios from 'axios';
 // Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE
 
 const apiClient = axios.create({
-	baseURL: 'https://15.ecmascript.pages.academy/big-trip',
+	baseURL: 'https://17.ecmascript.pages.academy/big-trip',
 	withCredentials: false,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		Authorization: 'Basic streetsummit2021',
+		Authorization: 'Basic streetsummit2022',
 	},
 });
 

@@ -7,10 +7,23 @@ export const useOffersStore = defineStore('offersStore', {
 	}),
 
 	getters: {
-		getAvailableOffers: (state) => {
-			return (type) => state.offersData.find(el => el.type === type).offers;
+		getAvailableOffers(state) {
+			return function (type) {
+				return state.offersData.find(el => el.type === type).offers;
+			};
 		},
-		availableTypes: (state) => state.offersData.map(el => el.type),
+
+		getOffersByIds() {
+			const getAvailableOffers = this.getAvailableOffers;
+
+			return function (point) {
+				const availableOffers = getAvailableOffers(point.type);
+				return point.offers.map(id => availableOffers.find(offer => offer.id === id));
+			};
+		},
+		availableTypes(state) {
+			return state.offersData.map(el => el.type)
+		},
 	},
 
 	actions: {
