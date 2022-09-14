@@ -1,14 +1,20 @@
 import { computed } from 'vue';
 import { usePointsStore } from '@/stores/PointsStore.js';
+import { useOffersStore } from '@/stores/OffersStore.js';
 import { sort } from '@/utils/filter-sort.js';
 import dayjs from 'dayjs';
 
 const MAX_POINTS_SHOW = 3;
+const getOffersByIds = computed(() => useOffersStore().getOffersByIds);
 
 export default function useTripInfo() {
 	const points = computed(() => usePointsStore().pointsData);
 
-	const getFullPointPrice = (point) => point.offers.reduce((sum, current) => sum + current.price, point.price);
+	const getFullPointPrice = (point) => {
+		const pointOffers = getOffersByIds.value(point);
+		return pointOffers.reduce((sum, current) => sum + current.price, point.price)
+	};
+	
 	const tripPrice = computed(() => points.value.reduce(((sum, point) => sum + getFullPointPrice(point)), 0));
 
 	const tripDates = computed(() => {
