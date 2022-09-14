@@ -1,14 +1,20 @@
 import { computed } from 'vue';
 import { usePointsStore } from '@/stores/PointsStore.js';
 import { useOffersStore } from '@/stores/OffersStore.js';
+import { useDestinationsStore } from '@/stores/DestinationsStore.js';
 import { sort } from '@/utils/filter-sort.js';
 import dayjs from 'dayjs';
 
 const MAX_POINTS_SHOW = 3;
 const getOffersByIds = computed(() => useOffersStore().getOffersByIds);
+const getDestinationById = computed(() => useDestinationsStore().getDestinationById);
+const points = computed(() => usePointsStore().pointsData);
 
-export default function useTripInfo() {
-	const points = computed(() => usePointsStore().pointsData);
+const getDestinationName = (pointIndex) => {
+	return getDestinationById.value(points.value[pointIndex].destination).name;
+}
+
+export default function useTripInfo() {	
 
 	const getFullPointPrice = (point) => {
 		const pointOffers = getOffersByIds.value(point);
@@ -26,15 +32,15 @@ export default function useTripInfo() {
 
 	const tripRoute = computed(() => {
 		if (points.value.length <= MAX_POINTS_SHOW) {
-			const point1 = points.value[0] ? points.value[0].destination.name : '';
-			const point2 = points.value[1] ? ` \u2014 ${points.value[1].destination.name}` : '';
-			const point3 = points.value[2] ? ` \u2014 ${points.value[2].destination.name}` : '';
+			const point1 = points.value[0] ? getDestinationName(0) : '';
+			const point2 = points.value[1] ? ` \u2014 ${getDestinationName(1)}` : '';
+			const point3 = points.value[2] ? ` \u2014 ${getDestinationName(2)}` : '';
 
 			return `${point1}${point2}${point3}`;
 		}
 
-		return `${points.value[0].destination.name} \u2014 ... \u2014
-		  ${points.value.at(-1).destination.name}`;
+		return `${getDestinationName(0)} \u2014 ... \u2014
+		  ${getDestinationName(points.value.length - 1)}`;
 	});
 
 	return { tripPrice, tripDates, tripRoute };

@@ -1,11 +1,10 @@
 <template>
     <div>
         <Dropdown
-            v-model="destination"
+            v-model="localeDestination"
             :options="destinationsData"
             option-label="name"
-            option-value="name"
-            @change="onDestinationChange"
+            option-value="id"
         />
     </div>
 </template>
@@ -19,30 +18,26 @@ export default {
     name: 'DestinationField',
     components: { Dropdown },
     props: {
-        selectedDestination: {
-            type: String,
+        destination: {
+            type: Number,
             required: true,
         },
     },
-    emits: ['update:selected-destination'],
+    emits: ['update:destination'],
     setup() {
         const { destinationsData } = storeToRefs(useDestinationsStore());
         return { destinationsData };
     },
     computed: {
-        destination: {
+        localeDestination: {
             get() {
-                return this.selectedDestination;
+                return this.destination;
             },
             set(val) {
-                this.$emit('update:selected-destination', val);
+                this.$emit('update:destination', val);
             },
         },
     },
-    methods: {
-        onDestinationChange(event) {
-            this.$emit('update:selected-destination', event.value);
-        },
-    },
+    
 };
 </script>

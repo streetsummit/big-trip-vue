@@ -7,7 +7,7 @@
         <header class="point-edit__header">
             <TypeField v-model:selected-type="pointState.type" />
             <DestinationField
-                v-model:selected-destination="destName"
+                v-model:destination="pointState.destination"
                 class="point-edit__field-group point-edit__field-group--destination"
             />
 
@@ -82,15 +82,15 @@
                     Destination
                 </h3>
                 <p class="point-edit__destination-description">
-                    {{ pointState.destination.description }}
+                    {{ pointDestination.description }}
                 </p>
                 <div
-                    v-if="pointState.destination.pictures?.length"
+                    v-if="pointDestination.pictures?.length"
                     class="point-edit__photos-container"
                 >
                     <div class="point-edit__photos-tape">
                         <img
-                            v-for="photo in pointState.destination.pictures"
+                            v-for="photo in pointDestination.pictures"
                             :key="photo.src"
                             class="point-edit__photo"
                             :src="photo.src"
@@ -136,16 +136,15 @@ export default {
     },
     emits: ['toggleCardView'],
     setup() {
-        const { destinationsData } = storeToRefs(useDestinationsStore());
-
-        const offersStore = useOffersStore();
-        const getOffersByIds = offersStore.getOffersByIds;
-        const getAvailableOffers = offersStore.getAvailableOffers;
+        const { getDestinationById } = storeToRefs(useDestinationsStore());
+        const { getOffersByIds, getAvailableOffers } = storeToRefs(
+            useOffersStore()
+        );
 
         const { deletePoint, updatePoint } = usePointsStore();
 
         return {
-            destinationsData,
+            getDestinationById,
             getAvailableOffers,
             getOffersByIds,
             deletePoint,
@@ -161,23 +160,16 @@ export default {
         };
     },
     computed: {
-        destName: {
-            get() {
-                return this.pointState.destination.name;
-            },
-            set(newName) {
-                this.pointState.destination = this.destinationsData.find(
-                    el => el.name === newName
-                );
-            },
+        pointDestination() {
+            return this.getDestinationById(this.pointState.destination);
         },
         isNewPoint() {
             return false;
         },
         hasDescription() {
             return (
-                this.pointState.destination.pictures?.length ||
-                this.pointState.destination.description
+                this.pointDestination.pictures?.length ||
+                this.pointDestination.description
             );
         },
         hasOffers() {

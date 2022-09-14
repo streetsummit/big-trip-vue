@@ -5,6 +5,11 @@ export const useDestinationsStore = defineStore('destinationsStore', {
 	state: () => ({
 		destinationsData: [],
 	}),
+	getters: {
+		getDestinationById: (state) => {
+			return (destId) => state.destinationsData.find((dest) => dest.id === destId);
+		}
+	},
 
 	actions: {
 		async fetchDestinations() {

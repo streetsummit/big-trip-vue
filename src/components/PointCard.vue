@@ -64,6 +64,8 @@ import PointTypeIcon from '@/components/point-parts/PointTypeIcon.vue';
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import { usePointsStore } from '@/stores/PointsStore.js';
 import { useOffersStore } from '@/stores/OffersStore.js';
+import { useDestinationsStore } from '@/stores/DestinationsStore.js';
+import { storeToRefs } from 'pinia';
 
 export default {
     name: 'PointCard',
@@ -81,11 +83,12 @@ export default {
     emits: ['toggleCardView'],
     setup() {
         const { updatePoint } = usePointsStore();
+        const { getDestinationById } = storeToRefs(useDestinationsStore());
+        const { getOffersByIds } = storeToRefs(
+            useOffersStore()
+        );
 
-        const offersStore = useOffersStore();
-        const getOffersByIds = offersStore.getOffersByIds;
-
-        return { updatePoint, getOffersByIds };
+        return { updatePoint, getOffersByIds, getDestinationById };
     },
     data() {
         return {
@@ -96,16 +99,19 @@ export default {
         pointOffers() {
             return this.getOffersByIds(this.point);
         },
-        pointTitle() {
-            return `${capitalizeFirstLetter(this.point.type)} ${
-                this.point.destination.name
-            }`;
-        },
         pointDuration() {
             return this.getFormattedPointDuration(
                 this.point.dateFrom,
                 this.point.dateTo
             );
+        },
+        pointDestination() {
+            return this.getDestinationById(this.point.destination);
+        },
+        pointTitle() {
+            return `${capitalizeFirstLetter(this.point.type)} ${
+                this.pointDestination.name
+            }`;
         },
     },
     methods: {

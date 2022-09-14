@@ -42,9 +42,9 @@ export default {
         },
     },
     setup(props) {
-		const { editedPointId, toggleCardView } = usePointsList();
+        const { editedPointId, toggleCardView } = usePointsList();
         const { getSortedPoints } = useSortedPoints();
-        const sortedPoints = computed(() => getSortedPoints(props.points));        
+        const sortedPoints = computed(() => getSortedPoints(props.points));
 
         return { sortedPoints, editedPointId, toggleCardView };
     },
