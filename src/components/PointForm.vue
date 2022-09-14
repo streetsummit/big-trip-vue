@@ -5,7 +5,7 @@
         method="post"
     >
         <header class="point-edit__header">
-            <TypeField v-model:selected-type="pointState.type" />
+            <TypeField v-model:type="pointState.type" />
             <DestinationField
                 v-model:destination="pointState.destination"
                 class="point-edit__field-group point-edit__field-group--destination"

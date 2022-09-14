@@ -2,15 +2,14 @@
     <div class="point-edit__type-wrapper">
         <PointTypeIcon
             class="point-edit__type-btn"
-            :point-type="selectedType"
+            :point-type="localType"
             @click="showDropdown"
         />
         <div class="point-edit__field-group point-edit__field-group--type">
             <Dropdown
                 ref="dropdown"
-                v-model="selectedType"
+                v-model="localType"
                 :options="availableTypes"
-                @change="onTypeChange"
             >
                 <template #value="slotProps">
                     {{ formatType(slotProps.value) }}
@@ -37,9 +36,12 @@ export default {
     name: 'TypeSelectItem',
     components: { PointTypeIcon, Dropdown },
     props: {
-        selectedType: String,
+        type: {
+            type: String,
+            required: true,
+        },
     },
-    emits: ['update:selected-type'],
+    emits: ['update:type'],
     setup() {
         const { availableTypes } = storeToRefs(useOffersStore());
 
@@ -47,10 +49,17 @@ export default {
             availableTypes,
         };
     },
-    methods: {
-        onTypeChange(evt) {
-            this.$emit('update:selected-type', evt.value);
+    computed: {
+        localType: {
+            get() {
+                return this.type;
+            },
+            set(val) {
+                this.$emit('update:type', val);
+            },
         },
+    },
+    methods: {
         formatType(type) {
             return capitalizeFirstLetter(type);
         },
