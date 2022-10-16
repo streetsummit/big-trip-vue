@@ -68,7 +68,5 @@ export default {
 
 .trip-points__card {
     padding: 20px;
-    font-size: 17px;
-    line-height: 21px;
 }
 </style>

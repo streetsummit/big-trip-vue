@@ -18,7 +18,10 @@
 export default {
     name: 'PriceField',
     props: {
-        price: Number,
+        price: {
+            type: Number,
+            required: true,
+        },
     },
     emits: ['update:price'],
     methods: {

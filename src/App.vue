@@ -29,8 +29,9 @@
 <script>
 import PageHeader from '@/components/body-parts/Header.vue';
 import { useDestinationsStore } from '@/stores/DestinationsStore.js';
+import { useFiltersStore } from '@/stores/FilterStore.js';
 import { useOffersStore } from '@/stores/OffersStore.js';
-import { usePointsStore } from './stores/PointsStore.js';
+import { usePointsStore } from '@/stores/PointsStore.js';
 import { storeToRefs } from 'pinia';
 
 export default {
@@ -45,6 +46,7 @@ export default {
         const { filteredPoints, isPointsLoading, error } = storeToRefs(
             usePointsStore()
         );
+        const { selectedFilter } = storeToRefs(useFiltersStore());
 
         async function fetchData() {
             await fetchDestinations();
@@ -52,12 +54,13 @@ export default {
             await fetchPoints();
         }
 
-		fetchData();
+        fetchData();
 
         return {
             filteredPoints,
             isPointsLoading,
             error,
+            selectedFilter,
         };
     },
 };
@@ -123,13 +126,12 @@ body {
 }
 
 .trip-points__msg {
-    margin: 0;
     margin-top: 280px;
     font-weight: 500;
     font-size: 44px;
     line-height: 60px;
     text-align: center;
     color: #ffffff;
-    opacity: 0.89;
+    opacity: 0.9;
 }
 </style>

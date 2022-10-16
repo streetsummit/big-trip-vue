@@ -37,8 +37,8 @@ export default {
 .trip-info__title {
     margin-bottom: 4px;
     font-weight: 800;
-    font-size: 17px;
-    line-height: 21px;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 .trip-info__dates {
