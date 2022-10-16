@@ -20,7 +20,7 @@ export default {
     },
     computed: {
         pointIcon() {
-			const url = new URL(`/src/assets/img/icons/${this.pointType}.png`, import.meta.url).href;
+			const url = `/img/icons/${this.pointType}.png`;
 			return url;
         },
     },

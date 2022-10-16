@@ -64,7 +64,7 @@ export default {
             return capitalizeFirstLetter(type);
         },
         getTypeIcon(type) {
-            return `src/assets/img/icons/${type}.png`;
+            return `/img/icons/${type}.png`;
         },
         showDropdown() {
             this.$refs.dropdown.show();
