@@ -80,7 +80,7 @@ export default {
             required: true,
         },
     },
-    emits: ['toggleCardView'],
+    emits: ['openEditForm'],
     setup() {
         const { updatePoint } = usePointsStore();
         const { getDestinationById } = storeToRefs(useDestinationsStore());
@@ -126,7 +126,7 @@ export default {
             });
         },
         onEditClick() {
-            this.$emit('toggleCardView', this.point.id);
+            this.$emit('openEditForm', this.point.id);
         },
     },
 };

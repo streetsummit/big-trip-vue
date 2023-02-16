@@ -31,11 +31,11 @@ export default {
     setup() {
         const { filters, selectedFilter } = storeToRefs(useFiltersStore());
         const { changeFilter } = useFiltersStore();
-        const { toggleCardView } = usePointsList();
+        const { closeEditForm } = usePointsList();
 		
         const onFilterChange = evt => {
             changeFilter(evt.target.value);
-            toggleCardView();
+            closeEditForm();
         };
 
         return {

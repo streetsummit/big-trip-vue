@@ -1,15 +1,14 @@
-import { adaptToServer } from '@/utils/adapter.js';
 import axios from 'axios';
 
 // Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE
 
 const apiClient = axios.create({
-	baseURL: 'https://18.ecmascript.pages.academy/big-trip',
+	baseURL: 'https://19.ecmascript.pages.academy/big-trip',
 	withCredentials: false,
 	headers: {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-		Authorization: 'Basic streetsummit20212',
+		Authorization: 'Basic streetsummit2022',
 	},
 });
 
@@ -24,9 +23,12 @@ export default {
 		return apiClient.get('/destinations');
 	},
 	updatePoint(point) {
-		return apiClient.put(`/points/${point.id}`, adaptToServer(point));
+		return apiClient.put(`/points/${point.id}`, point);
 	},
 	deletePoint(id) {
 		return apiClient.delete(`/points/${id}`);
+	},
+	addPoint(point) {
+		return apiClient.post(`/points`, point);
 	}
 };

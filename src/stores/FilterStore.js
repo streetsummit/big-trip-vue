@@ -1,11 +1,13 @@
 import { FilterType } from '@/utils/constants.js'
 import { isFuture, isPast } from '@/utils/filter-sort.js';
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+
+const defaultFilter = FilterType.EVERYTHING;
 
 export const useFiltersStore = defineStore('filterStore', {
 	state: () => ({
 		filters: Object.values(FilterType),
-		selectedFilter: FilterType.EVERYTHING,
+		selectedFilter: defaultFilter,
 	}),
 	getters: {
 		getFilteredPoints: (state) => {
@@ -24,6 +26,10 @@ export const useFiltersStore = defineStore('filterStore', {
 	actions: {
 		changeFilter(newVal) {
 			this.selectedFilter = newVal;
+		},
+		
+		resetFilter() {
+			this.selectedFilter = defaultFilter;
 		}
 	}
 })

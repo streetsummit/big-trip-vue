@@ -30,9 +30,10 @@
                 Save
             </button>
             <button
-                v-if="isNewPoint"
+                v-if="isNew"
                 class="point-edit__reset-btn"
                 type="button"
+				@click="onCancelClick"
             >
                 Cancel
             </button>
@@ -46,7 +47,7 @@
             </button>
 
             <rollup-button
-                v-if="!isNewPoint"
+                v-if="!isNew"
                 class="point-edit__close-button"
                 :is-opened="true"
                 @click="onEditClick"
@@ -133,15 +134,19 @@ export default {
             type: Object,
             required: true,
         },
+        isNew: {
+            type: Boolean,
+            default: false,
+        },
     },
-    emits: ['toggleCardView'],
+    emits: ['close-edit-form'],
     setup() {
         const { getDestinationById } = storeToRefs(useDestinationsStore());
         const { getOffersByIds, getAvailableOffers } = storeToRefs(
             useOffersStore()
         );
 
-        const { deletePoint, updatePoint } = usePointsStore();
+        const { deletePoint, updatePoint, addPoint } = usePointsStore();
 
         return {
             getDestinationById,
@@ -149,6 +154,7 @@ export default {
             getOffersByIds,
             deletePoint,
             updatePoint,
+			addPoint,
         };
     },
 
@@ -163,9 +169,7 @@ export default {
         pointDestination() {
             return this.getDestinationById(this.pointState.destination);
         },
-        isNewPoint() {
-            return false;
-        },
+
         hasDescription() {
             return (
                 this.pointDestination.pictures?.length ||
@@ -189,11 +193,14 @@ export default {
     },
     methods: {
         onEditClick() {
-            this.$emit('toggleCardView');
+            this.$emit('close-edit-form');
+        },
+		onCancelClick() {
+            this.$emit('close-edit-form');
         },
         onSaveClick() {
-            this.updatePoint(this.pointState);
-            this.$emit('toggleCardView');
+            this.isNew ? this.addPoint(this.pointState) : this.updatePoint(this.pointState);
+            this.$emit('close-edit-form');
         },
     },
 };

@@ -1,6 +1,6 @@
 import { SortType, DisabledSortType } from '@/utils/constants.js';
 import { sort } from '@/utils/filter-sort.js';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const currentSort = ref(SortType.DAY);
 
@@ -24,11 +24,14 @@ export default function useSortedPoints() {
 
 	const isDisabled = (control) => DisabledSortType.includes(control);
 
+	const resetSort = () => currentSort.value = SortType.DAY;
+
 	return {
-		selectedSort: currentSort.value,
+		selectedSort: computed(() => currentSort.value),
 		getSortedPoints,
 		sortControls,
 		isDisabled,
-		changeSort
+		changeSort,
+		resetSort,
 	};
 }

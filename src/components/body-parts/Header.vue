@@ -11,7 +11,10 @@
                 />
 
                 <div class="trip-main">
-                    <TripInfo v-if="isPointsListNotEmpty" class="trip-main__info" />
+                    <TripInfo
+                        v-if="isPointsListNotEmpty"
+                        class="trip-main__info"
+                    />
 
                     <div class="trip-main__controls">
                         <MainMenu class="trip-main__navigation" />
@@ -19,13 +22,7 @@
                         <PointFilters class="trip-main__filters" />
                     </div>
 
-                    <button
-                        class="trip-main__point-add-btn new-point-btn"
-                        type="button"
-						disabled
-                    >
-                        New event (soon)
-                    </button>
+                    <NewPointButton class="trip-main__point-add-btn" />
                 </div>
             </div>
         </div>
@@ -38,6 +35,7 @@ import TripInfo from '@/components/TripInfo.vue';
 import PointFilters from '@/components/PointFilters.vue';
 import { usePointsStore } from '@/stores/PointsStore.js';
 import { storeToRefs } from 'pinia';
+import NewPointButton from '@/components/NewPointButton.vue';
 
 export default {
     name: 'PageHeader',
@@ -45,6 +43,7 @@ export default {
         MainMenu,
         TripInfo,
         PointFilters,
+        NewPointButton,
     },
     setup() {
         const { isPointsListNotEmpty } = storeToRefs(usePointsStore());
@@ -99,37 +98,5 @@ export default {
 
 .trip-main__point-add-btn {
     min-width: 170px;
-}
-
-.trip-main__point-add-btn::before {
-    content: '\002B\000A0';
-}
-
-.new-point-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 17px 29px 16px;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 21px;
-    border-radius: 27px;
-    transition: opacity 0.2s;
-    color: #424242;
-    background-color: #ffd054;
-}
-
-.new-point-btn:hover {
-    opacity: 0.8;
-}
-
-.new-point-btn:active {
-    opacity: 0.6;
-}
-
-.new-point-btn:disabled {
-    background-color: #f1f1f1;
-	color: #d2d2d2;
-	pointer-events: none;
 }
 </style>

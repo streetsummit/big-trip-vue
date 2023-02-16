@@ -5,15 +5,33 @@
 
         <ul class="trip-points__list">
             <li
+                v-if="isNewPointAdding"
+                class="trip-points__item"
+            >
+                <PointForm
+                    :point="sortedPoints[0]"
+                    is-new
+                    class="trip-points__card"
+					@close-edit-form="closeNewPointForm"
+                />
+            </li>
+            <li
                 v-for="point in sortedPoints"
                 :key="point.id"
                 class="trip-points__item"
             >
-                <Component
-                    :is="currentCardView(point.id)"
+                <PointForm
+                    v-if="editedPointId === point.id"
                     :point="point"
                     class="trip-points__card"
-                    @toggle-card-view="toggleCardView"
+                    @close-edit-form="closeEditForm"
+                />
+
+                <PointCard
+                    v-else
+                    :point="point"
+                    class="trip-points__card"
+                    @open-edit-form="openEditForm(point.id)"
                 />
             </li>
         </ul>
@@ -42,17 +60,28 @@ export default {
         },
     },
     setup(props) {
-        const { editedPointId, toggleCardView } = usePointsList();
+        const {
+            editedPointId,
+            isNewPointAdding,
+            openEditForm,
+            closeEditForm,
+        } = usePointsList();
         const { getSortedPoints } = useSortedPoints();
         const sortedPoints = computed(() => getSortedPoints(props.points));
 
-        return { sortedPoints, editedPointId, toggleCardView };
+        return {
+            sortedPoints,
+            editedPointId,
+            isNewPointAdding,
+            openEditForm,
+            closeEditForm,
+        };
     },
-    methods: {
-        currentCardView(id) {
-            return this.editedPointId === id ? 'PointForm' : 'PointCard';
-        },
-    },
+	methods: {
+		closeNewPointForm() {
+			this.closeEditForm();
+		}
+	}
 };
 </script>
 

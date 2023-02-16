@@ -8,7 +8,7 @@
         >
             <label>
                 <input
-                    v-model="selectedSort"
+                    v-model="localSelectedSort"
                     class="trip-sort__input visually-hidden"
                     type="radio"
                     name="trip-sort"
@@ -35,13 +35,22 @@ export default {
     setup() {
         const { sortControls, isDisabled, selectedSort, changeSort } =
             useSortedPoints();
-        const { toggleCardView } = usePointsList();
-        const onSortChange = evt => {
-            changeSort(evt.target.value);
-            toggleCardView();
+        const { closeEditForm } = usePointsList();
+        const onSortChange = () => {
+            closeEditForm();
         };
 
-        return { sortControls, isDisabled, selectedSort, onSortChange };
+        return { sortControls, isDisabled, selectedSort, onSortChange, changeSort };
+    },
+    computed: {
+        localSelectedSort: {
+            get() {
+                return this.selectedSort;
+            },
+            set(val) {
+                this.changeSort(val);
+            },
+        },
     },
     methods: {
         capitalizeFirstLetter,
