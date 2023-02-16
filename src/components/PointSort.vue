@@ -26,8 +26,8 @@
 
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
-import useSortedPoints from '@/hooks/useSortedPoints.js';
-import usePointsList from '@/hooks/usePointsList.js';
+import useSortedPoints from '@/composables/useSortedPoints.js';
+import usePointsList from '@/composables/usePointsList.js';
 
 export default {
     name: 'PointSort',

@@ -11,9 +11,9 @@
 
 <script>
 import { useFiltersStore } from '@/stores/FilterStore.js';
-import useSortedPoints from '@/hooks/useSortedPoints.js';
+import useSortedPoints from '@/composables/useSortedPoints.js';
 
-import usePointsList from '@/hooks/usePointsList.js';
+import usePointsList from '@/composables/usePointsList.js';
 
 export default {
     name: 'NewPointButton',

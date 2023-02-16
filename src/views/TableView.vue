@@ -42,9 +42,9 @@
 import PointCard from '@/components/PointCard.vue';
 import PointForm from '@/components/PointForm.vue';
 import PointSort from '@/components/PointSort.vue';
-import useSortedPoints from '@/hooks/useSortedPoints.js';
+import useSortedPoints from '@/composables/useSortedPoints.js';
 import { computed } from 'vue';
-import usePointsList from '@/hooks/usePointsList.js';
+import usePointsList from '@/composables/usePointsList.js';
 
 export default {
     name: 'TableView',

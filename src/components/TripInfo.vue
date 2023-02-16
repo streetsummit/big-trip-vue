@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import useTripInfo from '@/hooks/useTripInfo.js';
+import useTripInfo from '@/composables/useTripInfo.js';
 export default {
     name: 'TripInfo',
     setup() {

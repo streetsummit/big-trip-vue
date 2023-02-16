@@ -23,7 +23,7 @@
 <script>
 import { capitalizeFirstLetter } from '@/utils/common.js';
 import { useFiltersStore } from '@/stores/FilterStore.js';
-import usePointsList from '@/hooks/usePointsList.js';
+import usePointsList from '@/composables/usePointsList.js';
 import { storeToRefs } from 'pinia';
 
 export default {
