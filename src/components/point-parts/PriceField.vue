@@ -23,10 +23,10 @@ export default {
             required: true,
         },
     },
-    emits: ['update:price'],
+    emits: { 'update:price': price => typeof price === "number" },
     methods: {
         onInput(evt) {
-            this.$emit('update:price', evt.target.value);
+            this.$emit('update:price', parseFloat(evt.target.value));
         },
     },
 };

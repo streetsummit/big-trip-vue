@@ -80,13 +80,11 @@ export default {
             required: true,
         },
     },
-    emits: ['openEditForm'],
+    emits: { 'openEditForm': id => typeof id === 'string' },
     setup() {
         const { updatePoint } = usePointsStore();
         const { getDestinationById } = storeToRefs(useDestinationsStore());
-        const { getOffersByIds } = storeToRefs(
-            useOffersStore()
-        );
+        const { getOffersByIds } = storeToRefs(useOffersStore());
 
         return { updatePoint, getOffersByIds, getDestinationById };
     },

@@ -33,7 +33,7 @@
                 v-if="isNew"
                 class="point-edit__reset-btn"
                 type="button"
-				@click="onCancelClick"
+                @click="onCancelClick"
             >
                 Cancel
             </button>
@@ -139,7 +139,7 @@ export default {
             default: false,
         },
     },
-    emits: ['close-edit-form'],
+    emits: { 'closeEditForm': null },
     setup() {
         const { getDestinationById } = storeToRefs(useDestinationsStore());
         const { getOffersByIds, getAvailableOffers } = storeToRefs(
@@ -154,7 +154,7 @@ export default {
             getOffersByIds,
             deletePoint,
             updatePoint,
-			addPoint,
+            addPoint,
         };
     },
 
@@ -193,14 +193,16 @@ export default {
     },
     methods: {
         onEditClick() {
-            this.$emit('close-edit-form');
+            this.$emit('closeEditForm');
         },
-		onCancelClick() {
-            this.$emit('close-edit-form');
+        onCancelClick() {
+            this.$emit('closeEditForm');
         },
         onSaveClick() {
-            this.isNew ? this.addPoint(this.pointState) : this.updatePoint(this.pointState);
-            this.$emit('close-edit-form');
+            this.isNew
+                ? this.addPoint(this.pointState)
+                : this.updatePoint(this.pointState);
+            this.$emit('closeEditForm');
         },
     },
 };

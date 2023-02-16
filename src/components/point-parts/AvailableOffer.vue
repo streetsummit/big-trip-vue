@@ -25,11 +25,12 @@ export default {
             },
         },
         offer: {
-			type: Object,
-			required: true,
-		},
+            type: Object,
+            required: true,
+        },
     },
-    emits: ['update:checkedOffers'],
+    emits: { 'update:checkedOffers': offers => Array.isArray(offers) },
+
     computed: {
         localCheckedOffers: {
             get() {

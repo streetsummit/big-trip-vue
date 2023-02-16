@@ -41,7 +41,7 @@ export default {
             required: true,
         },
     },
-    emits: ['update:type'],
+    emits: { 'update:type': type => typeof type === 'string' },
     setup() {
         const { availableTypes } = storeToRefs(useOffersStore());
 

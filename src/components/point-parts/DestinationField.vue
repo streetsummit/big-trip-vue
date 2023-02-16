@@ -23,7 +23,7 @@ export default {
             required: true,
         },
     },
-    emits: ['update:destination'],
+    emits: { 'update:destination': dest => typeof dest === "number" },
     setup() {
         const { destinationsData } = storeToRefs(useDestinationsStore());
         return { destinationsData };
@@ -38,6 +38,5 @@ export default {
             },
         },
     },
-    
 };
 </script>

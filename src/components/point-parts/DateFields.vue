@@ -24,7 +24,10 @@ export default {
             required: true,
         },
     },
-    emits: ['update:dateFrom', 'update:dateTo'],
+    emits: {
+        'update:dateFrom': date => typeof date === 'string',
+        'update:dateTo': date => typeof date === 'string',
+    },
     data() {
         return {
             date: [new Date(this.dateFrom), new Date(this.dateTo)],
