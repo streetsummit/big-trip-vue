@@ -23,15 +23,9 @@ export default {
         const { openEditForm, isNewPointAdding } = usePointsList();
         return { resetFilter, resetSort, openEditForm, isNewPointAdding };
     },
-    data() {
-        return {
-            isDisabled: false,
-        };
-    },
     methods: {
         onClick() {
-            // переключиться на вкладку Table
-
+            this.$router.push('/');
             this.resetFilter();
             this.resetSort();
             this.openEditForm();

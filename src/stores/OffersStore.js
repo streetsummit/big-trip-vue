@@ -9,7 +9,7 @@ export const useOffersStore = defineStore('offersStore', {
 	getters: {
 		getAvailableOffers(state) {
 			return function (type) {
-				return state.offersData.find(el => el.type === type).offers;
+				return state.offersData.find(el => el.type === type)?.offers || [];
 			};
 		},
 

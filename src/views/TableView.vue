@@ -9,10 +9,9 @@
                 class="trip-points__item"
             >
                 <PointForm
-                    :point="sortedPoints[0]"
                     is-new
                     class="trip-points__card"
-					@close-edit-form="closeNewPointForm"
+                    @close-edit-form="closeEditForm"
                 />
             </li>
             <li
@@ -53,6 +52,9 @@ export default {
         PointCard,
         PointForm,
     },
+    beforeRouteLeave() {
+        this.closeEditForm();
+    },
     props: {
         points: {
             required: true,
@@ -60,12 +62,8 @@ export default {
         },
     },
     setup(props) {
-        const {
-            editedPointId,
-            isNewPointAdding,
-            openEditForm,
-            closeEditForm,
-        } = usePointsList();
+        const { editedPointId, isNewPointAdding, openEditForm, closeEditForm } =
+            usePointsList();
         const { getSortedPoints } = useSortedPoints();
         const sortedPoints = computed(() => getSortedPoints(props.points));
 
@@ -77,11 +75,6 @@ export default {
             closeEditForm,
         };
     },
-	methods: {
-		closeNewPointForm() {
-			this.closeEditForm();
-		}
-	}
 };
 </script>
 

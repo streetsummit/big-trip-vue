@@ -118,6 +118,7 @@ import DateFields from '@/components/point-parts/DateFields.vue';
 import AvailableOffer from '@/components/point-parts/AvailableOffer.vue';
 import RollupButton from '@/components/point-parts/RollupButton.vue';
 import cloneDeep from 'lodash/cloneDeep';
+import { formatDate } from '@/utils/date.js';
 
 export default {
     name: 'PointForm',
@@ -132,7 +133,18 @@ export default {
     props: {
         point: {
             type: Object,
-            required: true,
+            required: false,
+			default() {
+				return {
+					type: 'taxi',
+					destination: 1,
+					offers: [],
+					price: 100,
+					dateFrom: formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+					dateTo: formatDate(new Date(), 'YYYY-MM-DDTHH:mm:ss[Z]'),
+					isFavorite: false,
+				}
+			}
         },
         isNew: {
             type: Boolean,
