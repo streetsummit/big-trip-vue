@@ -1,98 +1,101 @@
 <template>
-    <div>
-        <PageHeader />
-        <main class="page-main">
-            <div class="container">
-                <p
-                    v-if="isPointsLoading"
-                    class="trip-points__msg"
-                >
-                    Loading...
-                </p>
-                <p
-                    v-if="error"
-                    class="trip-points__msg"
-                >
-                    Shit happens
-                    <br />
-                    {{ error.message }}
-                </p>
-                <router-view
-                    v-else
-                    :points="filteredPoints"
-                />
-            </div>
-        </main>
-    </div>
+  <div>
+    <PageHeader />
+    <main class="page-main">
+      <div class="container">
+        <p
+          v-if="isPointsLoading"
+          class="trip-points__msg"
+        >
+          Loading...
+        </p>
+        <p
+          v-if="error"
+          class="trip-points__msg"
+        >
+          Shit happens
+          <br />
+          {{ error }}
+        </p>
+
+        <router-view
+          v-else-if="filteredPoints.length"
+          :points="filteredPoints"
+        />
+      </div>
+    </main>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 import PageHeader from '@/components/body-parts/Header.vue';
-import { useDestinationsStore } from '@/stores/DestinationsStore.js';
-import { useFiltersStore } from '@/stores/FilterStore.js';
-import { useOffersStore } from '@/stores/OffersStore.js';
-import { usePointsStore } from '@/stores/PointsStore.js';
+import { useDestinationsStore } from '@/stores/DestinationsStore';
+import { useFiltersStore } from '@/stores/FilterStore';
+import { useOffersStore } from '@/stores/OffersStore';
+import { usePointsStore } from '@/stores/PointsStore';
 import { storeToRefs } from 'pinia';
+import { defineComponent } from 'vue';
 
-export default {
-    name: 'App',
-    components: {
-        PageHeader,
-    },
-    setup() {
-        const { fetchDestinations } = useDestinationsStore();
-        const { fetchOffers } = useOffersStore();
-        const { fetchPoints } = usePointsStore();
-        const { filteredPoints, isPointsLoading, error } = storeToRefs(
-            usePointsStore()
-        );
-        const { selectedFilter } = storeToRefs(useFiltersStore());
 
-        async function fetchData() {
-            await fetchDestinations();
-            await fetchOffers();
-            await fetchPoints();
-        }
+export default defineComponent({
+  name: 'App',
+  components: {
+    PageHeader,
+  },
+  setup() {
+    const { fetchDestinations } = useDestinationsStore();
+    const { fetchOffers } = useOffersStore();
+    const { fetchPoints } = usePointsStore();
+    const { filteredPoints, isPointsLoading, error } = storeToRefs(
+      usePointsStore()
+    );
+    const { selectedFilter } = storeToRefs(useFiltersStore());
 
-        fetchData();
+    async function fetchData() {
+      await fetchDestinations();
+      await fetchOffers();
+      await fetchPoints();
+    }
 
-        return {
-            filteredPoints,
-            isPointsLoading,
-            error,
-            selectedFilter,
-        };
-    },
-};
+    fetchData();
+
+    return {
+      filteredPoints,
+      isPointsLoading,
+      error,
+      selectedFilter,
+    };
+  },
+});
 </script>
 
 <style>
 html {
-    height: 100%;
-    overflow: overlay;
+  height: 100%;
+  overflow: overlay;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-width: 1200px;
-    height: 100%;
-    font-family: 'Montserrat', 'Arial', sans-serif;
-    font-size: 17px;
-    line-height: 1.2;
-    color: #000000;
-    background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  min-width: 1200px;
+  height: 100%;
+  font-family: 'Montserrat', 'Arial', sans-serif;
+  font-size: 17px;
+  line-height: 1.2;
+  color: #000000;
+  background-color: #f2f2f2;
 }
 
 .visually-hidden {
-    position: absolute;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    border: 0;
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
 }
 
 /* .page-body__container {
@@ -116,22 +119,22 @@ body {
 } */
 
 .page-main {
-    padding-top: 22px;
+  padding-top: 22px;
 }
 
 .container {
-    width: 1200px;
-    margin: 0 auto;
-    padding: 0 10px;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 
 .trip-points__msg {
-    margin-top: 280px;
-    font-weight: 500;
-    font-size: 44px;
-    line-height: 60px;
-    text-align: center;
-    color: #ffffff;
-    opacity: 0.9;
+  margin-top: 280px;
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 60px;
+  text-align: center;
+  color: #ffffff;
+  opacity: 0.9;
 }
 </style>

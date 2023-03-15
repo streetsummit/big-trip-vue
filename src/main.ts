@@ -12,10 +12,7 @@ const app = createApp(App);
 const pinia = createPinia();
 
 directives.forEach(directive => {
-	app.directive(directive.name, directive)
+    app.directive(directive.name, directive);
 });
 
-app.use(pinia)
-	.use(router)
-	.use(PrimeVue)
-	.mount('#app');
+app.use(pinia).use(router).use(PrimeVue).mount('#app');

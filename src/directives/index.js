@@ -1,5 +1,3 @@
-import VClickOutside from "@/directives/VClickOutside.js";
+import VClickOutside from '@/directives/VClickOutside';
 
-export default [
-	VClickOutside,
-]
+export default [VClickOutside];
