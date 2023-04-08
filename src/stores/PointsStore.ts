@@ -32,8 +32,6 @@ export const usePointsStore = defineStore('pointsStore', {
           adaptToClient(point)
         );
       } catch (err: any) {
-      } catch (err) {
-        this.error = err.response.data.message || err.message;
         this.error =
           err instanceof Error ? err.message : err.response.data.message;
       } finally {
