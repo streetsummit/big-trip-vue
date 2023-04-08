@@ -37,7 +37,7 @@ export default {
   updatePoint(point: ServerPoint) {
     return apiClient.put(`/points/${point.id}`, point);
   },
-  deletePoint(id: number) {
+  deletePoint(id: string) {
     return apiClient.delete(`/points/${id}`);
   },
   addPoint(point: ServerLocalPoint) {

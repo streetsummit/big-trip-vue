@@ -39,10 +39,12 @@ export const usePointsStore = defineStore('pointsStore', {
       }
     },
     async deletePoint(id: string | number) {
+      const stringifiedId = String(id);
       // todo обработать возможную ошибку сервера
-      await PointService.deletePoint(id);
-      await PointService.deletePoint(+id);
-      this.pointsData = this.pointsData.filter(point => +point.id !== +id);
+      await PointService.deletePoint(stringifiedId);
+      this.pointsData = this.pointsData.filter(
+        point => point.id !== stringifiedId
+      );
     },
     async updatePoint(point: ClientPoint) {
       // todo обработать возможную ошибку сервера
