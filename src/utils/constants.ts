@@ -16,6 +16,7 @@ const DisabledSortType = [SortType.OFFERS, SortType.EVENT];
 
 const localStorageKeys = {
   AUTH_KEY: 'authKey',
+  NICKNAME: 'nickname',
 };
 
 export { FilterType, SortType, DisabledSortType, localStorageKeys };

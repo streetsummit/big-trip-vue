@@ -18,18 +18,21 @@
         />
       </label>
       <label class="login-form__item">
-        <span class="login-form__label">Password</span>
+        <span class="login-form__label">
+          Authentication key (random string, numbers and latin characters
+          allowed)
+        </span>
         <input
           class="login-form__input"
-          type="password"
-          name="password"
-          v-model="password"
+          type="text"
+          name="auth-key"
+          v-model="authKey"
         />
       </label>
       <button
         class="login-form__submit"
         type="submit"
-        @click.prevent="login(nickname, password)"
+        @click.prevent="onSubmit(nickname, authKey)"
       >
         Login
       </button>
@@ -40,13 +43,21 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/AuthStore';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 
-const nickname = ref('');
-const password = ref('');
+const nickname: Ref<string | null> = ref(null);
+const authKey = ref('rAnDoMsTrInG2007');
 
 const { login } = useAuthStore();
 const { isAuthenticated } = storeToRefs(useAuthStore());
+
+const onSubmit = (nickname: string | null, authKey: string) => {
+  if (!nickname || !authKey) {
+    return;
+  }
+
+  login(nickname, authKey);
+};
 </script>
 
 <style>

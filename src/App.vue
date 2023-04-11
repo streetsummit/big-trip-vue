@@ -1,7 +1,6 @@
 <template>
   <div>
     <PageHeader />
-    <button @click="logout">Logout</button>
     <main class="page-main">
       <div class="container">
         <p
@@ -37,7 +36,6 @@ import { useDestinationsStore } from '@/stores/DestinationsStore';
 import { useOffersStore } from '@/stores/OffersStore';
 import { usePointsStore } from '@/stores/PointsStore';
 
-const { logout } = useAuthStore();
 const { isAuthenticated } = storeToRefs(useAuthStore());
 const { fetchDestinations } = useDestinationsStore();
 const { fetchOffers } = useOffersStore();

@@ -2,16 +2,13 @@ import router from '@/router';
 import { localStorageKeys } from '@/utils/constants';
 import { defineStore } from 'pinia';
 
-interface User {
-  nickname: string;
-  password: string;
-}
-
 type AuthKey = null | string;
 
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
-    user: {} as User,
+    user: {
+      nickname: localStorage.getItem(localStorageKeys.NICKNAME),
+    } as { nickname?: string },
     authKey: localStorage.getItem(localStorageKeys.AUTH_KEY) as AuthKey,
   }),
 
@@ -20,18 +17,19 @@ export const useAuthStore = defineStore('authStore', {
   },
 
   actions: {
-    login(nickname: string, password: string) {
-      this.user = { nickname, password };
-      this.authKey = `${nickname}${password}`;
-      localStorage.setItem(localStorageKeys.AUTH_KEY, this.authKey);
+    login(nickname: string, authKey: string) {
+      this.user = { nickname };
+      this.authKey = authKey;
+      localStorage.setItem(localStorageKeys.AUTH_KEY, authKey);
+      localStorage.setItem(localStorageKeys.NICKNAME, nickname);
       router.push('/');
     },
 
     logout() {
       localStorage.removeItem(localStorageKeys.AUTH_KEY);
-      this.user = { nickname: '', password: '' };
+      localStorage.removeItem(localStorageKeys.NICKNAME);
+      this.user = {};
       this.authKey = null;
-      console.log(this.authKey);
       router.push('/login');
     },
   },

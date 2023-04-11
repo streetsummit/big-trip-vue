@@ -11,6 +11,10 @@
         />
 
         <div class="trip-main">
+          <div class="trip-main__top">
+            <p v-if="user.nickname">Hello, {{ user.nickname }}</p>
+            <button @click="logout">Logout</button>
+          </div>
           <TripInfo
             v-if="isPointsListNotEmpty"
             class="trip-main__info"
@@ -37,6 +41,7 @@ import { usePointsStore } from '@/stores/PointsStore';
 import { storeToRefs } from 'pinia';
 import NewPointButton from '@/components/NewPointButton.vue';
 import { defineComponent } from 'vue';
+import { useAuthStore } from '@/stores/AuthStore';
 
 export default defineComponent({
   name: 'PageHeader',
@@ -48,7 +53,10 @@ export default defineComponent({
   },
   setup() {
     const { isPointsListNotEmpty } = storeToRefs(usePointsStore());
-    return { isPointsListNotEmpty };
+    const { logout } = useAuthStore();
+    const { user } = storeToRefs(useAuthStore());
+
+    return { isPointsListNotEmpty, logout, user };
   },
 });
 </script>
@@ -82,6 +90,13 @@ export default defineComponent({
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
+}
+
+.trip-main__top {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 25px;
 }
 
 .trip-main__info {
