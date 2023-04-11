@@ -41,12 +41,8 @@ export const useDestinationsStore = defineStore('destinationsStore', {
 
   actions: {
     async fetchDestinations() {
-      try {
-        const response = await PointService.getDestinations();
-        this.destinationsData = response.data.map(replacePictures);
-      } catch (e) {
-        console.log(e);
-      }
+      const response = await PointService.getDestinations();
+      this.destinationsData = response.data.map(replacePictures);
     },
   },
 });

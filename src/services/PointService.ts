@@ -1,4 +1,5 @@
 import type { ServerLocalPoint, ServerPoint } from '@/types/types';
+import { localStorageKeys } from '@/utils/constants';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 // Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE
@@ -13,13 +14,12 @@ const apiClient = axios.create({
 });
 
 const checkTokenInterceptor = (config: InternalAxiosRequestConfig) => {
-  // const token = localStorage.getItem('token');
-  const token = 'Basic streetsummit2022';
+  const token = localStorage.getItem(localStorageKeys.AUTH_KEY);
+
   if (token) {
-    config.headers.Authorization = token;
-  } else {
-    console.log('Пожалуйста, авторизуйтесь!');
+    config.headers.Authorization = `Basic ${token}`;
   }
+
   return config;
 };
 apiClient.interceptors.request.use(checkTokenInterceptor);

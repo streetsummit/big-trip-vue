@@ -32,12 +32,8 @@ export const useOffersStore = defineStore('offersStore', {
 
   actions: {
     async fetchOffers() {
-      try {
-        const response = await PointService.getOffers();
-        this.offersData = response.data;
-      } catch (e) {
-        console.log(e);
-      }
+      const response = await PointService.getOffers();
+      this.offersData = response.data;
     },
   },
 });

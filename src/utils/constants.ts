@@ -14,4 +14,8 @@ enum SortType {
 
 const DisabledSortType = [SortType.OFFERS, SortType.EVENT];
 
-export { FilterType, SortType, DisabledSortType };
+const localStorageKeys = {
+  AUTH_KEY: 'authKey',
+};
+
+export { FilterType, SortType, DisabledSortType, localStorageKeys };

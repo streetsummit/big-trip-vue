@@ -7,8 +7,6 @@ import type { ClientPoint, ClientLocalPoint, ServerPoint } from '@/types/types';
 export const usePointsStore = defineStore('pointsStore', {
   state: () => ({
     pointsData: [] as ClientPoint[],
-    isPointsLoading: false,
-    error: null,
   }),
 
   getters: {
@@ -24,19 +22,10 @@ export const usePointsStore = defineStore('pointsStore', {
 
   actions: {
     async fetchPoints() {
-      this.pointsData = [];
-      this.isPointsLoading = true;
-      try {
-        const response = await PointService.getPoints();
-        this.pointsData = response.data.map((point: ServerPoint) =>
-          adaptToClient(point)
-        );
-      } catch (err: any) {
-        this.error =
-          err instanceof Error ? err.message : err.response.data.message;
-      } finally {
-        this.isPointsLoading = false;
-      }
+      const response = await PointService.getPoints();
+      this.pointsData = response.data.map((point: ServerPoint) =>
+        adaptToClient(point)
+      );
     },
     async deletePoint(id: string | number) {
       const stringifiedId = String(id);

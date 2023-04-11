@@ -38,13 +38,16 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent } from 'vue';
+import { storeToRefs } from 'pinia';
+
 import PointCard from '@/components/PointCard.vue';
 import PointForm from '@/components/PointForm.vue';
 import PointSort from '@/components/PointSort.vue';
+
 import useSortedPoints from '@/composables/useSortedPoints';
-import { computed, defineComponent, type PropType } from 'vue';
 import usePointsList from '@/composables/usePointsList';
-import type { ClientPoint } from '@/types/types';
+import { usePointsStore } from '@/stores/PointsStore';
 
 export default defineComponent({
   name: 'TableView',
@@ -65,17 +68,13 @@ export default defineComponent({
       }
     }
   },
-  props: {
-    points: {
-      type: Array as PropType<ClientPoint[]>,
-      required: true,
-    },
-  },
-  setup(props) {
+
+  setup() {
+    const { filteredPoints } = storeToRefs(usePointsStore());
     const { editedPointId, isNewPointAdding, openEditForm, closeEditForm } =
       usePointsList();
     const { getSortedPoints } = useSortedPoints();
-    const sortedPoints = computed(() => getSortedPoints(props.points));
+    const sortedPoints = computed(() => getSortedPoints(filteredPoints.value));
 
     return {
       sortedPoints,

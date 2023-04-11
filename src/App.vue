@@ -1,72 +1,71 @@
 <template>
   <div>
     <PageHeader />
+    <button @click="logout">Logout</button>
     <main class="page-main">
       <div class="container">
         <p
-          v-if="isPointsLoading"
+          v-if="isDataLoading"
           class="trip-points__msg"
         >
           Loading...
         </p>
+
         <p
-          v-if="error"
+          v-else-if="error"
           class="trip-points__msg"
         >
           Shit happens
           <br />
           {{ error }}
         </p>
-
-        <router-view
-          v-else-if="filteredPoints.length"
-          :points="filteredPoints"
-        />
+        <router-view v-else />
       </div>
     </main>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
+import type { Ref } from 'vue';
+import { storeToRefs } from 'pinia';
+
 import PageHeader from '@/components/body-parts/Header.vue';
+
+import { useAuthStore } from '@/stores/AuthStore';
 import { useDestinationsStore } from '@/stores/DestinationsStore';
-import { useFiltersStore } from '@/stores/FilterStore';
 import { useOffersStore } from '@/stores/OffersStore';
 import { usePointsStore } from '@/stores/PointsStore';
-import { storeToRefs } from 'pinia';
-import { defineComponent } from 'vue';
 
+const { logout } = useAuthStore();
+const { isAuthenticated } = storeToRefs(useAuthStore());
+const { fetchDestinations } = useDestinationsStore();
+const { fetchOffers } = useOffersStore();
+const { fetchPoints } = usePointsStore();
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    PageHeader,
-  },
-  setup() {
-    const { fetchDestinations } = useDestinationsStore();
-    const { fetchOffers } = useOffersStore();
-    const { fetchPoints } = usePointsStore();
-    const { filteredPoints, isPointsLoading, error } = storeToRefs(
-      usePointsStore()
-    );
-    const { selectedFilter } = storeToRefs(useFiltersStore());
+const isDataLoading = ref(false);
+const error: Ref<string | null> = ref(null);
 
-    async function fetchData() {
-      await fetchDestinations();
-      await fetchOffers();
-      await fetchPoints();
-    }
+async function fetchData() {
+  if (!isAuthenticated.value) {
+    return;
+  }
 
-    fetchData();
+  isDataLoading.value = true;
+  try {
+    await Promise.all([fetchDestinations(), fetchOffers()]);
+    await fetchPoints();
+  } catch (err) {
+    error.value = String(err);
+    console.log(err);
+  } finally {
+    isDataLoading.value = false;
+  }
+}
 
-    return {
-      filteredPoints,
-      isPointsLoading,
-      error,
-      selectedFilter,
-    };
-  },
-});
+onMounted(fetchData);
+
+watch(isAuthenticated, fetchData);
 </script>
 
 <style>
